@@ -1,0 +1,6 @@
+@CLED.Warehouse.Web_HostAddress = http://localhost:5055
+
+GET {{CLED.Warehouse.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
