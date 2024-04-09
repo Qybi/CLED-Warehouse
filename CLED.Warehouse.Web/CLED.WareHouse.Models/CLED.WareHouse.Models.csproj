@@ -11,4 +11,8 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-preview.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CLED.Warehouse.Web\CLED.Warehouse.Web.csproj" />
+    </ItemGroup>
+
 </Project>
