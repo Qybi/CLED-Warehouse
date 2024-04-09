@@ -6,27 +6,27 @@ namespace CLED.WareHouse.Services.DBServices;
 public class TicketService : IService<Ticket>
 {
 
-    public Task<Ticket> GetById(int id)
+    public async Task<Ticket> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Ticket>> GetAll()
+    public async Task<IEnumerable<Ticket>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(Ticket ticket)
+    public async Task Insert(Ticket ticket)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(Ticket ticket)
+    public async Task Update(Ticket ticket)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }

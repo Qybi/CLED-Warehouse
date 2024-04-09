@@ -5,27 +5,27 @@ namespace CLED.WareHouse.Services.DBServices.ReasonsServices;
 
 public class ReasonAssignmentService : IService<ReasonsAssignment>
 {
-    public Task<ReasonsAssignment> GetById(int id)
+    public async Task<ReasonsAssignment> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<ReasonsAssignment>> GetAll()
+    public async Task<IEnumerable<ReasonsAssignment>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(ReasonsAssignment reasonsAssignment)
+    public async Task Insert(ReasonsAssignment reasonsAssignment)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(ReasonsAssignment reasonsAssignment)
+    public async Task Update(ReasonsAssignment reasonsAssignment)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }

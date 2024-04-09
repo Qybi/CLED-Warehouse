@@ -50,12 +50,7 @@ namespace CLED.Warehouse.Web
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
-
-			var scopeRequiredByApi = app.Configuration["AzureAd:Scopes"] ?? "";
-			var summaries = new[]
-			{
-				"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-			};
+			app.MapGet("/", () => "Hello World");
 
 			app.Run();
 		}

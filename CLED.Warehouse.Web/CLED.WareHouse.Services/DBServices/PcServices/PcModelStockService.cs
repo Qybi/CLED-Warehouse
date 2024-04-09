@@ -5,27 +5,27 @@ namespace CLED.WareHouse.Services.DBServices.PcServices;
 
 public class PcModelStockService : IService<PcModelStock>
 {
-    public Task<PcModelStock> GetById(int id)
+    public async Task<PcModelStock> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<PcModelStock>> GetAll()
+    public async Task<IEnumerable<PcModelStock>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(PcModelStock pcModelStock)
+    public async Task Insert(PcModelStock pcModelStock)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(PcModelStock pcModelStock)
+    public async Task Update(PcModelStock pcModelStock)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }

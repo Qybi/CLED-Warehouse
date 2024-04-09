@@ -5,27 +5,27 @@ namespace CLED.WareHouse.Services.DBServices.ReasonsServices;
 
 public class ReasonReturnService : IService<ReasonsReturn>
 {
-    public Task<ReasonsReturn> GetById(int id)
+    public async Task<ReasonsReturn> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<ReasonsReturn>> GetAll()
+    public async Task<IEnumerable<ReasonsReturn>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(ReasonsReturn reasonsReturn)
+    public async Task Insert(ReasonsReturn reasonsReturn)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(ReasonsReturn reasonsReturn)
+    public async Task Update(ReasonsReturn reasonsReturn)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }

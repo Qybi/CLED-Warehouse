@@ -5,27 +5,27 @@ namespace CLED.WareHouse.Services.DBServices.PcServices;
 
 public class PcAssignmentService : IService<PcAssignment>
 {
-    public Task<PcAssignment> GetById(int id)
+    public async Task<PcAssignment> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<PcAssignment>> GetAll()
+    public async Task<IEnumerable<PcAssignment>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(PcAssignment pcAssignment)
+    public async Task Insert(PcAssignment pcAssignment)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(PcAssignment pcAssignment)
+    public async Task Update(PcAssignment pcAssignment)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }

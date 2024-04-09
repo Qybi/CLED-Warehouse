@@ -5,27 +5,27 @@ namespace CLED.WareHouse.Services.DBServices;
 
 public class CourseService : IService<Course>
 {
-    public Task<Course> GetById(int id)
+    public async Task<Course> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Course>> GetAll()
+    public async Task<IEnumerable<Course>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(Course course)
+    public async Task Insert(Course course)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(Course course)
+    public async Task Update(Course course)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }

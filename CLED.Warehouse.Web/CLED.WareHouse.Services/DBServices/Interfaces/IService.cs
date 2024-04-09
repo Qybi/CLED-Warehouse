@@ -12,5 +12,4 @@ public interface IService<T>
     Task Update(T obj);
 
     Task Delete(int id);
-
 }

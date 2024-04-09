@@ -5,27 +5,27 @@ namespace CLED.WareHouse.Services.DBServices.AccessoryServices;
 
 public class AccessoryService : IService<Accessory>
 {
-    public Task<Accessory> GetById(int id)
+    public async Task<Accessory> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Accessory>> GetAll()
+    public async Task<IEnumerable<Accessory>> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task Insert(Accessory accessory)
+    public async Task Insert(Accessory accessory)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(Accessory accessory)
+    public async Task Update(Accessory accessory)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
         throw new NotImplementedException();
     }
