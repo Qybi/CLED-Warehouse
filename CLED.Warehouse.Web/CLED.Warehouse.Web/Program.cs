@@ -40,24 +40,6 @@ namespace CLED.Warehouse.Web
 				"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 			};
 
-			app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-			{
-				httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
-				var forecast = Enumerable.Range(1, 5).Select(index =>
-					new WeatherForecast
-					{
-						Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-						TemperatureC = Random.Shared.Next(-20, 55),
-						Summary = summaries[Random.Shared.Next(summaries.Length)]
-					})
-					.ToArray();
-				return forecast;
-			})
-			.WithName("GetWeatherForecast")
-			.WithOpenApi()
-			.RequireAuthorization();
-
 			app.Run();
 		}
 	}
