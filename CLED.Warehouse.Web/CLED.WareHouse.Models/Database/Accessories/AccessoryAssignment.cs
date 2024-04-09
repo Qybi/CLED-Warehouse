@@ -1,4 +1,4 @@
-﻿namespace CLED.WareHouse.Models.Database;
+﻿namespace CLED.WareHouse.Models.Database.Accessories;
 
 public class AccessoryAssignment
 {
