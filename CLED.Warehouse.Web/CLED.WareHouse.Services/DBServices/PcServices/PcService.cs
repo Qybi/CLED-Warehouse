@@ -95,6 +95,7 @@ public class PcService : IService<Pc>
                            UseCycle = @UseCycle,
                            Notes = @Notes,
                            RegistrationDate = @RegistrationDate,
+                           RegistrationUser = @RegistrationUser,
                            DeletedDate = @DeletedDate,
                            DeletedUser = @DeletedUser
                        WHERE Id = @Id;
