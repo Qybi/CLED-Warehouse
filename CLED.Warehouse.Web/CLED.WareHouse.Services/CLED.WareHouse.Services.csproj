@@ -10,4 +10,8 @@
       <PackageReference Include="Npgsql" Version="8.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CLED.WareHouse.Models\CLED.WareHouse.Models.csproj" />
+    </ItemGroup>
+
 </Project>
