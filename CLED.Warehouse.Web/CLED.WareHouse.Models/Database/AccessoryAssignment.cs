@@ -15,4 +15,7 @@ public class AccessoryAssignment
     public string RegistrationUser { get; set; } = default!;
     public DateTime? DeletedDate { get; set; }
     public string? DeletedUser { get; set; }
+    
+    
+    
 }
