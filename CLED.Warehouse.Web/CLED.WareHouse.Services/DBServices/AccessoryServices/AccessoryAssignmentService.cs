@@ -1,7 +1,7 @@
 ﻿using CLED.WareHouse.Models.Database.Accessories;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 
-namespace CLED.WareHouse.Services.DBServices;
+namespace CLED.WareHouse.Services.DBServices.AccessoryServices;
 
 public class AccessoryAssignmentService : IService<AccessoryAssignment>
 {
@@ -15,12 +15,12 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         throw new NotImplementedException();
     }
 
-    public Task Insert(AccessoryAssignment obj)
+    public Task Insert(AccessoryAssignment accessoryAssignment)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(AccessoryAssignment obj)
+    public Task Update(AccessoryAssignment accessoryAssignment)
     {
         throw new NotImplementedException();
     }

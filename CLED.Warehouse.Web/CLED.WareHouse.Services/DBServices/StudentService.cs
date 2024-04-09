@@ -15,12 +15,12 @@ public class StudentService : IService<Student>
         throw new NotImplementedException();
     }
 
-    public Task Insert(Student obj)
+    public Task Insert(Student student)
     {
         throw new NotImplementedException();
     }
 
-    public Task Update(Student obj)
+    public Task Update(Student student)
     {
         throw new NotImplementedException();
     }

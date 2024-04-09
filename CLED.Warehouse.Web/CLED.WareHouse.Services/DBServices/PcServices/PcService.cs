@@ -1,7 +1,8 @@
-using CLED.WareHouse.Services.DBServices.Interfaces;
 using CLED.WareHouse.Models.Database.PCs;
+using CLED.WareHouse.Services.DBServices.Interfaces;
+using Npgsql;
 
-namespace CLED.WareHouse.Services.DBServices;
+namespace CLED.WareHouse.Services.DBServices.PcServices;
 
 public class PcService : IService<Pc>
 {

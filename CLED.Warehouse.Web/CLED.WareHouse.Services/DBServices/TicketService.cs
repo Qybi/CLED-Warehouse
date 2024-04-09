@@ -5,6 +5,7 @@ namespace CLED.WareHouse.Services.DBServices;
 
 public class TicketService : IService<Ticket>
 {
+
     public Task<Ticket> GetById(int id)
     {
         throw new NotImplementedException();

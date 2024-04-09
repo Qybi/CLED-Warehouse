@@ -1,7 +1,7 @@
 using CLED.WareHouse.Models.Database.PCs;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 
-namespace CLED.WareHouse.Services.DBServices;
+namespace CLED.WareHouse.Services.DBServices.PcServices;
 
 public class PcModelStockService : IService<PcModelStock>
 {
