@@ -11,7 +11,7 @@ public class TicketService : IService<Ticket>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<Ticket>> GetAll()
+    public Task<IEnumerable<Ticket>> GetAll()
     {
         throw new NotImplementedException();
     }

@@ -10,7 +10,7 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<AccessoryAssignment>> GetAll()
+    public Task<IEnumerable<AccessoryAssignment>> GetAll()
     {
         throw new NotImplementedException();
     }

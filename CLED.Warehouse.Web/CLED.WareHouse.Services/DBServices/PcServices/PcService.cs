@@ -1,33 +1,118 @@
+
 using CLED.WareHouse.Models.Database.PCs;
 using CLED.WareHouse.Services.DBServices.Interfaces;
+using Dapper;
+using Microsoft.Extensions.Configuration;
 using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices.PcServices;
 
 public class PcService : IService<Pc>
 {
-    public Task<Pc> GetById(int id)
+    private readonly string _connectionString;
+
+    public PcService(IConfiguration? configuration)
     {
-        throw new NotImplementedException();
+        _connectionString = configuration.GetConnectionString("db");
+    }
+    
+    public async Task<Pc> GetById(int pcId)
+    {
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       SELECT 
+                           Id,
+                           StockId,
+                           Serial,
+                           PropertySticker,
+                           IsMuletto,
+                           Status,
+                           UseCycle,
+                           Notes,
+                           RegistrationDate,
+                           RegistrationUser,
+                           DeletedDate,
+                           DeletedUser
+                       FROM Pcs
+                       WHERE Id = @id;
+                       """;
+        
+        return await connection.QueryFirstOrDefaultAsync<Pc>(query, new { id = pcId });
     }
 
-    public IEnumerable<Task<Pc>> GetAll()
+    public async Task<IEnumerable<Pc>> GetAll()
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       SELECT
+                           Id,
+                           StockId,
+                           Serial,
+                           PropertySticker,
+                           IsMuletto,
+                           Status,
+                           UseCycle,
+                           Notes,
+                           RegistrationDate,
+                           RegistrationUser,
+                           DeletedDate,
+                           DeletedUser
+                       FROM Pcs
+                       """;
+        
+        return await connection.QueryAsync<Pc>(query);
     }
 
-    public Task Insert(Pc pc)
+    public async Task Insert(Pc pc)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        string query = """
+                       INSERT INTO Pcs (Id, StockId, Serial, PropertySticker, IsMuletto, Status, UseCycle, Notes, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       VALUES (@Id, @StockId, @Serial, @PropertySticker, @IsMuletto, @Status, @UseCycle, @Notes, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
+                       """;
+        
+        await connection.ExecuteAsync(query, pc);
     }
 
-    public Task Update(Pc pc)
+    public async Task Update(Pc pc)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       UPDATE Pcs SET
+                           Id = @Id,
+                           StockId = @StockId,
+                           Serial = @Serial,
+                           PropertySticker = @PropertySticker,
+                           IsMuletto = @IsMuletto,
+                           Status = @Status,
+                           UseCycle = @UseCycle,
+                           Notes = @Notes,
+                           RegistrationDate = @RegistrationDate,
+                           DeletedDate = @DeletedDate,
+                           DeletedUser = @DeletedUser
+                       WHERE Id = @Id;
+                       """;
+        
+        await connection.ExecuteAsync(query, pc);
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int pcId)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       DELETE FROM Pcs WHERE Id = @id;
+                       """;
+        
+        await connection.ExecuteAsync(query, new {id = pcId});
     }
 }

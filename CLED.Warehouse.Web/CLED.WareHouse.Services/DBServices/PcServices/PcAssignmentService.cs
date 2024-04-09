@@ -10,7 +10,7 @@ public class PcAssignmentService : IService<PcAssignment>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<PcAssignment>> GetAll()
+    public Task<IEnumerable<PcAssignment>> GetAll()
     {
         throw new NotImplementedException();
     }

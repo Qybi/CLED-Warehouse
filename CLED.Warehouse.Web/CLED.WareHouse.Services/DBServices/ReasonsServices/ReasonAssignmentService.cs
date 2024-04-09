@@ -10,7 +10,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<ReasonsAssignment>> GetAll()
+    public Task<IEnumerable<ReasonsAssignment>> GetAll()
     {
         throw new NotImplementedException();
     }

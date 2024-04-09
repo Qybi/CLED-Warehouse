@@ -10,7 +10,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<ReasonsReturn>> GetAll()
+    public Task<IEnumerable<ReasonsReturn>> GetAll()
     {
         throw new NotImplementedException();
     }

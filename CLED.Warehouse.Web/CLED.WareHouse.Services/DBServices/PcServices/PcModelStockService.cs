@@ -10,7 +10,7 @@ public class PcModelStockService : IService<PcModelStock>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<PcModelStock>> GetAll()
+    public Task<IEnumerable<PcModelStock>> GetAll()
     {
         throw new NotImplementedException();
     }

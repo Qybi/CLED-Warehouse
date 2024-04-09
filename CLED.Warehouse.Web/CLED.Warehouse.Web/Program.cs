@@ -1,3 +1,7 @@
+using CLED.WareHouse.Services.DBServices;
+using CLED.WareHouse.Services.DBServices.AccessoryServices;
+using CLED.WareHouse.Services.DBServices.PcServices;
+using CLED.WareHouse.Services.DBServices.ReasonsServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +25,18 @@ namespace CLED.Warehouse.Web
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddScoped<PcService>();
+			builder.Services.AddScoped<PcModelStockService>();
+			builder.Services.AddScoped<PcAssignmentService>();
+			builder.Services.AddScoped<AccessoryAssignmentService>();
+			builder.Services.AddScoped<AccessoryService>();
+			builder.Services.AddScoped<ReasonAssignmentService>();
+			builder.Services.AddScoped<ReasonReturnService>();
+			builder.Services.AddScoped<CourseService>();
+			builder.Services.AddScoped<StudentService>();
+			builder.Services.AddScoped<TicketService>();
+			
 
 			var app = builder.Build();
 

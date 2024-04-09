@@ -10,7 +10,7 @@ public class CourseService : IService<Course>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Task<Course>> GetAll()
+    public Task<IEnumerable<Course>> GetAll()
     {
         throw new NotImplementedException();
     }
