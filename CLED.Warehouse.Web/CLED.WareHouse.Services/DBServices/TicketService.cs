@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using CLED.WareHouse.Models.Database;
+using CLED.WareHouse.Models.Database.PCs;
 using CLED.WareHouse.Services.DBServices.Interfaces;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -8,35 +10,109 @@ namespace CLED.WareHouse.Services.DBServices;
 
 public class TicketService : IService<Ticket>
 {
-    private readonly IDbConnection _connection;
+    private readonly string _connectionString;
 
-    public TicketService(IConfiguration configuration)
+    public TicketService(IConfiguration? configuration)
     {
-        _connection = new NpgsqlConnection(configuration.GetConnectionString("db"));
+        _connectionString = configuration.GetConnectionString("db");
     }
 
-    public Task<Ticket> GetById(int id)
+    public async Task<Ticket> GetById(int ticketId)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       SELECT Id, 
+                              StudentId, 
+                              TicketType, 
+                              TicketBody, 
+                              Status, 
+                              DateOpen, 
+                              DateClose, 
+                              UserClaimOpen, 
+                              UserClaimClose, 
+                              RegistrationDate, 
+                              DeletedDate, 
+                              DeletedUser
+                       FROM Tickets
+                       WHERE Id = @id;
+                       """;
+        
+        return await connection.QueryFirstOrDefaultAsync<Ticket>(query, new { id = ticketId });
     }
 
-    public IEnumerable<Task<Ticket>> GetAll()
+    public async Task<IEnumerable<Ticket>> GetAll()
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       SELECT Id, 
+                              StudentId, 
+                              TicketType, 
+                              TicketBody, 
+                              Status, 
+                              DateOpen, 
+                              DateClose, 
+                              UserClaimOpen, 
+                              UserClaimClose, 
+                              RegistrationDate, 
+                              DeletedDate, 
+                              DeletedUser
+                       FROM Tickets;
+                       """;
+        
+        return await connection.QueryAsync<Ticket>(query);
     }
 
-    public Task Insert(Ticket ticket)
+    public async Task Insert(Ticket ticket)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        string query = """
+                       INSERT INTO Tickets (Id, StudentId, TicketType, TicketBody, Status, DateOpen, DateClose, UserClaimOpen, UserClaimClose, RegistrationDate, DeletedDate, DeletedUser)
+                       VALUES (@Id, @StudentId, @TicketType, @TicketBody, @Status, @DateOpen, @DateClose, @UserClaimOpen, @UserClaimClose, @RegistrationDate, @DeletedDate, @DeletedUser);
+                       """;
+        
+        await connection.ExecuteAsync(query, ticket);
     }
 
-    public Task Update(Ticket ticket)
+    public async Task Update(Ticket ticket)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       UPDATE Tickets SET
+                           Id = @Id,
+                           StudentId = @StudentId,
+                           TicketType = @TicketType,
+                           TicketBody = @TicketBody,
+                           Status = @Status,
+                           DateOpen = @DateOpen,
+                           DateClose = @DateClose,
+                           UserClaimOpen = @UserClaimOpen,
+                           UserClaimClose = @UserClaimClose,
+                           RegistrationDate = @RegistrationDate,
+                           DeletedDate = @DeletedDate,
+                           DeletedUser = @DeletedUser
+                       WHERE Id = @Id;
+                       """;
+        
+        await connection.ExecuteAsync(query, ticket);
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int ticketId)
     {
-        throw new NotImplementedException();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        string query = """
+                       DELETE FROM Tickets WHERE Id = @id;
+                       """;
+        
+        await connection.ExecuteAsync(query, new {id = ticketId});
     }
 }
