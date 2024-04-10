@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CLED.Warehouse.Web\CLED.Warehouse.Web.csproj" />
+    </ItemGroup>
+
 </Project>

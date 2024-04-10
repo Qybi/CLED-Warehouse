@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace CLED.WareHouse.Models.Database;
+﻿namespace CLED.WareHouse.Models.Database;
 
 public class Course
 {
