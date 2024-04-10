@@ -48,11 +48,19 @@ namespace CLED.Warehouse.Web
 
 			// app.UseAuthorization();
 			app.MapGet("/", () => "Hello World");
-			app.Run();
-
-			// mapping PC endpoints 
 			app.MapPcEndPoints();
-
+			app.MapPcModelStockEndPoints();
+			app.MapPcAssignmentPoints();
+			app.MapAccessoryEndPoints();
+			app.MapAccessoryAssignmentEndPoint();
+			app.MapReasonAssignmentEndPoints();
+			app.MapReasonReturnEndPoints();
+			app.MapCourseEndPoints();
+			app.MapStudentEndPoints();
+			app.MapTicketEndPoints();
+			app.Run();
+			// mapping PC endpoints 
+			
 		}
 	}
 }
