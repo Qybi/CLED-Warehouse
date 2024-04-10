@@ -2,12 +2,8 @@ using CLED.WareHouse.Services.DBServices;
 using CLED.WareHouse.Services.DBServices.AccessoryServices;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using CLED.WareHouse.Services.DBServices.ReasonsServices;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.Resource;
 
 namespace CLED.Warehouse.Web
 {
@@ -49,11 +45,8 @@ namespace CLED.Warehouse.Web
 
 			app.UseHttpsRedirection();
 
-			app.UseAuthorization();
+			// app.UseAuthorization();
 			app.MapGet("/", () => "Hello World");
-			
-			//app.MapPcEndpoints();     // mapping endpoints for REST API
-			
 			app.Run();
 		}
 	}

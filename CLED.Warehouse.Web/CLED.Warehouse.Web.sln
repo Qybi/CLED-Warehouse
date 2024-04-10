@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLED.WareHouse.Models", "CL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLED.WareHouse.Services", "CLED.WareHouse.Services\CLED.WareHouse.Services.csproj", "{C2C92560-198D-4DBE-9164-32F58F4C9C95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLED.WareHouse.EndPoints", "CLED.WareHouse.EndPoints\CLED.WareHouse.EndPoints.csproj", "{B42EF1A6-C415-48AB-9219-C6C28B4EFA7E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{C2C92560-198D-4DBE-9164-32F58F4C9C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2C92560-198D-4DBE-9164-32F58F4C9C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2C92560-198D-4DBE-9164-32F58F4C9C95}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B42EF1A6-C415-48AB-9219-C6C28B4EFA7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B42EF1A6-C415-48AB-9219-C6C28B4EFA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B42EF1A6-C415-48AB-9219-C6C28B4EFA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B42EF1A6-C415-48AB-9219-C6C28B4EFA7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

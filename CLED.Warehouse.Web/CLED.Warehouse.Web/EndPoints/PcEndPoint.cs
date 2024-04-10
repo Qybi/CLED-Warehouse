@@ -1,14 +1,11 @@
 using CLED.WareHouse.Models.Database.PCs;
 using CLED.WareHouse.Services.DBServices.PcServices;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Routing;
 
-namespace CLED.WareHouse.EndPoints.EndPoints;
+namespace CLED.Warehouse.Web.EndPoints;
 public static class PcEndPoint
 {
-public static IEndpointRouteBuilder MapPcEndpoints(this IEndpointRouteBuilder builder)
+    public static IEndpointRouteBuilder MapPcEndPoints(IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/pc")
             .WithTags("Pc");
