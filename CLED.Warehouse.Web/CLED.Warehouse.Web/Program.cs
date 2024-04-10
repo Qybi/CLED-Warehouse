@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.Resource;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CLED.Warehouse.Web
 {
@@ -12,33 +14,43 @@ namespace CLED.Warehouse.Web
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+			builder.Services.AddAuthentication(auth =>
+			{
+				auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(options =>
+			{
+				options.SaveToken = true;
+				options.TokenValidationParameters = new TokenValidationParameters()
+				{
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+				};
+			});
 			builder.Services.AddAuthorization();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			//builder.Services.AddEndpointsApiExplorer();
+			//builder.Services.AddSwaggerGen();
 
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+			//if (app.Environment.IsDevelopment())
+			//{
+			//	app.UseSwagger();
+			//	app.UseSwaggerUI();
+			//}
 
 			app.UseHttpsRedirection();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
-			var scopeRequiredByApi = app.Configuration["AzureAd:Scopes"] ?? "";
-			var summaries = new[]
-			{
-				"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-			};
+			// map endpoints here
 
 			app.Run();
 		}
