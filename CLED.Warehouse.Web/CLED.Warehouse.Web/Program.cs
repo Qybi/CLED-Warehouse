@@ -4,6 +4,7 @@ using CLED.WareHouse.Services.DBServices.PcServices;
 using CLED.WareHouse.Services.DBServices.ReasonsServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using CLED.Warehouse.Web.EndPoints;
 
 namespace CLED.Warehouse.Web
 {
@@ -48,6 +49,10 @@ namespace CLED.Warehouse.Web
 			// app.UseAuthorization();
 			app.MapGet("/", () => "Hello World");
 			app.Run();
+
+			// mapping PC endpoints 
+			app.MapPcEndPoints();
+
 		}
 	}
 }

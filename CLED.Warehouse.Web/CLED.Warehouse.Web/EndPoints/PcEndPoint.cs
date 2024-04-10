@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace CLED.Warehouse.Web.EndPoints;
 public static class PcEndPoint
 {
-    public static IEndpointRouteBuilder MapPcEndPoints(IEndpointRouteBuilder builder)
+    public static IEndpointRouteBuilder MapPcEndPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/pc")
             .WithTags("Pc");
