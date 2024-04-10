@@ -22,7 +22,7 @@ public static class AccessoryAssignmentEndPoint
             .WithDescription("Return a single accessory assignment selected by ID");
 
         group.MapPost("/", InsertAccessoryAssignmentAsync)
-            .WithName("InsertPc")
+            .WithName("InsertAccessoryAssignment")
             .WithSummary("Create a new summary")
             .WithDescription("Insert the new accessory assignment's values inside json file");
 
