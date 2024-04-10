@@ -51,7 +51,9 @@ namespace CLED.Warehouse.Web
 
 			app.UseAuthorization();
 			app.MapGet("/", () => "Hello World");
-
+			
+			//app.MapPcEndpoints();     // mapping endpoints for REST API
+			
 			app.Run();
 		}
 	}
