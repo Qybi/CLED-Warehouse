@@ -8,24 +8,24 @@ This repository contains the code for a web-based inventory management system fo
 
 2. At the moment of the delivery:
     1. The student will apply the property sticker ("cespite")
-  2. The student will approach the administrator with the PC with the property sticker applied
-  3. The administrator fill the assignment form in the application:
-    1. The administrator will scan the serial of the PC first (if the device exists it will pull the data from the database, if it does not exists, it will ask from which stock batch is it linked to)
-    2. The administrator will either scan or input manually the number of the property sticker
-    3. The administrator will select the student from the database (the app will feature an autocomplete to simplify the input)
-    4. The administrator will choose the reason of the delivery: First delivery, temporary delivery ("muletto")
-    5. Confirmation of the delivery
+    2. The student will approach the administrator with the PC with the property sticker applied
+    3. The administrator fill the assignment form in the application:
+        1. The administrator will scan the serial of the PC first (if the device exists it will pull the data from the database, if it does not exists, it will ask from which stock batch is it linked to)
+        2. The administrator will either scan or input manually the number of the property sticker
+        3. The administrator will select the student from the database (the app will feature an autocomplete to simplify the input)
+        4. The administrator will choose the reason of the delivery: First delivery, temporary delivery ("muletto")
+        5. Confirmation of the delivery
 
 3. Tickets:
-  1. Tickets can be opened by students about anything, link to a specific device is NOT mandatory. It is generic as to enable all kind of needs, not specifically device dependant (ex. communicating with administration).
-  2. An administrator can claim the ticket to flag who's handling the ticket
-  3. An administrator can flag the ticket as open/claimed/completed
+    1. Tickets can be opened by students about anything, link to a specific device is NOT mandatory. It is generic as to enable all kind of needs, not specifically device dependant (ex. communicating with administration).
+    2. An administrator can claim the ticket to flag who's handling the ticket
+    3. An administrator can flag the ticket as open/claimed/completed
 
 4. At the moment of the return of the device from the student to the ITS:
-  1. The administrator will access the student profile and will go under the "linked devices" section
-  2. The administrator will select which item connected to the student is the subject of the return
-  3. The administrator will compile the form putting in the date and the reason of the return: "Riparazione", "Dimissioni", "Conclusione corso"
-  4. The application, depending which option has been selected, will check the date of the device's batch to handle the status of being eligible for another course cycle or will request either the status of "muletto" or disposal.
+    1. The administrator will access the student profile and will go under the "linked devices" section
+    2. The administrator will select which item connected to the student is the subject of the return
+    3. The administrator will compile the form putting in the date and the reason of the return: "Riparazione", "Dimissioni", "Conclusione corso"
+    4. The application, depending which option has been selected, will either check the date of the device's batch to handle the status of eligibility for another course cycle or request the status of "muletto" or its disposal.
 
 ### Administrator Features
 
