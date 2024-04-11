@@ -21,10 +21,10 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              Name
+                       SELECT "Id", 
+                              "Name"
                        FROM "ReasonsReturn"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<ReasonsReturn>(query, new { id = reasonReturnId });
@@ -36,8 +36,8 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              Name
+                       SELECT "Id", 
+                              "Name"
                        FROM "ReasonsReturn";
                        """;
         
@@ -50,7 +50,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "ReasonsReturn" (Id, Name)
+                       INSERT INTO "ReasonsReturn" ("Id", "Name")
                        VALUES (@Id, @Name);
                        """;
         
@@ -64,9 +64,9 @@ public class ReasonReturnService : IService<ReasonsReturn>
 
         string query = """
                        UPDATE "ReasonsReturn" SET
-                           Id = @Id,
-                           Name = @Name
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "Name" = @Name
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, reasonsReturn);
@@ -78,7 +78,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "ReasonsReturn" WHERE Id = @id;
+                       DELETE FROM "ReasonsReturn" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = reasonReturnId});

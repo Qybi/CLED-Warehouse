@@ -21,21 +21,21 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              SchoolIdentifier, 
-                              Email, 
-                              Surname, 
-                              Name, 
-                              CourseId, 
-                              DateOfBirth, 
-                              FiscalCode, 
-                              Gender, 
-                              RegistrationDate, 
-                              RegistrationUser, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "SchoolIdentifier", 
+                              "Email", 
+                              "Surname", 
+                              "Name", 
+                              "CourseId", 
+                              "DateOfBirth", 
+                              "FiscalCode", 
+                              "Gender", 
+                              "RegistrationDate", 
+                              "RegistrationUser", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "Students"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<Student>(query, new { id = studentId });
@@ -47,19 +47,19 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              SchoolIdentifier, 
-                              Email, 
-                              Surname, 
-                              Name, 
-                              CourseId, 
-                              DateOfBirth, 
-                              FiscalCode, 
-                              Gender, 
-                              RegistrationDate, 
-                              RegistrationUser, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "SchoolIdentifier", 
+                              "Email", 
+                              "Surname", 
+                              "Name", 
+                              "CourseId", 
+                              "DateOfBirth", 
+                              "FiscalCode", 
+                              "Gender", 
+                              "RegistrationDate", 
+                              "RegistrationUser", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "Students";
                        """;
         
@@ -72,7 +72,7 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "Students" (Id, SchoolIdentifier, Email, Surname, Name, CourseId, DateOfBirth, FiscalCode, Gender, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Students" ("Id", "SchoolIdentifier", "Email", "Surname", "Name", "CourseId", "DateOfBirth", "FiscalCode", "Gender", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
                        VALUES (@Id, @SchoolIdentifier, @Email, @Surname, @Name, @CourseId, @DateOfBirth, @FiscalCode, @Gender, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -86,20 +86,20 @@ public class StudentService : IService<Student>
 
         string query = """
                        UPDATE "Students" SET
-                           Id = @Id,
-                           SchoolIdentifier = @SchoolIdentifier,
-                           Email = @Email,
-                           Surname = @Surname,
-                           Name = @Name,
-                           DateOfBirth = @DateOfBirth,
-                           FiscalCode = @FiscalCode,
-                           Gender = @Gender,
-                           UserClaimClose = @UserClaimClose,
-                           RegistrationDate = @RegistrationDate,
-                           RegistrationUser = @RegistrationUser,
-                           DeletedDate = @DeletedDate,
-                           DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "SchoolIdentifier" = @SchoolIdentifier,
+                           "Email" = @Email,
+                           "Surname" = @Surname,
+                           "Name" = @Name,
+                           "DateOfBirth" = @DateOfBirth,
+                           "FiscalCode" = @FiscalCode,
+                           "Gender" = @Gender,
+                           "UserClaimClose" = @UserClaimClose,
+                           "RegistrationDate" = @RegistrationDate,
+                           "RegistrationUser" = @RegistrationUser,
+                           "DeletedDate" = @DeletedDate,
+                           "DeletedUser" = @DeletedUser
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, student);
@@ -111,7 +111,7 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "Students" WHERE Id = @id;
+                       DELETE FROM "Students" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = studentId});

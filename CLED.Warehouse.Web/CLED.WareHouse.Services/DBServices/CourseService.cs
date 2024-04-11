@@ -20,17 +20,17 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              Code, 
-                              FullName, 
-                              DateStart, 
-                              DateEnd, 
-                              RegistrationDate, 
-                              RegistrationUser, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "Code", 
+                              "FullName", 
+                              "DateStart", 
+                              "DateEnd", 
+                              "RegistrationDate", 
+                              "RegistrationUser", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "Courses"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<Course>(query, new { id = courseId });
@@ -42,15 +42,15 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              Code, 
-                              FullName, 
-                              DateStart, 
-                              DateEnd, 
-                              RegistrationDate, 
-                              RegistrationUser, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "Code", 
+                              "FullName", 
+                              "DateStart", 
+                              "DateEnd", 
+                              "RegistrationDate", 
+                              "RegistrationUser", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "Courses";
                        """;
         
@@ -63,7 +63,7 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "Courses" (Id, Code, FullName, DateStart, DateEnd, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Courses" ("Id", "Code", "FullName", "DateStart", "DateEnd", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
                        VALUES (@Id, @Code, @FullName, @DateStart, @DateEnd, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -77,16 +77,16 @@ public class CourseService : IService<Course>
 
         string query = """
                        UPDATE "Courses" SET
-                           Id = @Id,
-                           Code = @Code,
-                           FullName = @FullName,
-                           DateStart = @DateStart,
-                           DateEnd = @DateEnd,
-                           RegistrationDate = @RegistrationDate,
-                           RegistrationUser = @RegistrationUser,
-                           DeletedDate = @DeletedDate,
-                           DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "Code" = @Code,
+                           "FullName" = @FullName,
+                           "DateStart" = @DateStart,
+                           "DateEnd" = @DateEnd,
+                           "RegistrationDate" = @RegistrationDate,
+                           "RegistrationUser" = @RegistrationUser,
+                           "DeletedDate" = @DeletedDate,
+                           "DeletedUser" = @DeletedUser
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, course);
@@ -98,7 +98,7 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "Courses" WHERE Id = @id;
+                       DELETE FROM "Courses" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = courseId});

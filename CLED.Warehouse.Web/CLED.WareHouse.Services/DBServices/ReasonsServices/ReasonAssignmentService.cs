@@ -20,10 +20,10 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id,
-                              Name
+                       SELECT "Id",
+                              "Name"
                        FROM "ReasonsAssignment"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<ReasonsAssignment>(query, new { id = reasonAssignmentId });
@@ -35,8 +35,8 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id,
-                              Name
+                       SELECT "Id",
+                              "Name"
                        FROM "ReasonsAssignment";
                        """;
         
@@ -49,7 +49,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "ReasonsAssignment" (Id, Name)
+                       INSERT INTO "ReasonsAssignment" ("Id", "Name")
                        VALUES (@Id, @Name);
                        """;
         
@@ -63,9 +63,9 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
 
         string query = """
                        UPDATE "ReasonsAssignment" SET
-                           Id = @Id,
-                           Name = @Name
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "Name" = @Name
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, reasonsAssignment);
@@ -77,7 +77,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "ReasonsAssignment" WHERE Id = @id;
+                       DELETE FROM "ReasonsAssignment" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = reasonAssignmentId});

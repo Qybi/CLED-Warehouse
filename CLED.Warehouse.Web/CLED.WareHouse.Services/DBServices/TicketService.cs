@@ -23,20 +23,20 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              StudentId, 
-                              TicketType, 
-                              TicketBody, 
-                              Status, 
-                              DateOpen, 
-                              DateClose, 
-                              UserClaimOpen, 
-                              UserClaimClose, 
-                              RegistrationDate, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "StudentId", 
+                              "TicketType", 
+                              "TicketBody", 
+                              "Status", 
+                              "DateOpen", 
+                              "DateClose", 
+                              "UserClaimOpen", 
+                              "UserClaimClose", 
+                              "RegistrationDate", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "Tickets"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<Ticket>(query, new { id = ticketId });
@@ -48,18 +48,18 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              StudentId, 
-                              TicketType, 
-                              TicketBody, 
-                              Status, 
-                              DateOpen, 
-                              DateClose, 
-                              UserClaimOpen, 
-                              UserClaimClose, 
-                              RegistrationDate, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "StudentId", 
+                              "TicketType", 
+                              "TicketBody", 
+                              "Status", 
+                              "DateOpen", 
+                              "DateClose", 
+                              "UserClaimOpen", 
+                              "UserClaimClose", 
+                              "RegistrationDate", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "Tickets";
                        """;
         
@@ -72,7 +72,7 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "Tickets" (Id, StudentId, TicketType, TicketBody, Status, DateOpen, DateClose, UserClaimOpen, UserClaimClose, RegistrationDate, DeletedDate, DeletedUser)
+                       INSERT INTO "Tickets" ("Id", "StudentId", "TicketType", "TicketBody", "Status", "DateOpen", "DateClose", "UserClaimOpen", "UserClaimClose", "RegistrationDate", "DeletedDate", "DeletedUser")
                        VALUES (@Id, @StudentId, @TicketType, @TicketBody, @Status, @DateOpen, @DateClose, @UserClaimOpen, @UserClaimClose, @RegistrationDate, @DeletedDate, @DeletedUser);
                        """;
         
@@ -86,19 +86,19 @@ public class TicketService : IService<Ticket>
 
         string query = """
                        UPDATE "Tickets" SET
-                           Id = @Id,
-                           StudentId = @StudentId,
-                           TicketType = @TicketType,
-                           TicketBody = @TicketBody,
-                           Status = @Status,
-                           DateOpen = @DateOpen,
-                           DateClose = @DateClose,
-                           UserClaimOpen = @UserClaimOpen,
-                           UserClaimClose = @UserClaimClose,
-                           RegistrationDate = @RegistrationDate,
-                           DeletedDate = @DeletedDate,
-                           DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "StudentId" = @StudentId,
+                           "TicketType" = @TicketType,
+                           "TicketBody" = @TicketBody,
+                           "Status" = @Status,
+                           "DateOpen" = @DateOpen,
+                           "DateClose" = @DateClose,
+                           "UserClaimOpen" = @UserClaimOpen,
+                           "UserClaimClose" = @UserClaimClose,
+                           "RegistrationDate" = @RegistrationDate,
+                           "DeletedDate" = @DeletedDate,
+                           "DeletedUser" = @DeletedUser
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, ticket);
@@ -110,7 +110,7 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "Tickets" WHERE Id = @id;
+                       DELETE FROM "Tickets" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = ticketId});
