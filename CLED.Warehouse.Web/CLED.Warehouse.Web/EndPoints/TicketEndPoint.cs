@@ -10,6 +10,7 @@ public static class TicketEndPoint
     public static IEndpointRouteBuilder MapTicketEndPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/ticket")
+            .RequireAuthorization()
             .WithTags("Ticket");
 
         group.MapGet("/", GetAllTicketAsync)

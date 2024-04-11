@@ -8,22 +8,20 @@ public static class PcEndPoint
 	public static IEndpointRouteBuilder MapPcEndPoints(this IEndpointRouteBuilder builder)
 	{
 		var group = builder.MapGroup("api/v1/pc")
+			.RequireAuthorization()
 			.WithTags("Pc");
 
 		group.MapGet("/", GetAllPcAsync)
-			.RequireAuthorization()
 			.WithName("GetPcs")
 			.WithSummary("Get all Summary")
 			.WithDescription("Return a list of all pcs");
 
 		group.MapGet("/{id:int}", GetPcByIdAsync)
-			.RequireAuthorization()
 			.WithName("GetPcById")
 			.WithSummary("Get all Summary")
 			.WithDescription("Return a single pc selected by ID");
 
 		group.MapPost("/", InsertPcAsync)
-			.RequireAuthorization()
 			.WithName("InsertPc")
 			.WithSummary("Create a new summary")
 			.WithDescription("Insert the new pc's values inside json file");
@@ -34,7 +32,6 @@ public static class PcEndPoint
 			.WithDescription("Change pc's values inside json file");
 
 		group.MapDelete("/{id:int}", DeletePcAsync)
-			.RequireAuthorization()
 			.WithName("DeletePc")
 			.WithSummary("Delete the Pc");
 

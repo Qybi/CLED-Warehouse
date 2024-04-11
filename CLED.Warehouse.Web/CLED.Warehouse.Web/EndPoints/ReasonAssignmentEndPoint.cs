@@ -9,6 +9,7 @@ public static class ReasonAssignmentEndPoint
     public static IEndpointRouteBuilder MapReasonAssignmentEndPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/reasonAssignment")
+            .RequireAuthorization()
             .WithTags("ReasonAssignment");
 
         group.MapGet("/", GetAllReasonAssignmentAsync)

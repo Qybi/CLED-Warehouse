@@ -9,6 +9,7 @@ public static class PcAssignmentEndPoint
     public static IEndpointRouteBuilder MapPcAssignmentPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/pcAssignment")
+            .RequireAuthorization()
             .WithTags("PcAssignments");
 
         group.MapGet("/", GetAllPcAssignmentAsync)
