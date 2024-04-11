@@ -5,12 +5,11 @@ public interface IService<T>
 {
     Task<T> GetById(int id);
 
-    IEnumerable<Task<T>> GetAll();
+    Task<IEnumerable<T>> GetAll();
 
     Task Insert(T obj);
 
     Task Update(T obj);
 
     Task Delete(int id);
-
 }
