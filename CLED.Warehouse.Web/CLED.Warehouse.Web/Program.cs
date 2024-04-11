@@ -17,11 +17,12 @@ namespace CLED.Warehouse.Web
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-			builder.Services.AddAuthentication(auth =>
-			{
-				auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			})
+			builder.Services
+				.AddAuthentication(auth =>
+				{
+					auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
 				.AddJwtBearer(options =>
 				{
 					options.SaveToken = true;
