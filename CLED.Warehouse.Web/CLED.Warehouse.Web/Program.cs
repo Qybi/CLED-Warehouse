@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.Authentication;
+using CLED.WareHouse.Services.DBServices;
+using CLED.WareHouse.Services.DBServices.AccessoryServices;
+using CLED.WareHouse.Services.DBServices.PcServices;
+using CLED.WareHouse.Services.DBServices.ReasonsServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.Resource;
+using CLED.Warehouse.Web.EndPoints;
 
 namespace CLED.Warehouse.Web
 {
@@ -21,6 +23,18 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+			builder.Services.AddScoped<PcService>();
+			builder.Services.AddScoped<PcModelStockService>();
+			builder.Services.AddScoped<PcAssignmentService>();
+			builder.Services.AddScoped<AccessoryAssignmentService>();
+			builder.Services.AddScoped<AccessoryService>();
+			builder.Services.AddScoped<ReasonAssignmentService>();
+			builder.Services.AddScoped<ReasonReturnService>();
+			builder.Services.AddScoped<CourseService>();
+			builder.Services.AddScoped<StudentService>();
+			builder.Services.AddScoped<TicketService>();
+			
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -33,14 +47,21 @@ namespace CLED.Warehouse.Web
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
-
-			var scopeRequiredByApi = app.Configuration["AzureAd:Scopes"] ?? "";
-			var summaries = new[]
-			{
-				"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-			};
-
+			
+			// Mapping Application Endpoints
+			app.MapGet("/", () => "Hello World");
+			app.MapPcEndPoints();
+			app.MapPcModelStockEndPoints();
+			app.MapPcAssignmentPoints();
+			app.MapAccessoryEndPoints();
+			app.MapAccessoryAssignmentEndPoint();
+			app.MapReasonAssignmentEndPoints();
+			app.MapReasonReturnEndPoints();
+			app.MapCourseEndPoints();
+			app.MapStudentEndPoints();
+			app.MapTicketEndPoints();
 			app.Run();
+			
 		}
 	}
 }
