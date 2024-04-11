@@ -5,6 +5,8 @@ using CLED.WareHouse.Services.DBServices.ReasonsServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using CLED.Warehouse.Web.EndPoints;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CLED.Warehouse.Web
 {
@@ -15,8 +17,22 @@ namespace CLED.Warehouse.Web
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+			builder.Services.AddAuthentication(auth =>
+			{
+				auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+				.AddJwtBearer(options =>
+				{
+					options.SaveToken = true;
+					options.TokenValidationParameters = new TokenValidationParameters()
+					{
+						ValidateIssuer = false,
+						ValidateAudience = false,
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+					};
+				});
 			builder.Services.AddAuthorization();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,7 +49,6 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddScoped<CourseService>();
 			builder.Services.AddScoped<StudentService>();
 			builder.Services.AddScoped<TicketService>();
-			
 
 			var app = builder.Build();
 
@@ -46,10 +61,10 @@ namespace CLED.Warehouse.Web
 
 			app.UseHttpsRedirection();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
-			
+
 			// Mapping Application Endpoints
-			app.MapGet("/", () => "Hello World");
 			app.MapPcEndPoints();
 			app.MapPcModelStockEndPoints();
 			app.MapPcAssignmentPoints();
@@ -61,7 +76,7 @@ namespace CLED.Warehouse.Web
 			app.MapStudentEndPoints();
 			app.MapTicketEndPoints();
 			app.Run();
-			
+
 		}
 	}
 }
