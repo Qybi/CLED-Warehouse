@@ -22,7 +22,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         string query = """
                        SELECT Id,
                               Name
-                       FROM ReasonsAssignment
+                       FROM "ReasonsAssignment"
                        WHERE Id = @id;
                        """;
         
@@ -37,7 +37,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         string query = """
                        SELECT Id,
                               Name
-                       FROM ReasonsAssignment;
+                       FROM "ReasonsAssignment";
                        """;
         
         return await connection.QueryAsync<ReasonsAssignment>(query);
@@ -49,7 +49,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO ReasonsAssignment (Id, Name)
+                       INSERT INTO "ReasonsAssignment" (Id, Name)
                        VALUES (@Id, @Name);
                        """;
         
@@ -62,7 +62,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       UPDATE ReasonsAssignment SET
+                       UPDATE "ReasonsAssignment" SET
                            Id = @Id,
                            Name = @Name
                        WHERE Id = @Id;
@@ -77,7 +77,7 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM ReasonsAssignment WHERE Id = @id;
+                       DELETE FROM "ReasonsAssignment" WHERE Id = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = reasonAssignmentId});

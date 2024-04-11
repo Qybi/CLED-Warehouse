@@ -34,7 +34,7 @@ public class PcService : IService<Pc>
                            RegistrationUser,
                            DeletedDate,
                            DeletedUser
-                       FROM Pcs
+                       FROM "Pcs"
                        WHERE Id = @id;
                        """;
         
@@ -60,7 +60,7 @@ public class PcService : IService<Pc>
                            RegistrationUser,
                            DeletedDate,
                            DeletedUser
-                       FROM Pcs
+                       FROM "Pcs"
                        """;
         
         return await connection.QueryAsync<Pc>(query);
@@ -72,7 +72,7 @@ public class PcService : IService<Pc>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO Pcs (Id, StockId, Serial, PropertySticker, IsMuletto, Status, UseCycle, Notes, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Pcs" (Id, StockId, Serial, PropertySticker, IsMuletto, Status, UseCycle, Notes, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
                        VALUES (@Id, @StockId, @Serial, @PropertySticker, @IsMuletto, @Status, @UseCycle, @Notes, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -85,7 +85,7 @@ public class PcService : IService<Pc>
         await connection.OpenAsync();
 
         string query = """
-                       UPDATE Pcs SET
+                       UPDATE "Pcs" SET
                            Id = @Id,
                            StockId = @StockId,
                            Serial = @Serial,
@@ -110,7 +110,7 @@ public class PcService : IService<Pc>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM Pcs WHERE Id = @id;
+                       DELETE FROM "Pcs" WHERE Id = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcId});

@@ -46,7 +46,9 @@ namespace CLED.Warehouse.Web
 
 			app.UseHttpsRedirection();
 
-			// app.UseAuthorization();
+			app.UseAuthorization();
+			
+			// Mapping Application Endpoints
 			app.MapGet("/", () => "Hello World");
 			app.MapPcEndPoints();
 			app.MapPcModelStockEndPoints();
@@ -59,7 +61,6 @@ namespace CLED.Warehouse.Web
 			app.MapStudentEndPoints();
 			app.MapTicketEndPoints();
 			app.Run();
-			// mapping PC endpoints 
 			
 		}
 	}

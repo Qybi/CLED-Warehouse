@@ -34,7 +34,7 @@ public class StudentService : IService<Student>
                               RegistrationUser, 
                               DeletedDate, 
                               DeletedUser
-                       FROM Students
+                       FROM "Students"
                        WHERE Id = @id;
                        """;
         
@@ -60,7 +60,7 @@ public class StudentService : IService<Student>
                               RegistrationUser, 
                               DeletedDate, 
                               DeletedUser
-                       FROM Students;
+                       FROM "Students";
                        """;
         
         return await connection.QueryAsync<Student>(query);
@@ -72,7 +72,7 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO Students (Id, SchoolIdentifier, Email, Surname, Name, CourseId, DateOfBirth, FiscalCode, Gender, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Students" (Id, SchoolIdentifier, Email, Surname, Name, CourseId, DateOfBirth, FiscalCode, Gender, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
                        VALUES (@Id, @SchoolIdentifier, @Email, @Surname, @Name, @CourseId, @DateOfBirth, @FiscalCode, @Gender, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -85,7 +85,7 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
 
         string query = """
-                       UPDATE Students SET
+                       UPDATE "Students" SET
                            Id = @Id,
                            SchoolIdentifier = @SchoolIdentifier,
                            Email = @Email,
@@ -111,7 +111,7 @@ public class StudentService : IService<Student>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM Students WHERE Id = @id;
+                       DELETE FROM "Students" WHERE Id = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = studentId});

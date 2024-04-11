@@ -23,7 +23,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         string query = """
                        SELECT Id, 
                               Name
-                       FROM ReasonsReturn
+                       FROM "ReasonsReturn"
                        WHERE Id = @id;
                        """;
         
@@ -38,7 +38,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         string query = """
                        SELECT Id, 
                               Name
-                       FROM ReasonsReturn;
+                       FROM "ReasonsReturn";
                        """;
         
         return await connection.QueryAsync<ReasonsReturn>(query);
@@ -50,7 +50,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO ReasonsReturn (Id, Name)
+                       INSERT INTO "ReasonsReturn" (Id, Name)
                        VALUES (@Id, @Name);
                        """;
         
@@ -63,7 +63,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
 
         string query = """
-                       UPDATE ReasonsReturn SET
+                       UPDATE "ReasonsReturn" SET
                            Id = @Id,
                            Name = @Name
                        WHERE Id = @Id;
@@ -78,7 +78,7 @@ public class ReasonReturnService : IService<ReasonsReturn>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM ReasonsReturn WHERE Id = @id;
+                       DELETE FROM "ReasonsReturn" WHERE Id = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = reasonReturnId});

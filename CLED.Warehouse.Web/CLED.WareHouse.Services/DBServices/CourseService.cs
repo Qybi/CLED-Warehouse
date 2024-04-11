@@ -29,7 +29,7 @@ public class CourseService : IService<Course>
                               RegistrationUser, 
                               DeletedDate, 
                               DeletedUser
-                       FROM Courses
+                       FROM "Courses"
                        WHERE Id = @id;
                        """;
         
@@ -51,7 +51,7 @@ public class CourseService : IService<Course>
                               RegistrationUser, 
                               DeletedDate, 
                               DeletedUser
-                       FROM Courses;
+                       FROM "Courses";
                        """;
         
         return await connection.QueryAsync<Course>(query);
@@ -63,7 +63,7 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO Courses (Id, Code, FullName, DateStart, DateEnd, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Courses" (Id, Code, FullName, DateStart, DateEnd, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
                        VALUES (@Id, @Code, @FullName, @DateStart, @DateEnd, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -76,7 +76,7 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
 
         string query = """
-                       UPDATE Courses SET
+                       UPDATE "Courses" SET
                            Id = @Id,
                            Code = @Code,
                            FullName = @FullName,
@@ -98,7 +98,7 @@ public class CourseService : IService<Course>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM Courses WHERE Id = @id;
+                       DELETE FROM "Courses" WHERE Id = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = courseId});

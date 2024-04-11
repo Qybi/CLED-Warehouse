@@ -33,7 +33,7 @@ public class PcModelStockService : IService<PcModelStock>
                               RegistrationUser,
                               DeletedDate,
                               DeletedUser
-                       FROM PCModelStock
+                       FROM "PCModelStock"
                        WHERE Id = @id;
                        """;
         
@@ -58,7 +58,7 @@ public class PcModelStockService : IService<PcModelStock>
                               RegistrationUser,
                               DeletedDate,
                               DeletedUser
-                       FROM PCModelStock
+                       FROM "PCModelStock"
                        """;
         
         return await connection.QueryAsync<PcModelStock>(query);
@@ -70,7 +70,7 @@ public class PcModelStockService : IService<PcModelStock>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO PCModelStock(Id, Brand, Model, CPU, RAM, Storage, PurchaseDate, TotalQuantity, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "PCModelStock"(Id, Brand, Model, CPU, RAM, Storage, PurchaseDate, TotalQuantity, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
                        VALUES (@Id, @Brand, @Model, @Cpu, @Ram, @Storage, @PurchaseDate, @TotalQuantity, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
     }
@@ -81,7 +81,7 @@ public class PcModelStockService : IService<PcModelStock>
         await connection.OpenAsync();
         
         string query = """
-                       UPDATE PCModelStock SET
+                       UPDATE "PCModelStock" SET
                             Id = @Id,
                             Brand = @Brand,
                             Model = @Model,
@@ -105,7 +105,7 @@ public class PcModelStockService : IService<PcModelStock>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM PcModelStock WHERE Id = @id
+                       DELETE FROM "PcModelStock" WHERE Id = @id
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcModelStockId});

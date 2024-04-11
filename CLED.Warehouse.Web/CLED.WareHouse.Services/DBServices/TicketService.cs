@@ -35,7 +35,7 @@ public class TicketService : IService<Ticket>
                               RegistrationDate, 
                               DeletedDate, 
                               DeletedUser
-                       FROM Tickets
+                       FROM "Tickets"
                        WHERE Id = @id;
                        """;
         
@@ -60,7 +60,7 @@ public class TicketService : IService<Ticket>
                               RegistrationDate, 
                               DeletedDate, 
                               DeletedUser
-                       FROM Tickets;
+                       FROM "Tickets";
                        """;
         
         return await connection.QueryAsync<Ticket>(query);
@@ -72,7 +72,7 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO Tickets (Id, StudentId, TicketType, TicketBody, Status, DateOpen, DateClose, UserClaimOpen, UserClaimClose, RegistrationDate, DeletedDate, DeletedUser)
+                       INSERT INTO "Tickets" (Id, StudentId, TicketType, TicketBody, Status, DateOpen, DateClose, UserClaimOpen, UserClaimClose, RegistrationDate, DeletedDate, DeletedUser)
                        VALUES (@Id, @StudentId, @TicketType, @TicketBody, @Status, @DateOpen, @DateClose, @UserClaimOpen, @UserClaimClose, @RegistrationDate, @DeletedDate, @DeletedUser);
                        """;
         
@@ -85,7 +85,7 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
 
         string query = """
-                       UPDATE Tickets SET
+                       UPDATE "Tickets" SET
                            Id = @Id,
                            StudentId = @StudentId,
                            TicketType = @TicketType,
@@ -110,7 +110,7 @@ public class TicketService : IService<Ticket>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM Tickets WHERE Id = @id;
+                       DELETE FROM "Tickets" WHERE Id = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = ticketId});
