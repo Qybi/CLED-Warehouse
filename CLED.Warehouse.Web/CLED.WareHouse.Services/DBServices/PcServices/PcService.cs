@@ -21,21 +21,21 @@ public class PcService : IService<Pc>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT 
-                           Id,
-                           StockId,
-                           Serial,
-                           PropertySticker,
-                           IsMuletto,
-                           Status,
-                           UseCycle,
-                           Notes,
-                           RegistrationDate,
-                           RegistrationUser,
-                           DeletedDate,
-                           DeletedUser
+                       SELECT
+                           "Id",
+                           "StockId",
+                           "Serial",
+                           "PropertySticker",
+                           "IsMuletto",
+                           "Status",
+                           "UseCycle",
+                           "Notes",
+                           "RegistrationDate",
+                           "RegistrationUser",
+                           "DeletedDate",
+                           "DeletedUser"
                        FROM "Pcs"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<Pc>(query, new { id = pcId });
@@ -48,18 +48,18 @@ public class PcService : IService<Pc>
 
         string query = """
                        SELECT
-                           Id,
-                           StockId,
-                           Serial,
-                           PropertySticker,
-                           IsMuletto,
-                           Status,
-                           UseCycle,
-                           Notes,
-                           RegistrationDate,
-                           RegistrationUser,
-                           DeletedDate,
-                           DeletedUser
+                           "Id",
+                           "StockId",
+                           "Serial",
+                           "PropertySticker",
+                           "IsMuletto",
+                           "Status",
+                           "UseCycle",
+                           "Notes",
+                           "RegistrationDate",
+                           "RegistrationUser",
+                           "DeletedDate",
+                           "DeletedUser"
                        FROM "Pcs"
                        """;
         
@@ -72,7 +72,7 @@ public class PcService : IService<Pc>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "Pcs" (Id, StockId, Serial, PropertySticker, IsMuletto, Status, UseCycle, Notes, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Pcs" ("Id", "StockId", "Serial", "PropertySticker", "IsMuletto", "Status", "UseCycle", "Notes", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
                        VALUES (@Id, @StockId, @Serial, @PropertySticker, @IsMuletto, @Status, @UseCycle, @Notes, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -86,19 +86,19 @@ public class PcService : IService<Pc>
 
         string query = """
                        UPDATE "Pcs" SET
-                           Id = @Id,
-                           StockId = @StockId,
-                           Serial = @Serial,
-                           PropertySticker = @PropertySticker,
-                           IsMuletto = @IsMuletto,
-                           Status = @Status,
-                           UseCycle = @UseCycle,
-                           Notes = @Notes,
-                           RegistrationDate = @RegistrationDate,
-                           RegistrationUser = @RegistrationUser,
-                           DeletedDate = @DeletedDate,
-                           DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "StockId" = @StockId,
+                           "Serial" = @Serial,
+                           "PropertySticker" = @PropertySticker,
+                           "IsMuletto" = @IsMuletto,
+                           "Status" = @Status,
+                           "UseCycle" = @UseCycle,
+                           "Notes" = @Notes,
+                           "RegistrationDate" = @RegistrationDate,
+                          "RegistrationUser" = @RegistrationUser,
+                          "DeletedDate" = @DeletedDate,
+                           "DeletedUser" = @DeletedUser
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, pc);
@@ -110,7 +110,7 @@ public class PcService : IService<Pc>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "Pcs" WHERE Id = @id;
+                       DELETE FROM "Pcs" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcId});

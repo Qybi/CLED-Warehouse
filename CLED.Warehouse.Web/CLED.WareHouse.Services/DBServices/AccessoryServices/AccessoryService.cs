@@ -23,16 +23,16 @@ public class AccessoryService : IService<Accessory>
 
         string query = """
                        SELECT 
-                           Id,
-                           StockId,
-                           Name,
-                           Description,
-                           RegistrationDate, 
-                           RegistrationUser,
-                           DeletedDate,
-                           DeletedUser
+                           "Id",
+                           "StockId",
+                           "Name",
+                           "Description",
+                           "RegistrationDate", 
+                           "RegistrationUser",
+                           "DeletedDate",
+                           "DeletedUser"
                        FROM "Accessories"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<Accessory>(query, new { id = accessoryId });
@@ -45,14 +45,14 @@ public class AccessoryService : IService<Accessory>
 
         string query = """
                        SELECT
-                           Id,
-                           StockId,
-                           Name,
-                           Description,
-                           RegistrationDate,
-                           RegistrationUser,
-                           DeletedDate,
-                           DeletedUser
+                           "Id",
+                           "StockId",
+                           "Name",
+                           "Description",
+                           "RegistrationDate",
+                           "RegistrationUser",
+                           "DeletedDate",
+                           "DeletedUser"
                        FROM "Accessories";
                        """;
         
@@ -65,7 +65,7 @@ public class AccessoryService : IService<Accessory>
         await connection.OpenAsync();
 
         string query = """
-                       INSERT INTO "Accessories" (Id, StockId, Name, Description, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "Accessories" ("Id", "StockId", "Name", "Description", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
                        VALUES (@Id, @StockId, @Name, @Description, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -79,15 +79,15 @@ public class AccessoryService : IService<Accessory>
 
         string query = """
                        UPDATE "Accessories" SET
-                            Id = @Id,
-                            StockId = @StockId,
-                            Name = @Name,
-                            Description = @Description, 
-                            RegistrationDate = @RegistrationDate,
-                            RegistrationUser = @RegistrationUser,
-                            DeletedDate = @DeletedDate,
-                            DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                            "Id" = @Id,
+                            "StockId" = @StockId,
+                            "Name" = @Name,
+                            "Description" = @Description, 
+                            "RegistrationDate" = @RegistrationDate,
+                            "RegistrationUser" = @RegistrationUser,
+                            "DeletedDate" = @DeletedDate,
+                            "DeletedUser" = @DeletedUser
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, accessory);
@@ -99,7 +99,7 @@ public class AccessoryService : IService<Accessory>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "Accessories" WHERE Id = @id;
+                       DELETE FROM "Accessories" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = accessoryId});

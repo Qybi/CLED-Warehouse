@@ -22,21 +22,21 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         
         string query = """
                        SELECT 
-                           Id,
-                           AccessoryId,
-                           StudentId,
-                           AssignmentDate,
-                           AssignmentReasonId, 
-                           IsReturned,
-                           ForecastedReturnDate,
-                           ActualReturnDate,
-                           ReturnReasonId,
-                           RegistrationDate,
-                           RegistrationUser,
-                           DeletedDate,
-                           DeletedUser
+                           "Id",
+                           "AccessoryId",
+                           "StudentId",
+                           "AssignmentDate",
+                           "AssignmentReasonId", 
+                           "IsReturned",
+                           "ForecastedReturnDate",
+                           "ActualReturnDate",
+                           "ReturnReasonId",
+                           "RegistrationDate",
+                           "RegistrationUser",
+                           "DeletedDate",
+                           "DeletedUser"
                        FROM "AccessoriesAssignments"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<AccessoryAssignment>(query, new { id = accessoryAssignmentId });
@@ -49,19 +49,19 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         
         string query = """
                        SELECT
-                           Id,
-                           AccessoryId,
-                           StudentId,
-                           AssignmentDate,
-                           AssignmentReasonId,
-                           IsReturned,
-                           ForecastedReturnDate,
-                           ActualReturnDate,
-                           ReturnReasonId,
-                           RegistrationDate,
-                           RegistrationUser,
-                           DeletedDate,
-                           DeletedUser
+                           "Id",
+                           "AccessoryId",
+                           "StudentId",
+                           "AssignmentDate",
+                           "AssignmentReasonId",
+                           "IsReturned",
+                           "ForecastedReturnDate",
+                           "ActualReturnDate",
+                           "ReturnReasonId",
+                           "RegistrationDate",
+                           "RegistrationUser",
+                           "DeletedDate",
+                           "DeletedUser"
                        FROM "AccessoriesAssignments";
                        """;
         
@@ -74,7 +74,7 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "AccessoriesAssignments" (Id, AccessoryId, StudentId, AssignmentDate, AssignmentReasonId, IsReturned, ForecastedReturnDate, ActualReturnDate, ReturnReasonId, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "AccessoriesAssignments" ("Id", "AccessoryId", "StudentId", "AssignmentDate", "AssignmentReasonId", "IsReturned", "ForecastedReturnDate", "ActualReturnDate", "ReturnReasonId", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
                        VALUES (@Id, @AccessoryId, @StudentId, @AssignmentDate, @AssignmentReasonId, @IsReturned, @ForecastedReturnDate, @ActualReturnDate, @ReturnReasonId, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         await connection.ExecuteAsync(query, accessoryAssignment);
@@ -87,20 +87,20 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
 
         string query = """
                        UPDATE "AccessoriesAssignments" SET 
-                       Id = @Id,
-                       AccessoryId = @AccessoryId,
-                       StudentId = @StudentId,
-                       AssignmentDate = @AssignmentDate,
-                       AssignmentReasonId = @AssignmentReasonId,
-                       IsReturned = @IsReturned,
-                       ForecastedReturnDate = @ForecastedReturnDate,
-                       ActualReturnDate = @ActualReturnDate,
-                       ReturnReasonId = @ReturnReasonId,
-                       RegistrationDate = @RegistrationDate,
-                       RegistrationUser = @RegistrationUser,
-                       DeletedDate = @DeletedDate,
-                       DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                       "Id" = @Id,
+                       "AccessoryId" = @AccessoryId,
+                       "StudentId" = @StudentId,
+                       "AssignmentDate" = @AssignmentDate,
+                       "AssignmentReasonId" = @AssignmentReasonId,
+                       "IsReturned" = @IsReturned,
+                       "ForecastedReturnDate" = @ForecastedReturnDate,
+                       "ActualReturnDate" = @ActualReturnDate,
+                       "ReturnReasonId" = @ReturnReasonId,
+                       "RegistrationDate" = @RegistrationDate,
+                       "RegistrationUser" = @RegistrationUser,
+                       "DeletedDate" = @DeletedDate,
+                       "DeletedUser" = @DeletedUser
+                       WHERE 2 = @Id;
                        """;
         
         await connection.ExecuteAsync(query, accessoryAssignment);
@@ -112,7 +112,7 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "AccessoriesAssignments" WHERE Id = @id;
+                       DELETE FROM "AccessoriesAssignments" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = accessoryAssignmentId});

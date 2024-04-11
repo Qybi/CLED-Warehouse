@@ -21,21 +21,21 @@ public class PcAssignmentService : IService<PcAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              PCId, 
-                              StudentId, 
-                              AssignmentDate, 
-                              AssignmentReasonId, 
-                              IsReturned, 
-                              ForecastedReturnDate, 
-                              ActualReturnDate, 
-                              ReturnReasonId, 
-                              RegistrationDate, 
-                              RegistrationUser, 
-                              DeletedDate, 
-                              DeletedUser
+                       SELECT "Id", 
+                              "PCId", 
+                              "StudentId", 
+                              "AssignmentDate", 
+                              "AssignmentReasonId", 
+                              "IsReturned", 
+                              "ForecastedReturnDate", 
+                              "ActualReturnDate", 
+                              "ReturnReasonId", 
+                              "RegistrationDate", 
+                              "RegistrationUser", 
+                              "DeletedDate", 
+                              "DeletedUser"
                        FROM "PCAssignments"
-                       WHERE Id = @id;
+                       WHERE "Id" = @id;
                        """;
         
         return await connection.QueryFirstOrDefaultAsync<PcAssignment>(query, new { id = pcAssignmentId });
@@ -47,20 +47,20 @@ public class PcAssignmentService : IService<PcAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       SELECT Id, 
-                              PCId, 
-                              StudentId, 
-                              AssignmentDate, 
-                              AssignmentReasonId, 
-                              IsReturned, 
-                              ForecastedReturnDate, 
-                              ActualReturnDate, 
-                              ReturnReasonId, 
-                              RegistrationDate, 
-                              RegistrationUser, 
-                              DeletedDate, 
-                              DeletedUser
-                       FROM "PCAssignments";
+                       SELECT "Id", 
+                              "PCId", 
+                              "StudentId", 
+                              "AssignmentDate", 
+                              "AssignmentReasonId", 
+                              "IsReturned", 
+                              "ForecastedReturnDate", 
+                              "ActualReturnDate", 
+                              "ReturnReasonId", 
+                              "RegistrationDate", 
+                              "RegistrationUser", 
+                              "DeletedDate", 
+                              "DeletedUser"
+                       FROM "PCAssignments"
                        """;
         
         return await connection.QueryAsync<PcAssignment>(query);
@@ -72,7 +72,7 @@ public class PcAssignmentService : IService<PcAssignment>
         await connection.OpenAsync();
         
         string query = """
-                       INSERT INTO "PCAssignments" (Id, PCId, StudentId, AssignmentDate, AssignmentReasonId, IsReturned, ForecastedReturnDate, ActualReturnDate, ReturnReasonId, RegistrationDate, RegistrationUser, DeletedDate, DeletedUser)
+                       INSERT INTO "PCAssignments" ("Id", "PCId", "StudentId", "AssignmentDate", "AssignmentReasonId", "IsReturned", "ForecastedReturnDate", "ActualReturnDate", "ReturnReasonId", "RegistrationDate", "RegistrationUser", "DeletedDate", 2)
                        VALUES (@Id, @PCId, @StudentId, @AssignmentDate, @AssignmentReasonId, @IsReturned, @ForecastedReturnDate, @ActualReturnDate, @ReturnReasonId, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
                        """;
         
@@ -86,20 +86,20 @@ public class PcAssignmentService : IService<PcAssignment>
 
         string query = """
                        UPDATE "PCAssignments" SET
-                           Id = @Id,
-                           PCId = @PCId,
-                           StudentId = @StudentId,
-                           AssignmentDate = @AssignmentDate,
-                           AssignmentReasonId = @AssignmentReasonId,
-                           IsReturned = @IsReturned,
-                           ForecastedReturnDate = @ForecastedReturnDate,
-                           ActualReturnDate = @ActualReturnDate,
-                           ReturnReasonId = @ReturnReasonId,
-                           RegistrationDate = @RegistrationDate,
-                           RegistrationUser = @RegistrationUser,
-                           DeletedDate = @DeletedDate,
-                           DeletedUser = @DeletedUser
-                       WHERE Id = @Id;
+                           "Id" = @Id,
+                           "PCId" = @PCId,
+                           "StudentId" = @StudentId,
+                           "AssignmentDate" = @AssignmentDate,
+                           "AssignmentReasonId" = @AssignmentReasonId,
+                           "IsReturned" = @IsReturned,
+                           "ForecastedReturnDate" = @ForecastedReturnDate,
+                           "ActualReturnDate" = @ActualReturnDate,
+                           "ReturnReasonId" = @ReturnReasonId,
+                           "RegistrationDate" = @RegistrationDate,
+                           "RegistrationUser" = @RegistrationUser,
+                           "DeletedDate" = @DeletedDate,
+                           "DeletedUser" = @DeletedUser
+                       WHERE "Id" = @Id;
                        """;
         
         await connection.ExecuteAsync(query, pcAssignment);
@@ -111,7 +111,7 @@ public class PcAssignmentService : IService<PcAssignment>
         await connection.OpenAsync();
 
         string query = """
-                       DELETE FROM "PCAssignments" WHERE Id = @id;
+                       DELETE FROM "PCAssignments" WHERE "Id" = @id;
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcAssignmentId});
