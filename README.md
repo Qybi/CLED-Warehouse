@@ -31,7 +31,7 @@ This repository contains the code for a web-based inventory management system fo
 
 An administrator can:
 
-- Add items (both PC and ) to the inventory manually or automatically by scanning the barcode on the object
+- Add items (both PC and accessory) to the inventory manually or automatically by scanning the barcode on the object
 - Assign the devices to the students via barcode scan/property sticker scan/manual input
 - View a list of tickets, organized by status:
   - To be taken care of
