@@ -7,6 +7,9 @@ using Microsoft.Identity.Web;
 using CLED.Warehouse.Web.EndPoints;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using CLED.Warehouse.Authentication;
+using CLED.Warehouse.Authentication.Utils.Abstractions;
+using CLED.Warehouse.Authentication.Utils;
 
 namespace CLED.Warehouse.Web
 {
@@ -40,6 +43,13 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+			builder.Services.AddScoped<IHashingUtils, HashingUtils>();
+			builder.Services.AddScoped<IAuthManager, AuthManager>(opt => new AuthManager(
+					opt.GetRequiredService<ILogger<AuthManager>>(),
+					opt.GetRequiredService<IHashingUtils>(),
+					builder.Configuration.GetConnectionString("db")
+				)
+			);
 			builder.Services.AddScoped<PcService>();
 			builder.Services.AddScoped<PcModelStockService>();
 			builder.Services.AddScoped<PcAssignmentService>();
