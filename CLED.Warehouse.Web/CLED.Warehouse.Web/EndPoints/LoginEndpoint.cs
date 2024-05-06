@@ -11,21 +11,21 @@ namespace CLED.Warehouse.Web.EndPoints;
 
 public class LoginEndpoint
 {
-	public static IEndpointRouteBuilder MapLoginEndPoints(this IEndpointRouteBuilder builder)
-	{
-		var group = builder.MapGroup("api/v1/login")
-			.AllowAnonymous()
-			.WithTags("Login");
+	//public static IEndpointRouteBuilder MapLoginEndPoints(this IEndpointRouteBuilder builder)
+	//{
+	//	var group = builder.MapGroup("api/v1/login")
+	//		.AllowAnonymous()
+	//		.WithTags("Login");
 
-		group.MapPost("/", LoginAsync)
-			.WithName("Login")
-			.WithSummary("Login")
-			.WithDescription("Login to the system");
+	//	group.MapPost("/", LoginAsync)
+	//		.WithName("Login")
+	//		.WithSummary("Login")
+	//		.WithDescription("Login to the system");
 
-		return builder;
-	}
+	//	return builder;
+	//}
 
-	private static async Task<Ok<IEnumerable<Ticket>>> LoginAsync(LoginService data)
-	{
-	}
+	//private static async Task<Ok<IEnumerable<Ticket>>> LoginAsync(LoginService data)
+	//{
+	//}
 }

@@ -84,35 +84,36 @@ public class LoginService
 
 	private string GetToken(UserInfo user, DateTime expiration, SecurityTokenHandler handler = null)
 	{
-		if (handler is null)
-		{
-			handler = new JwtSecurityTokenHandler();
-		}
-		var key = Encoding.UTF8.GetBytes(_secretSettings.Secret);
+		//if (handler is null)
+		//{
+		//	handler = new JwtSecurityTokenHandler();
+		//}
+		//var key = Encoding.UTF8.GetBytes(_secretSettings.Secret);
 
-		var tokenDescription = new SecurityTokenDescriptor
-		{
-			Subject = new ClaimsIdentity(
-				new Claim[]
-				{
-				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(CultureInfo.InvariantCulture)),
-				new Claim(AuthenticationExtensions.ApplicationClaimName, structure.Id.ToString(CultureInfo.InvariantCulture)),
-				GetRoleClaim(structClaims, RoleNameConsts.CashflowAdminRole),
-				GetRoleClaim(structClaims, RoleNameConsts.AdminRole),
-				GetRoleClaim(structClaims, RoleNameConsts.TutorRole),
-				GetRoleClaim(structClaims, RoleNameConsts.ParentRole),
-				}.Concat(structClaims.Select(c => new Claim(c.Code, string.Empty)))
-			),
-			Expires = expiration,
-			SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-		};
+		//var tokenDescription = new SecurityTokenDescriptor
+		//{
+		//	Subject = new ClaimsIdentity(
+		//		new Claim[]
+		//		{
+		//		new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(CultureInfo.InvariantCulture)),
+		//		new Claim(AuthenticationExtensions.ApplicationClaimName, structure.Id.ToString(CultureInfo.InvariantCulture)),
+		//		GetRoleClaim(structClaims, RoleNameConsts.CashflowAdminRole),
+		//		GetRoleClaim(structClaims, RoleNameConsts.AdminRole),
+		//		GetRoleClaim(structClaims, RoleNameConsts.TutorRole),
+		//		GetRoleClaim(structClaims, RoleNameConsts.ParentRole),
+		//		}.Concat(structClaims.Select(c => new Claim(c.Code, string.Empty)))
+		//	),
+		//	Expires = expiration,
+		//	SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+		//};
 
-		var token = handler.CreateToken(tokenDescription);
+		// var token = handler.CreateToken(tokenDescription);
 
-		return handler.WriteToken(token);
+		// return handler.WriteToken(token);
+		return string.Empty;
 	}
 
-	private Claim GetRoleClaim(List<UserStructureClaim> claims, string claim)
+	private Claim GetRoleClaim(List<UserClaim> claims, string claim)
 	{
 		var claimobj = claims.Find(e => e.Code == claim);
 		if (claimobj is null)

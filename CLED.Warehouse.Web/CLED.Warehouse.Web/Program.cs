@@ -3,7 +3,6 @@ using CLED.WareHouse.Services.DBServices.AccessoryServices;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using CLED.WareHouse.Services.DBServices.ReasonsServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
 using CLED.Warehouse.Web.EndPoints;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -40,8 +39,8 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddAuthorization();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			//builder.Services.AddEndpointsApiExplorer();
+			//builder.Services.AddSwaggerGen();
 
 			builder.Services.AddScoped<IHashingUtils, HashingUtils>();
 			builder.Services.AddScoped<IAuthManager, AuthManager>(opt => new AuthManager(
@@ -64,11 +63,11 @@ namespace CLED.Warehouse.Web
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+			//if (app.Environment.IsDevelopment())
+			//{
+			//	app.UseSwagger();
+			//	app.UseSwaggerUI();
+			//}
 
 			app.UseHttpsRedirection();
 
