@@ -1,4 +1,4 @@
-﻿using CLED.WareHouse.Models.Database;
+﻿using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;

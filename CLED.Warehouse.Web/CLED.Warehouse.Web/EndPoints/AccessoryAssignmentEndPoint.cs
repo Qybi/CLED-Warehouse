@@ -1,5 +1,5 @@
+using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.AccessoryServices;
-using CLED.WareHouse.Models.Database.Accessories;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CLED.Warehouse.Web;
@@ -39,14 +39,14 @@ public static class AccessoryAssignmentEndPoint
         return builder;
     }
 
-    private static async Task<Ok<IEnumerable<AccessoryAssignment>>> GetAllAccessoryAssignmentAsync(
+    private static async Task<Ok<IEnumerable<AccessoriesAssignment>>> GetAllAccessoryAssignmentAsync(
         AccessoryAssignmentService data)
     {
         var list = await data.GetAll();
         return TypedResults.Ok((list));
     }
 
-    private static async Task<Results<Ok<AccessoryAssignment>, NotFound>> GetAccessoryAssignmentByIdAsync(int id, AccessoryAssignmentService data)
+    private static async Task<Results<Ok<AccessoriesAssignment>, NotFound>> GetAccessoryAssignmentByIdAsync(int id, AccessoryAssignmentService data)
     {
         var product =  await data.GetById(id);
         if (product == null)
@@ -55,13 +55,13 @@ public static class AccessoryAssignmentEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Created> InsertAccessoryAssignmentAsync(AccessoryAssignment accessoryAssignment, AccessoryAssignmentService data)
+    private static async Task<Created> InsertAccessoryAssignmentAsync(AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
     {
         await data.Insert(accessoryAssignment);
         return TypedResults.Created();
     }
 
-    private static async Task<Results<NoContent, NotFound>> UpdateAccessoryAssignmentAsync(int id, AccessoryAssignment accessoryAssignment, AccessoryAssignmentService data)
+    private static async Task<Results<NoContent, NotFound>> UpdateAccessoryAssignmentAsync(int id, AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
     {
         var temp = await data.GetById(id);
         if (temp == null)

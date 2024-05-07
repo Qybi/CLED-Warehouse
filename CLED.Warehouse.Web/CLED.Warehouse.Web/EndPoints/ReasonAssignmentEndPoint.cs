@@ -1,4 +1,4 @@
-using CLED.WareHouse.Models.Database.Reasons;
+using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.ReasonsServices;
 using Microsoft.AspNetCore.Http.HttpResults;
 

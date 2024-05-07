@@ -1,4 +1,4 @@
-using CLED.WareHouse.Models.Database.Accessories;
+using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.AccessoryServices;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CLED.Warehouse.Web;
+namespace CLED.Warehouse.Models.DB;
 
 public partial class Course
 {

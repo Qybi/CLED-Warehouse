@@ -1,4 +1,5 @@
 ﻿using CLED.Warehouse.Authentication.Utils.Abstractions;
+using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Models.Login;
 using Dapper;
 using Microsoft.Extensions.Logging;
@@ -72,7 +73,7 @@ public class AuthManager : IAuthManager
 			};
 		}
 
-		if (userInfo.Enabled)
+		if (!userInfo.Enabled)
 		{
 			return new LoginResponse
 			{
@@ -103,6 +104,50 @@ public class AuthManager : IAuthManager
 				Message = "Username or password incorrect."
 			};
 		}
+	}
+
+	public async Task RegisterAsync(RegisterAttempt register)
+	{
+		if (register is null || string.IsNullOrWhiteSpace(register.Username) || string.IsNullOrWhiteSpace(register.Password))
+		{
+			_logger.LogWarning("Someone submitted an invalid register attempt: {register}", register);
+			throw new ArgumentException("Invalid register attempt. All the fields should be specified.");
+		}
+
+		var userInfo = await GetUserAsync(register.Username);
+
+		if (userInfo is not null)
+		{
+			throw new ArgumentException("Username already exists.");
+		}
+
+		var hashedPassword = _hashingUtility.GetHashedPassword(register.Password);
+
+		var newUser = new User()
+		{
+			Enabled = register.Enabled,
+			PasswordHash = hashedPassword.PasswordHash,
+			PasswordSalt = hashedPassword.Salt,
+			Roles = register.Roles,
+			RegistrationDate = DateTime.Now,
+			RegistrationUser = ""
+		};
+
+		using NpgsqlConnection connection = new(_connectionString);
+		await connection.OpenAsync();
+		string query =
+			"""
+				INSERT INTO users (Username, PasswordHash, PasswordSalt, Enabled, Roles)
+				VALUES (@Username, @Password, @Salt, @Enabled, @Roles);
+			""";
+		await connection.ExecuteAsync(query, new
+		{
+			Username = register.Username,
+			Password = hashedPassword.PasswordHash,
+			Salt = hashedPassword.Salt,
+			Enabled = true,
+			Roles = Array.Empty<string>()
+		});
 	}
 }
 

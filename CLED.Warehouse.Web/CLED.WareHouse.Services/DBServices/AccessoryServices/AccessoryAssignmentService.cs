@@ -1,4 +1,4 @@
-﻿using CLED.WareHouse.Models.Database.Accessories;
+﻿using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +6,7 @@ using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices.AccessoryServices;
 
-public class AccessoryAssignmentService : IService<AccessoryAssignment>
+public class AccessoryAssignmentService : IService<AccessoriesAssignment>
 {
     
     private readonly string _connectionString;
@@ -15,7 +15,7 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
     {
         _connectionString = configuration.GetConnectionString("db");
     }
-    public async Task<AccessoryAssignment> GetById(int accessoryAssignmentId)
+    public async Task<AccessoriesAssignment> GetById(int accessoryAssignmentId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();   
@@ -39,10 +39,10 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
                        WHERE "Id" = @id;
                        """;
         
-        return await connection.QueryFirstOrDefaultAsync<AccessoryAssignment>(query, new { id = accessoryAssignmentId });
+        return await connection.QueryFirstOrDefaultAsync<AccessoriesAssignment>(query, new { id = accessoryAssignmentId });
     }
 
-    public async Task<IEnumerable<AccessoryAssignment>> GetAll()
+    public async Task<IEnumerable<AccessoriesAssignment>> GetAll()
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();   
@@ -65,10 +65,10 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
                        FROM "AccessoriesAssignments";
                        """;
         
-        return await connection.QueryAsync<AccessoryAssignment>(query);
+        return await connection.QueryAsync<AccessoriesAssignment>(query);
     }
 
-    public async Task Insert(AccessoryAssignment accessoryAssignment)
+    public async Task Insert(AccessoriesAssignment accessoryAssignment)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -80,7 +80,7 @@ public class AccessoryAssignmentService : IService<AccessoryAssignment>
         await connection.ExecuteAsync(query, accessoryAssignment);
     }
 
-    public async Task Update(AccessoryAssignment accessoryAssignment)
+    public async Task Update(AccessoriesAssignment accessoryAssignment)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();

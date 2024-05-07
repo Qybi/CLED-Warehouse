@@ -107,9 +107,9 @@ public class LoginService
 		//	SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
 		//};
 
-		// var token = handler.CreateToken(tokenDescription);
+		//var token = handler.CreateToken(tokenDescription);
 
-		// return handler.WriteToken(token);
+		//return handler.WriteToken(token);
 		return string.Empty;
 	}
 

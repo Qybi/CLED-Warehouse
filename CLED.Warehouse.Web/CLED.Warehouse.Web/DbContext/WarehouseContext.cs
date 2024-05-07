@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CLED.Warehouse.Models.DB;
 using Microsoft.EntityFrameworkCore;
 
 namespace CLED.Warehouse.Web;
