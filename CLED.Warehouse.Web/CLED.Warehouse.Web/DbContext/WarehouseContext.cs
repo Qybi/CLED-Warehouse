@@ -60,7 +60,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
 
             entity.HasOne(d => d.Accessory).WithMany(p => p.AccessoriesAssignments)
                 .HasForeignKey(d => d.AccessoryId)
@@ -93,7 +92,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
 
             entity.HasOne(d => d.Stock).WithMany(p => p.Accessories)
                 .HasForeignKey(d => d.StockId)
@@ -116,7 +114,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
             entity.Property(e => e.ShortName).HasMaxLength(30);
             entity.Property(e => e.Status).HasMaxLength(255);
         });
@@ -133,7 +130,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
             entity.Property(e => e.Serial).HasMaxLength(255);
             entity.Property(e => e.Status).HasMaxLength(255);
 
@@ -162,7 +158,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
 
             entity.HasOne(d => d.AssignmentReason).WithMany(p => p.Pcassignments)
                 .HasForeignKey(d => d.AssignmentReasonId)
@@ -205,7 +200,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
             entity.Property(e => e.Storage).HasMaxLength(255);
             entity.Property(e => e.TotalQuantity).HasDefaultValue(0);
         });
@@ -314,7 +308,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RegistrationUser).HasMaxLength(255);
             entity.Property(e => e.Roles).HasColumnType("character varying[]");
             entity.Property(e => e.Username).HasMaxLength(255);
 

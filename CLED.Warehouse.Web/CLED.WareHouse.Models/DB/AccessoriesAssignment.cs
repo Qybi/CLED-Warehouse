@@ -25,7 +25,7 @@ public partial class AccessoriesAssignment
 
     public DateTime RegistrationDate { get; set; }
 
-    public string RegistrationUser { get; set; } = null!;
+    public int RegistrationUser { get; set; }
 
     public DateTime? DeletedDate { get; set; }
 
