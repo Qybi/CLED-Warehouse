@@ -1,3 +1,1 @@
-﻿ dotnet ef dbcontext scaffold "User ID=postgres;Password=Vmware1!;Host=localhost;Port=5432;Database=warehouse;" Npgsql.EntityFrameworkCore.PostgreSQL -o Models 
- dotnet ef dbcontext scaffold ... --namespace Your.Namespace --context-namespace Your.DbContext.Namespace
- dotnet ef dbcontext scaffold ... --context-dir Data --output-dir Models
+﻿ dotnet ef dbcontext scaffold "User ID=postgres;Password=Vmware1!;Host=localhost;Port=5432;Database=Warehouse;" Npgsql.EntityFrameworkCore.PostgreSQL -o "..\CLED.WareHouse.Models\DB" --context-dir "..\CLED.WareHouse.Models\DB\Context"

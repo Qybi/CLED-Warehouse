@@ -9,6 +9,7 @@ using System.Text;
 using CLED.Warehouse.Authentication;
 using CLED.Warehouse.Authentication.Utils.Abstractions;
 using CLED.Warehouse.Authentication.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace CLED.Warehouse.Web
 {
@@ -37,6 +38,10 @@ namespace CLED.Warehouse.Web
 					};
 				});
 			builder.Services.AddAuthorization();
+
+			builder.Services.AddDbContext<WarehouseContext>(options =>
+					options.UseNpgsql(builder.Configuration.GetConnectionString("db"))
+				);
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			//builder.Services.AddEndpointsApiExplorer();
