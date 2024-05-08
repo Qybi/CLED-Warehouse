@@ -54,7 +54,6 @@ public partial class WarehouseContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.ForecastedReturnDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IsReturned).HasDefaultValue(false);
             entity.Property(e => e.RegistrationDate)
@@ -87,7 +86,6 @@ public partial class WarehouseContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
@@ -108,7 +106,6 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.DateEnd).HasColumnType("timestamp without time zone");
             entity.Property(e => e.DateStart).HasColumnType("timestamp without time zone");
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.FullName).HasMaxLength(255);
             entity.Property(e => e.Location).HasMaxLength(255);
             entity.Property(e => e.RegistrationDate)
@@ -124,7 +121,6 @@ public partial class WarehouseContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.IsMuletto).HasDefaultValue(false);
             entity.Property(e => e.PropertySticker).HasMaxLength(255);
             entity.Property(e => e.RegistrationDate)
@@ -151,7 +147,6 @@ public partial class WarehouseContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.ForecastedReturnDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IsReturned).HasDefaultValue(false);
             entity.Property(e => e.Pcid).HasColumnName("PCId");
@@ -191,7 +186,6 @@ public partial class WarehouseContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("CPU");
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.Model).HasMaxLength(255);
             entity.Property(e => e.PurchaseDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Ram)
@@ -279,7 +273,6 @@ public partial class WarehouseContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
@@ -301,7 +294,6 @@ public partial class WarehouseContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.DeletedUser).HasMaxLength(255);
             entity.Property(e => e.Enabled).HasDefaultValue(true);
             entity.Property(e => e.PasswordHash).HasMaxLength(1024);
             entity.Property(e => e.PasswordSalt).HasMaxLength(512);

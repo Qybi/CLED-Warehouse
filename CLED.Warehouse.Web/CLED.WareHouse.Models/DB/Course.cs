@@ -27,7 +27,7 @@ public partial class Course
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 }

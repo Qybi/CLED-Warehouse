@@ -27,7 +27,7 @@ public partial class Pc
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual ICollection<Pcassignment> Pcassignments { get; set; } = new List<Pcassignment>();
 

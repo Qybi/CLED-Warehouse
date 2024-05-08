@@ -19,7 +19,7 @@ public partial class Accessory
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual ICollection<AccessoriesAssignment> AccessoriesAssignments { get; set; } = new List<AccessoriesAssignment>();
 

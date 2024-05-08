@@ -29,7 +29,7 @@ public partial class AccessoriesAssignment
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual Accessory Accessory { get; set; } = null!;
 

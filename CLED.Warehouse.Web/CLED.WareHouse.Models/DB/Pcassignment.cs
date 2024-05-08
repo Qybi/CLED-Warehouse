@@ -29,7 +29,7 @@ public partial class Pcassignment
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual ReasonsAssignment AssignmentReason { get; set; } = null!;
 

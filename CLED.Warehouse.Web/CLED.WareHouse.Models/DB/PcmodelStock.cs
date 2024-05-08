@@ -27,7 +27,7 @@ public partial class PcmodelStock
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual ICollection<Accessory> Accessories { get; set; } = new List<Accessory>();
 

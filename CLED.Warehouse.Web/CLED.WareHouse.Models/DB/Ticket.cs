@@ -27,7 +27,7 @@ public partial class Ticket
 
     public DateTime? DeletedDate { get; set; }
 
-    public string? DeletedUser { get; set; }
+    public int? DeletedUser { get; set; }
 
     public virtual Student Student { get; set; } = null!;
 }
