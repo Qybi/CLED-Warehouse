@@ -1,92 +1,83 @@
 ﻿using CLED.Warehouse.Models.DB;
 using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
-using Dapper;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices;
 
 public class CourseService : IService<Course>
 {
-    private readonly string _connectionString;
     private readonly WarehouseContext _context;
+    private readonly ILogger<CourseService> _logger;
 
-    public CourseService(IConfiguration? configuration, WarehouseContext context)
+    public CourseService(ILogger<CourseService> logger, WarehouseContext context)
     {
-        _connectionString = configuration.GetConnectionString("db");
         _context = context;
+        _logger = logger;
     }
     public async Task<Course> GetById(int courseId)
     {
-        return await _context.Courses.FindAsync(courseId);
+        try
+        {
+            return await _context.Courses.FindAsync(courseId);
+        }
+        catch (Exception ex)
+        {
+			_logger.LogError(ex, "GetAll method has thrown an exception");
+			throw;
+        }
     }
 
     public async Task<IEnumerable<Course>> GetAll()
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+        try
+        {
 
-        string query = """
-                       SELECT "Id", 
-                              "Code", 
-                              "FullName", 
-                              "DateStart", 
-                              "DateEnd", 
-                              "RegistrationDate", 
-                              "RegistrationUser", 
-                              "DeletedDate", 
-                              "DeletedUser"
-                       FROM "Courses";
-                       """;
-        
-        return await connection.QueryAsync<Course>(query);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "GetAll method has thrown an exception");
+			throw;
+        }
+        return await _context.Courses.ToListAsync();
     }
 
     public async Task Insert(Course course)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-        
-        string query = """
-                       INSERT INTO "Courses" ("Id", "Code", "FullName", "DateStart", "DateEnd", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
-                       VALUES (@Id, @Code, @FullName, @DateStart, @DateEnd, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
-                       """;
-        
-        await connection.ExecuteAsync(query, course);
+        _context.Courses.Add(course);
+        await _context.SaveChangesAsync();
     }
 
     public async Task Update(Course course)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+        try
+        {
+            var c = await _context.Courses.FindAsync(course.Id);
+            // write me the code to update the course entity
 
-        string query = """
-                       UPDATE "Courses" SET
-                           "Id" = @Id,
-                           "Code" = @Code,
-                           "FullName" = @FullName,
-                           "DateStart" = @DateStart,
-                           "DateEnd" = @DateEnd,
-                           "RegistrationDate" = @RegistrationDate,
-                           "RegistrationUser" = @RegistrationUser,
-                           "DeletedDate" = @DeletedDate,
-                           "DeletedUser" = @DeletedUser
-                       WHERE "Id" = @Id;
-                       """;
+            c.FullName = course.FullName;
+		    c.ShortName = course.ShortName;
+		    c.DateStart = course.DateStart;
+		    c.DateEnd = course.DateEnd;
+            c.Code = course.Code;
+            c.Location = course.Location;
+            c.Status = course.Status;
+            _context.Courses.Update(c);
         
-        await connection.ExecuteAsync(query, course);
+		    await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+			_logger.LogError(ex, "Update method has thrown an exception");
+			throw;
+        }
     }
 
     public async Task Delete(int courseId)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        string query = """
-                       DELETE FROM "Courses" WHERE "Id" = @id;
-                       """;
-        
-        await connection.ExecuteAsync(query, new {id = courseId});
+        _context.Remove(await _context.Courses.FindAsync(courseId));
+        await _context.SaveChangesAsync();
     }
 }
