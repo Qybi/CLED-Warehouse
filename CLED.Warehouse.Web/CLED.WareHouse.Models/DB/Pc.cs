@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLED.WareHouse.Models.DBDecoratorInterface;
+using System;
 using System.Collections.Generic;
 
 namespace CLED.Warehouse.Models.DB;
@@ -29,7 +30,7 @@ public partial class Pc
 
     public int? DeletedUser { get; set; }
 
-    public virtual ICollection<Pcassignment> Pcassignments { get; set; } = new List<Pcassignment>();
+    public virtual ICollection<PcAssignment> Pcassignments { get; set; } = new List<PcAssignment>();
 
-    public virtual PcmodelStock Stock { get; set; } = null!;
+    public virtual PcModelStock Stock { get; set; } = null!;
 }

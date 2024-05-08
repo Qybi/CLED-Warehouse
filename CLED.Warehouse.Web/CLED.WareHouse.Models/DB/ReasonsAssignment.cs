@@ -11,5 +11,5 @@ public partial class ReasonsAssignment
 
     public virtual ICollection<AccessoriesAssignment> AccessoriesAssignments { get; set; } = new List<AccessoriesAssignment>();
 
-    public virtual ICollection<Pcassignment> Pcassignments { get; set; } = new List<Pcassignment>();
+    public virtual ICollection<PcAssignment> Pcassignments { get; set; } = new List<PcAssignment>();
 }

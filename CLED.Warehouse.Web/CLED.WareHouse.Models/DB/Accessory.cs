@@ -23,5 +23,5 @@ public partial class Accessory
 
     public virtual ICollection<AccessoriesAssignment> AccessoriesAssignments { get; set; } = new List<AccessoriesAssignment>();
 
-    public virtual PcmodelStock Stock { get; set; } = null!;
+    public virtual PcModelStock Stock { get; set; } = null!;
 }

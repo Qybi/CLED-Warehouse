@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CLED.Warehouse.Models.DB;
 
-public partial class PcmodelStock
+public partial class PcModelStock
 {
     public int Id { get; set; }
 
