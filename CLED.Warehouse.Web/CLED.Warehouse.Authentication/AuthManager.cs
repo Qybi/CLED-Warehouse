@@ -130,7 +130,7 @@ public class AuthManager : IAuthManager
 			PasswordSalt = hashedPassword.Salt,
 			Roles = register.Roles,
 			RegistrationDate = DateTime.Now,
-			RegistrationUser = ""
+			RegistrationUser = -1
 		};
 
 		using NpgsqlConnection connection = new(_connectionString);
