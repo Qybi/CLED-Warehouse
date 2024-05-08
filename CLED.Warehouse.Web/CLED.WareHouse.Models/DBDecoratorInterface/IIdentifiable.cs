@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLED.Warehouse.Models.DBDecoratorInterface;
+namespace CLED.Warehouse.Models.DB;
 
 public interface IIdentifiable<T>
 {
