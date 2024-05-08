@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -21,8 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CLED.Warehouse.Authentication\CLED.Warehouse.Authentication.csproj" />
+    <ProjectReference Include="..\CLED.Warehouse.Data.Abstractions\CLED.Warehouse.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\CLED.Warehouse.Data\CLED.Warehouse.Data.csproj" />
     <ProjectReference Include="..\CLED.WareHouse.Models\CLED.WareHouse.Models.csproj" />
-    <ProjectReference Include="..\CLED.WareHouse.Services\CLED.WareHouse.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,11 @@
     <Content Include=".idea\.idea.CLED.Warehouse.Web\.idea\projectSettingsUpdater.xml" />
     <Content Include=".idea\.idea.CLED.Warehouse.Web\.idea\vcs.xml" />
     <Content Include=".idea\.idea.CLED.Warehouse.Web\.idea\workspace.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DbContext\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
