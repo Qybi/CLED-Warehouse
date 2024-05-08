@@ -39,13 +39,13 @@ public static class PcAssignmentEndPoint
         return builder;
     }
 
-    private static async Task<Ok<IEnumerable<Pcassignment>>> GetAllPcAssignmentAsync(PcAssignmentService data)
+    private static async Task<Ok<IEnumerable<PcAssignment>>> GetAllPcAssignmentAsync(PcAssignmentService data)
     {
         var list = await data.GetAll();
         return TypedResults.Ok((list));
     }
 
-    private static async Task<Results<Ok<Pcassignment>, NotFound>> GetPcAssignmentByIdAsync(int id, PcAssignmentService data)
+    private static async Task<Results<Ok<PcAssignment>, NotFound>> GetPcAssignmentByIdAsync(int id, PcAssignmentService data)
     {
         var product =  await data.GetById(id);
         if (product == null)
@@ -54,13 +54,13 @@ public static class PcAssignmentEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Created> InsertPcAssignmentAsync(Pcassignment pcAssignment, PcAssignmentService data)
+    private static async Task<Created> InsertPcAssignmentAsync(PcAssignment pcAssignment, PcAssignmentService data)
     {
         await data.Insert(pcAssignment);
         return TypedResults.Created();
     }
 
-    private static async Task<Results<NoContent, NotFound>> UpdatePcAssignmentAsync(int id, Pcassignment pcAssignment, PcAssignmentService data)
+    private static async Task<Results<NoContent, NotFound>> UpdatePcAssignmentAsync(int id, PcAssignment pcAssignment, PcAssignmentService data)
     {
         var temp = await data.GetById(id);
         if (temp == null)

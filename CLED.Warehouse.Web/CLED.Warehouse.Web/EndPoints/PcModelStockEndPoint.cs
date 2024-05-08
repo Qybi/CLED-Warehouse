@@ -39,13 +39,13 @@ public static class PcModelStockEndPoint
         return builder;
     }
 
-    private static async Task<Ok<IEnumerable<PcmodelStock>>> GetAllPcModelStockAsync(PcModelStockService data)
+    private static async Task<Ok<IEnumerable<PcModelStock>>> GetAllPcModelStockAsync(PcModelStockService data)
     {
         var list = await data.GetAll();
         return TypedResults.Ok((list));
     }
 
-    private static async Task<Results<Ok<PcmodelStock>, NotFound>> GetPcModelStockByIdAsync(int id, PcModelStockService data)
+    private static async Task<Results<Ok<PcModelStock>, NotFound>> GetPcModelStockByIdAsync(int id, PcModelStockService data)
     {
         var product =  await data.GetById(id);
         if (product == null)
@@ -54,13 +54,13 @@ public static class PcModelStockEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Created> InsertPcModelStockAsync(PcmodelStock pcModelStock, PcModelStockService data)
+    private static async Task<Created> InsertPcModelStockAsync(PcModelStock pcModelStock, PcModelStockService data)
     {
         await data.Insert(pcModelStock);
         return TypedResults.Created();
     }
 
-    private static async Task<Results<NoContent, NotFound>> UpdatePcModelStockAsync(int id, PcmodelStock pcModelStock, PcModelStockService data)
+    private static async Task<Results<NoContent, NotFound>> UpdatePcModelStockAsync(int id, PcModelStock pcModelStock, PcModelStockService data)
     {
         var temp = await data.GetById(id);
         if (temp == null)
