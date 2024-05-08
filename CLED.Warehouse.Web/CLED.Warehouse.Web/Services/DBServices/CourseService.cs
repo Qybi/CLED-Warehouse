@@ -1,4 +1,5 @@
 ﻿using CLED.Warehouse.Models.DB;
+using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -9,31 +10,16 @@ namespace CLED.WareHouse.Services.DBServices;
 public class CourseService : IService<Course>
 {
     private readonly string _connectionString;
+    private readonly WarehouseContext _context;
 
-    public CourseService(IConfiguration? configuration)
+    public CourseService(IConfiguration? configuration, WarehouseContext context)
     {
         _connectionString = configuration.GetConnectionString("db");
+        _context = context;
     }
     public async Task<Course> GetById(int courseId)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        string query = """
-                       SELECT "Id", 
-                              "Code", 
-                              "FullName", 
-                              "DateStart", 
-                              "DateEnd", 
-                              "RegistrationDate", 
-                              "RegistrationUser", 
-                              "DeletedDate", 
-                              "DeletedUser"
-                       FROM "Courses"
-                       WHERE "Id" = @id;
-                       """;
-        
-        return await connection.QueryFirstOrDefaultAsync<Course>(query, new { id = courseId });
+        return await _context.Courses.FindAsync(courseId);
     }
 
     public async Task<IEnumerable<Course>> GetAll()
