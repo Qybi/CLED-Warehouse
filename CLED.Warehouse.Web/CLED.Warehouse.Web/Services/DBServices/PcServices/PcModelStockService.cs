@@ -6,7 +6,7 @@ using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices.PcServices;
 
-public class PcModelStockService : IService<PcmodelStock>
+public class PcModelStockService : IService<PcModelStock>
 {
     private readonly string _connectionString;
 
@@ -15,7 +15,7 @@ public class PcModelStockService : IService<PcmodelStock>
         _connectionString = configuration.GetConnectionString("db");
     }
     
-    public async Task<PcmodelStock> GetById(int pcModelStockId)
+    public async Task<PcModelStock> GetById(int pcModelStockId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -37,10 +37,10 @@ public class PcModelStockService : IService<PcmodelStock>
                        WHERE "Id" = @id;
                        """;
         
-        return await connection.QueryFirstOrDefaultAsync<PcmodelStock>(query, new { id = pcModelStockId });
+        return await connection.QueryFirstOrDefaultAsync<PcModelStock>(query, new { id = pcModelStockId });
     }
 
-    public async Task<IEnumerable<PcmodelStock>> GetAll()
+    public async Task<IEnumerable<PcModelStock>> GetAll()
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -61,10 +61,10 @@ public class PcModelStockService : IService<PcmodelStock>
                        FROM "PCModelStock"
                        """;
         
-        return await connection.QueryAsync<PcmodelStock>(query);
+        return await connection.QueryAsync<PcModelStock>(query);
     }
 
-    public async Task Insert(PcmodelStock pcModelStock)
+    public async Task Insert(PcModelStock pcModelStock)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -75,7 +75,7 @@ public class PcModelStockService : IService<PcmodelStock>
                        """;
     }
 
-    public async Task Update(PcmodelStock pcModelStock)
+    public async Task Update(PcModelStock pcModelStock)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();

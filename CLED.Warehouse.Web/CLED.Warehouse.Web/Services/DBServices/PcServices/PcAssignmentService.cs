@@ -6,7 +6,7 @@ using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices.PcServices;
 
-public class PcAssignmentService : IService<Pcassignment>
+public class PcAssignmentService : IService<PcAssignment>
 {
     private readonly string _connectionString;
 
@@ -14,7 +14,7 @@ public class PcAssignmentService : IService<Pcassignment>
     {
         _connectionString = configuration.GetConnectionString("db");
     }
-    public async Task<Pcassignment> GetById(int pcAssignmentId)
+    public async Task<PcAssignment> GetById(int pcAssignmentId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -37,10 +37,10 @@ public class PcAssignmentService : IService<Pcassignment>
                        WHERE "Id" = @id;
                        """;
         
-        return await connection.QueryFirstOrDefaultAsync<Pcassignment>(query, new { id = pcAssignmentId });
+        return await connection.QueryFirstOrDefaultAsync<PcAssignment>(query, new { id = pcAssignmentId });
     }
 
-    public async Task<IEnumerable<Pcassignment>> GetAll()
+    public async Task<IEnumerable<PcAssignment>> GetAll()
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -62,10 +62,10 @@ public class PcAssignmentService : IService<Pcassignment>
                        FROM "PCAssignments"
                        """;
         
-        return await connection.QueryAsync<Pcassignment>(query);
+        return await connection.QueryAsync<PcAssignment>(query);
     }
 
-    public async Task Insert(Pcassignment pcAssignment)
+    public async Task Insert(PcAssignment pcAssignment)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -78,7 +78,7 @@ public class PcAssignmentService : IService<Pcassignment>
         await connection.ExecuteAsync(query, pcAssignment);
     }
 
-    public async Task Update(Pcassignment pcAssignment)
+    public async Task Update(PcAssignment pcAssignment)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
