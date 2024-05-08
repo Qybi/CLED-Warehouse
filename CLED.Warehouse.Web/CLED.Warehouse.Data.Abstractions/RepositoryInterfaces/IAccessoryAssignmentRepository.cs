@@ -1,6 +1,7 @@
-﻿namespace CLED.Warehouse.Data.Abstractions
+﻿using CLED.Warehouse.Models.DB;
+
+namespace CLED.Warehouse.Data.Abstractions;
+
+public interface IAccessoryAssignmentRepository : IRepository<int, AccessoriesAssignment>
 {
-	public interface IAccessoryAssignmentRepository
-	{
-	}
 }

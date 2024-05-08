@@ -1,4 +1,4 @@
-﻿using CLED.WareHouse.Models.DBDecoratorInterface;
+﻿using CLED.Warehouse.Models.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,7 @@
-﻿namespace CLED.Warehouse.Data.Abstractions
+﻿using CLED.Warehouse.Models.DB;
+
+namespace CLED.Warehouse.Data.Abstractions;
+
+public interface IReasonsReturnRepository : IRepository<int, ReasonsReturn>
 {
-	public interface IReasonsReturnRepository
-	{
-	}
 }
