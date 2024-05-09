@@ -9,7 +9,7 @@ public static class AccessoryAssignmentEndPoint
     public static IEndpointRouteBuilder MapAccessoryAssignmentEndPoint(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/accessoryAssignment")
-            .RequireAuthorization()
+            // .RequireAuthorization()
             .WithTags("accessoryAssignment");
 
         group.MapGet("/", GetAllAccessoryAssignmentAsync)
