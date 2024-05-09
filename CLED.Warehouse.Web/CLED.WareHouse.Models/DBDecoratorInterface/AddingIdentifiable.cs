@@ -1,4 +1,4 @@
-﻿using CLED.Warehouse.Models.DBDecoratorInterface;
+﻿using CLED.Warehouse.Models.DB;
 
 namespace CLED.Warehouse.Models.DB;
 
