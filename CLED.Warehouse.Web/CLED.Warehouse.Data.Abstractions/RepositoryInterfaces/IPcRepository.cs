@@ -1,8 +1,7 @@
 ﻿using CLED.Warehouse.Models.DB;
 
-namespace CLED.Warehouse.Data.Abstractions
+namespace CLED.Warehouse.Data.Abstractions;
+
+public interface IPcRepository : IRepository<int, Pc>
 {
-	public interface IPcRepository : IRepository<int, Pc>
-	{
-	}
 }

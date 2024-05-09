@@ -8,7 +8,7 @@ public static class PcEndPoint
 	public static IEndpointRouteBuilder MapPcEndPoints(this IEndpointRouteBuilder builder)
 	{
 		var group = builder.MapGroup("api/v1/pc")
-			.RequireAuthorization()
+			// .RequireAuthorization()
 			.WithTags("Pc");
 
 		group.MapGet("/", GetAllPcAsync)

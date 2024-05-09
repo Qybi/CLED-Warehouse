@@ -1,6 +1,7 @@
-﻿namespace CLED.Warehouse.Data.Abstractions
+﻿using CLED.Warehouse.Models.DB;
+
+namespace CLED.Warehouse.Data.Abstractions;
+
+public interface IUserRepository : IRepository<int, User>
 {
-	public interface IUserRepository
-	{
-	}
 }

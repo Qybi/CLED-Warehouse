@@ -10,7 +10,7 @@ namespace CLED.Warehouse.Data.Abstractions;
 public interface IUnitOfWork
 {
 	IAccessoryRepository Accessories { get; }
-	IAccessoryAssignmentRepository AccessoriesAssignments { get; }
+	IAccessoryAssignmentRepository AccessoryAssignments { get; }
 	ICourseRepository Courses { get; }
 	IPcRepository Pcs { get; }
 	IPcAssignmentRepository PcAssignments { get; }
@@ -19,6 +19,6 @@ public interface IUnitOfWork
 	IReasonsReturnRepository ReasonsReturn { get; }
 	IStudentRepository Students { get; }
 	ITicketRepository Tickets { get; }
-	IUserRepository Users { get; }
+	//IUserRepository Users { get; }
 	Task SaveAsync();
 }

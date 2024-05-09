@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,6 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-CLED.Warehouse.Web-b282e04c-ada6-40f8-bef9-c08c32eebf58</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DbContext\**" />
+    <Content Remove="DbContext\**" />
+    <EmbeddedResource Remove="DbContext\**" />
+    <None Remove="DbContext\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" NoWarn="NU1605" />
@@ -21,8 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CLED.Warehouse.Authentication\CLED.Warehouse.Authentication.csproj" />
+    <ProjectReference Include="..\CLED.Warehouse.Data\CLED.Warehouse.Data.csproj" />
     <ProjectReference Include="..\CLED.WareHouse.Models\CLED.WareHouse.Models.csproj" />
-    <ProjectReference Include="..\CLED.WareHouse.Services\CLED.WareHouse.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +47,11 @@
     <Content Include=".idea\.idea.CLED.Warehouse.Web\.idea\projectSettingsUpdater.xml" />
     <Content Include=".idea\.idea.CLED.Warehouse.Web\.idea\vcs.xml" />
     <Content Include=".idea\.idea.CLED.Warehouse.Web\.idea\workspace.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

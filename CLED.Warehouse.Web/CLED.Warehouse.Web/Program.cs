@@ -40,8 +40,9 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddAuthorization();
 
 			builder.Services.AddDbContext<WarehouseContext>(options =>
-					options.UseNpgsql(builder.Configuration.GetConnectionString("db"))
-				);
+			{
+				options.UseNpgsql(builder.Configuration.GetConnectionString("db"));
+			});
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			//builder.Services.AddEndpointsApiExplorer();
@@ -52,8 +53,9 @@ namespace CLED.Warehouse.Web
 					opt.GetRequiredService<ILogger<AuthManager>>(),
 					opt.GetRequiredService<IHashingUtils>(),
 					builder.Configuration.GetConnectionString("db")
-				)
+			)
 			);
+
 			builder.Services.AddScoped<PcService>();
 			builder.Services.AddScoped<PcModelStockService>();
 			builder.Services.AddScoped<PcAssignmentService>();
@@ -73,7 +75,7 @@ namespace CLED.Warehouse.Web
 			//	app.UseSwagger();
 			//	app.UseSwaggerUI();
 			//}
-
+			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 
 			app.UseAuthentication();

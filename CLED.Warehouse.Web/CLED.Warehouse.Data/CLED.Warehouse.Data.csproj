@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <Compile Remove="Repository\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Repository\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CLED.Warehouse.Data.Abstractions\CLED.Warehouse.Data.Abstractions.csproj" />
     <ProjectReference Include="..\CLED.WareHouse.Models\CLED.WareHouse.Models.csproj" />
   </ItemGroup>
 
