@@ -1,4 +1,5 @@
 using CLED.Warehouse.Models.DB;
+using CLED.WareHouse.Models.Views;
 using CLED.WareHouse.Services.DBServices;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -8,7 +9,7 @@ public static class StudentEndPoint
 {
     public static IEndpointRouteBuilder MapStudentEndPoints(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("api/v1/student")
+        var group = builder.MapGroup("api/v1/students")
             // .RequireAuthorization()
             .WithTags("Student");
 
@@ -21,6 +22,8 @@ public static class StudentEndPoint
             .WithName("GetStudentById")
             .WithSummary("Get all Summary")
             .WithDescription("Return a single student selected by ID");
+
+        group.MapGet("/details/{id:int}", GetStudentDetailsAsync);
 
         group.MapPost("/", InsertStudentAsync)
             .WithName("InsertStudent")
@@ -54,7 +57,16 @@ public static class StudentEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Created> InsertStudentAsync(Student student, StudentService data)
+    private static async Task<Results<Ok<StudentDetails>, NotFound>> GetStudentDetailsAsync(int id, StudentService data)
+	{
+        var student = await data.GetStudentDetails(id);
+		if (student == null)
+			return TypedResults.NotFound();
+
+		return TypedResults.Ok(student);
+	}
+
+	private static async Task<Created> InsertStudentAsync(Student student, StudentService data)
     {
         await data.Insert(student);
         return TypedResults.Created();

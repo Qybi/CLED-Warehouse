@@ -10,6 +10,7 @@ using CLED.Warehouse.Authentication;
 using CLED.Warehouse.Authentication.Utils.Abstractions;
 using CLED.Warehouse.Authentication.Utils;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace CLED.Warehouse.Web
 {
@@ -67,6 +68,10 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddScoped<StudentService>();
 			builder.Services.AddScoped<TicketService>();
 
+			builder.Services.AddCors();
+			// this is to avoid the circular reference error
+			builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -75,6 +80,9 @@ namespace CLED.Warehouse.Web
 			//	app.UseSwagger();
 			//	app.UseSwaggerUI();
 			//}
+
+			if (app.Environment.IsDevelopment()) app.UseCors(app => app.AllowAnyOrigin());
+
 			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 

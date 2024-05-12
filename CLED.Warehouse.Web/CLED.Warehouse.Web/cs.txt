@@ -1,1 +1,15 @@
 ﻿dotnet ef dbcontext scaffold "User ID=postgres;Password=Vmware1!;Host=localhost;Port=5432;Database=Warehouse;" Npgsql.EntityFrameworkCore.PostgreSQL -o "..\CLED.WareHouse.Models\DB" --context-dir ".\DbContext" --force --namespace CLED.Warehouse.Models.DB --context-namespace CLED.Warehouse.Web
+
+[] - schermata elenco studenti
+	[] - import anagrafiche
+[] - elenco dispositivi
+	[] - import dispositivi
+[] - elenco accessori
+	[] - gestione magazzino
+[] - pagina singolo studente con i dati dei dispositivi assegnati
+	[] - Assegnazione dispositivi
+		[] - lettura seriale e recupero dati dispositivo da db
+	[] - Riconsegna dispositivi
+	[] - Sostituzione dispositivi
+
+[] - Ticketing
