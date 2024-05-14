@@ -123,16 +123,6 @@ public class AuthManager : IAuthManager
 
 		var hashedPassword = _hashingUtility.GetHashedPassword(register.Password);
 
-		var newUser = new User()
-		{
-			Enabled = register.Enabled,
-			PasswordHash = hashedPassword.PasswordHash,
-			PasswordSalt = hashedPassword.Salt,
-			Roles = register.Roles,
-			RegistrationDate = DateTime.Now,
-			RegistrationUser = -1
-		};
-
 		using NpgsqlConnection connection = new(_connectionString);
 		await connection.OpenAsync();
 		string query =
@@ -146,7 +136,7 @@ public class AuthManager : IAuthManager
 			Password = hashedPassword.PasswordHash,
 			Salt = hashedPassword.Salt,
 			Enabled = true,
-			Roles = Array.Empty<string>()
+			Roles = register.Roles.ToArray()
 		});
 	}
 }
