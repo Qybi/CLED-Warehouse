@@ -24,6 +24,7 @@ public class LoginService
     {
         if (login is null || string.IsNullOrWhiteSpace(login.Username) || string.IsNullOrWhiteSpace(login.Password))
         {
+
             _logger.LogWarning(
                 "Someone submitted an invalid login attempt. Username: {Login} - StructureId: {Structure}",
                 login?.Username ?? string.Empty
