@@ -12,6 +12,7 @@ using CLED.Warehouse.Authentication.Utils;
 using Microsoft.EntityFrameworkCore;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using CLED.Warehouse.Data.Abstractions;
+using ISTES.Appointment.Data;
 
 namespace CLED.Warehouse.Web
 {
