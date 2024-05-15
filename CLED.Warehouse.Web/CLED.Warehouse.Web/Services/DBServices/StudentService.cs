@@ -1,7 +1,9 @@
 ﻿using CLED.Warehouse.Models.DB;
+using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using CLED.WareHouse.Models.Views;
 using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices;
@@ -9,13 +11,16 @@ namespace CLED.WareHouse.Services.DBServices;
 public class StudentService : IService<Student>
 {
     private readonly string _connectionString;
+	private readonly WarehouseContext _context;
 
-    public StudentService(IConfiguration? configuration)
-    {
-        _connectionString = configuration.GetConnectionString("db");
-    }
-    
-    public async Task<Student> GetById(int studentId)
+
+	public StudentService(IConfiguration? configuration, WarehouseContext context)
+	{
+		_connectionString = configuration.GetConnectionString("db");
+		_context = context;
+	}
+
+	public async Task<Student> GetById(int studentId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -43,28 +48,36 @@ public class StudentService : IService<Student>
 
     public async Task<IEnumerable<Student>> GetAll()
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+        return await _context.Students.Include(x => x.Course).ToListAsync();
+	}
 
-        string query = """
-                       SELECT "Id", 
-                              "SchoolIdentifier", 
-                              "Email", 
-                              "Surname", 
-                              "Name", 
-                              "CourseId", 
-                              "DateOfBirth", 
-                              "FiscalCode", 
-                              "Gender", 
-                              "RegistrationDate", 
-                              "RegistrationUser", 
-                              "DeletedDate", 
-                              "DeletedUser"
-                       FROM "Students";
-                       """;
-        
-        return await connection.QueryAsync<Student>(query);
-    }
+    public async Task<StudentDetails> GetStudentDetails(int id)
+    {
+        var student =  await _context.Students
+            .Include(x => x.Course)
+            .Include(x => x.AccessoriesAssignments)
+                .ThenInclude(x => x.Accessory)
+			.Include(x => x.Pcassignments)
+                .ThenInclude(x => x.Pc)
+			.FirstOrDefaultAsync(x => x.Id == id);
+
+        return new StudentDetails
+		{
+			Name = student.Name,
+			Surname = student.Surname,
+			DateOfBirth = student.DateOfBirth,
+			FiscalCode = student.FiscalCode,
+			BirthCountry = student.BirthNation,
+			BirthCity = student.BirthCity,
+			ResidenceCountry = student.ResidenceNation,
+			ResidencyCity = student.ResidenceCity,
+			SchoolIdentifier = student.SchoolIdentifierId,
+			EmailUser = student.EmailUser,
+			Course = student.Course,
+			PcAssignments = student.Pcassignments,
+			AccessoriesAssignments = student.AccessoriesAssignments
+		};
+	}
 
     public async Task Insert(Student student)
     {

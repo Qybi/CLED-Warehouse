@@ -10,9 +10,7 @@ using CLED.Warehouse.Authentication;
 using CLED.Warehouse.Authentication.Utils.Abstractions;
 using CLED.Warehouse.Authentication.Utils;
 using Microsoft.EntityFrameworkCore;
-using CLED.WareHouse.Services.DBServices.Interfaces;
-using CLED.Warehouse.Data.Abstractions;
-using ISTES.Appointment.Data;
+using System.Text.Json.Serialization;
 
 namespace CLED.Warehouse.Web
 {
@@ -59,18 +57,20 @@ namespace CLED.Warehouse.Web
 			)
 			);
 
-			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+			builder.Services.AddScoped<PcService>();
+			builder.Services.AddScoped<PcModelStockService>();
+			builder.Services.AddScoped<PcAssignmentService>();
+			builder.Services.AddScoped<AccessoryAssignmentService>();
+			builder.Services.AddScoped<AccessoryService>();
+			builder.Services.AddScoped<ReasonAssignmentService>();
+			builder.Services.AddScoped<ReasonReturnService>();
+			builder.Services.AddScoped<CourseService>();
+			builder.Services.AddScoped<StudentService>();
+			builder.Services.AddScoped<TicketService>();
 
-			//builder.Services.AddScoped<PcService>();
-			//builder.Services.AddScoped<PcModelStockService>();
-			//builder.Services.AddScoped<PcAssignmentService>();
-			//builder.Services.AddScoped<AccessoryAssignmentService>();
-			//builder.Services.AddScoped<AccessoryService>();
-			//builder.Services.AddScoped<ReasonAssignmentService>();
-			//builder.Services.AddScoped<ReasonReturnService>();
-			//builder.Services.AddScoped<CourseService>();
-			//builder.Services.AddScoped<StudentService>();
-			//builder.Services.AddScoped<TicketService>();
+			builder.Services.AddCors();
+			// this is to avoid the circular reference error
+			builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 			var app = builder.Build();
 
@@ -80,6 +80,9 @@ namespace CLED.Warehouse.Web
 			//	app.UseSwagger();
 			//	app.UseSwaggerUI();
 			//}
+
+			if (app.Environment.IsDevelopment()) app.UseCors(app => app.AllowAnyOrigin());
+
 			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 

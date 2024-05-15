@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DbContext\**" />
+    <Content Remove="DbContext\**" />
+    <EmbeddedResource Remove="DbContext\**" />
+    <None Remove="DbContext\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.4" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
@@ -22,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CLED.Warehouse.Authentication\CLED.Warehouse.Authentication.csproj" />
-    <ProjectReference Include="..\CLED.Warehouse.Data.Abstractions\CLED.Warehouse.Data.Abstractions.csproj" />
     <ProjectReference Include="..\CLED.Warehouse.Data\CLED.Warehouse.Data.csproj" />
     <ProjectReference Include="..\CLED.WareHouse.Models\CLED.WareHouse.Models.csproj" />
   </ItemGroup>
@@ -44,7 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DbContext\" />
+    <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
