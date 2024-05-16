@@ -2,29 +2,17 @@ namespace CLED.WareHouse.Models.FileUpload;
 
 public class UploadedComputerJson
 {
-    // public JsonStudentModel[] Rows { get; set; }
+    public JsonPcModel[] RowsJsonPcModels { get; set; }
 }
 
-// public class JsonStudentModel
-// {
-//     public string IdAllievoCorso { get; set; } = default!;
-//     public string CodiceFiscale { get; set; } = default!;
-//     public string SiglaCorso { get; set; } = default!;
-//     public string CodiceCorso { get; set; } = default!;
-//     public string NomeCorso { get; set; } = default!;
-//     public string Cognome { get; set; } = default!;
-//     public string Nome { get; set; } = default!;
-//     public string EmailUser { get; set; } = default!;
-//     public string Tel { get; set; } = default!;
-//     public string ComuneResidenza { get; set; } = default!;
-//     public string ProvinciaResidenza { get; set; } = default!;
-//     public string StatoAllievo { get; set; } = default!; 
-//     public string StatoCorso { get; set; } = default!;
-//     public string AnnoCorso { get; set; } = default!;
-//     public string DataNascita { get; set; } = default!;
-//     public string ComuneNascita { get; set; } = default!;
-//     public string ProvinciaNascita { get; set; } = default!;
-//     public string? DataDimissioni { get; set; }
-//     public string Genere { get; set; } = default!;
-//     public string NazioneNascita { get; set; } = default!;
-// }
+public class JsonPcModel
+{
+    public string Seriale { get; set; } = default!;
+    public string Marca { get; set; } = default!;
+    public string Modello { get; set; } = default!;
+    public string CPU { get; set; } = default!;
+    public string RAM { get; set; } = default!;
+    public string Storage { get; set; } = default!;
+    public string DataAcquisto { get; set; } = default!;
+}
+

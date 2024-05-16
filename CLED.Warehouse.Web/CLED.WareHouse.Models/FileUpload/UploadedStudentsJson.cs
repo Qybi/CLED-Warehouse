@@ -1,9 +1,9 @@
 namespace CLED.WareHouse.Models.FileUpload;
 
-public class UploadedStudentsJson
+/*public class UploadedStudentsJson
 {
-    public JsonStudentModel[] Rows { get; set; }
-}
+    public JsonStudentModel[] RowsJsonStudentModels { get; set; }
+}*/
 
 public class JsonStudentModel
 {
