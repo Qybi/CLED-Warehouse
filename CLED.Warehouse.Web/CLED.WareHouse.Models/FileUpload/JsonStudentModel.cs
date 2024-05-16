@@ -1,9 +1,11 @@
+using System.Text.Json.Serialization;
+
 namespace CLED.WareHouse.Models.FileUpload;
 
-/*public class UploadedStudentsJson
-{
-    public JsonStudentModel[] RowsJsonStudentModels { get; set; }
-}*/
+// public class UploadedStudentsJson
+// {
+//     public JsonStudentModel[] Students { get; set; }
+// }
 
 public class JsonStudentModel
 {
@@ -20,11 +22,14 @@ public class JsonStudentModel
     public string ProvinciaResidenza { get; set; } = default!;
     public string StatoAllievo { get; set; } = default!; 
     public string StatoCorso { get; set; } = default!;
-    public string AnnoCorso { get; set; } = default!;
-    public string DataNascita { get; set; } = default!;
+    public DateTime AnnoCorso { get; set; } = default!;
+    public DateOnly DataNascita { get; set; } = default!;
     public string ComuneNascita { get; set; } = default!;
     public string ProvinciaNascita { get; set; } = default!;
-    public string? DataDimissioni { get; set; }
+    public DateOnly? DataDimissioni { get; set; }
     public string Genere { get; set; } = default!;
     public string NazioneNascita { get; set; } = default!;
+    public string Username { get; set; } = default!;
+    public string Password { get; set; } = default!;
+    
 }
