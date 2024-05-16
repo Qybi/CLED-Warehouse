@@ -1,4 +1,6 @@
-﻿using CLED.Warehouse.Models.DB;
+﻿using CLED.Warehouse.Authentication.Utils.Abstractions;
+using CLED.Warehouse.Models.DB;
+using CLED.WareHouse.Models.FileUpload;
 using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
@@ -12,12 +14,14 @@ public class StudentService : IService<Student>
 {
     private readonly string _connectionString;
 	private readonly WarehouseContext _context;
+	private readonly IHashingUtils _hashingUtils;
 
 
-	public StudentService(IConfiguration? configuration, WarehouseContext context)
+	public StudentService(IConfiguration? configuration, WarehouseContext context, IHashingUtils hashingUtils)
 	{
 		_connectionString = configuration.GetConnectionString("db");
 		_context = context;
+		_hashingUtils = hashingUtils;
 	}
 
 	public async Task<Student> GetById(int studentId)
@@ -129,4 +133,45 @@ public class StudentService : IService<Student>
         
         await connection.ExecuteAsync(query, new {id = studentId});
     }
+    
+    public async Task UploadStudentsData(IEnumerable<JsonStudentModel> uploadFile)
+    {
+	    foreach (var item in uploadFile)
+	    {
+		    var hash = _hashingUtils.GetHashedPassword(item.Password);
+		    var newStudent = new Student()
+		    {
+			    FiscalCode = item.CodiceFiscale,
+			    Surname = item.Cognome,
+			    Name = item.Nome,
+			    EmailUser = item.EmailUser,
+			    PhoneNumber = item.Tel,
+			    ResidenceCity = item.ComuneResidenza,
+			    ResidenceProvince = item.ProvinciaResidenza,
+			    Status = item.StatoAllievo,
+			    DateOfBirth = item.DataNascita,
+			    BirthCity = item.ComuneNascita,
+			    BirthProvince = item.ProvinciaNascita,
+			    ResignationDate = item.DataDimissioni,
+			    Gender = item.Genere,
+			    BirthNation = item.NazioneNascita,
+			    CourseId = (await _context.Courses.FirstOrDefaultAsync(x => x.ShortName == item.SiglaCorso)).Id,
+			    User = new User()
+			    {
+				    Enabled = true,
+				    PasswordHash = hash.PasswordHash,
+				    PasswordSalt = hash.Salt,
+				    Username = item.Username,
+				    RegistrationDate = DateTime.Now,
+				    RegistrationUser = -1,
+				    Roles = ["USER"]
+			    }
+		    };
+
+		    _context.Students.Add(newStudent);
+	    }
+
+	    await _context.SaveChangesAsync();
+    }
+
 }
