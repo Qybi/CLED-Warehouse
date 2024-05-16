@@ -2,6 +2,7 @@ using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CLED.Warehouse.Web.EndPoints;
 
@@ -43,6 +44,8 @@ public static class TicketEndPoint
             .WithSummary("Delete the Ticket");
 
         group.MapPut("/closeTicket", CloseTicketAsync);
+
+        group.MapGet("/checkSerialPC", CheckSerialPcAsync);
 
         return builder;
     }
@@ -104,5 +107,13 @@ public static class TicketEndPoint
         ticket.Id = id;
         await data.SetStatus(id, status);
         return TypedResults.NoContent();
+    }
+
+    private static async Task<Results<Ok<bool>, NotFound>> CheckSerialPcAsync([FromQuery] string serial, TicketService data)
+    {
+        var temp = await data.CheckSerial(serial);
+        if (temp == null)
+            return TypedResults.NotFound();
+        return TypedResults.Ok(temp);
     }
 }
