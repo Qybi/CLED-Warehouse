@@ -23,6 +23,11 @@ public static class TicketEndPoint
             .WithSummary("Get all Summary")
             .WithDescription("Return a single ticket selected by ID");
 
+        group.MapGet("/open", GetAllOpenTicketsAsync)
+            .WithName("GetTicketOpen")
+            .WithSummary("Get all Summary")
+            .WithDescription("Return a single ticket selected by ID");
+        
         group.MapPost("/", InsertTicketAsync)
             .WithName("InsertTicket")
             .WithSummary("Create a new summary")
@@ -37,12 +42,20 @@ public static class TicketEndPoint
             .WithName("DeleteTicket")
             .WithSummary("Delete the Ticket");
 
+        group.MapPut("/closeTicket", CloseTicketAsync);
+
         return builder;
     }
 
     private static async Task<Ok<IEnumerable<Ticket>>> GetAllTicketAsync(TicketService data)
     {
         var list = await data.GetAll();
+        return TypedResults.Ok((list));
+    }
+    
+    private static async Task<Ok<IEnumerable<Ticket>>> GetAllOpenTicketsAsync(TicketService data)
+    {
+        var list = await data.GetOpenTicket();
         return TypedResults.Ok((list));
     }
 
@@ -79,6 +92,17 @@ public static class TicketEndPoint
             return TypedResults.NotFound();
         
         await data.Delete(id);
+        return TypedResults.NoContent();
+    }
+
+    private static async Task<Results<NoContent, NotFound>> CloseTicketAsync(int id, string status, TicketService data, Ticket ticket)
+    {
+        var temp = await data.GetById(id);
+        if (temp == null)
+            return TypedResults.NotFound();
+
+        ticket.Id = id;
+        await data.SetStatus(id, status);
         return TypedResults.NoContent();
     }
 }
