@@ -1,6 +1,5 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.Interfaces;
-using CLED.Warehouse.Web;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -10,11 +9,9 @@ namespace CLED.WareHouse.Services.DBServices.PcServices;
 public class PcService : IService<Pc>
 {
     private readonly string _connectionString;
-    private readonly WarehouseContext _context;
 
-    public PcService(IConfiguration? configuration, WarehouseContext context)
+    public PcService(IConfiguration? configuration)
     {
-        _context = context;
         _connectionString = configuration.GetConnectionString("db");
     }
     
@@ -117,26 +114,5 @@ public class PcService : IService<Pc>
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcId});
-    }
-
-    public async Task InsertFromNewSerial(Pc pc)
-    {
-        /* prendo il pc da front end, gli mancano un po' di dati:
-            - data di registrazione (DateTime.Now)
-            - registrationUser
-        */
-
-        var newPc = new Pc()
-        {
-            StockId = pc.StockId,
-            Serial = pc.Serial,
-            IsMuletto = pc.IsMuletto,
-            UseCycle = pc.UseCycle,
-            RegistrationDate = DateTime.Now,
-            RegistrationUser = -1
-        };
-
-        _context.Pcs.Add(newPc);
-        await _context.SaveChangesAsync();
     }
 }
