@@ -76,6 +76,4 @@ public partial class Student
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 
     public virtual User User { get; set; } = null!;
-
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

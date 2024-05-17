@@ -48,7 +48,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("AccessoriesAssignments_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ActualReturnDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.AssignmentDate)
                 .HasDefaultValueSql("now()")
@@ -84,7 +83,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Accessories_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.RegistrationDate)
@@ -101,7 +99,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Courses_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Code).HasMaxLength(30);
             entity.Property(e => e.DateEnd).HasColumnType("timestamp without time zone");
             entity.Property(e => e.DateStart).HasColumnType("timestamp without time zone");
@@ -119,7 +116,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Pcs_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IsMuletto).HasDefaultValue(false);
             entity.Property(e => e.PropertySticker).HasMaxLength(255);
@@ -141,7 +137,6 @@ public partial class WarehouseContext : DbContext
 
             entity.ToTable("PCAssignments");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ActualReturnDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.AssignmentDate)
                 .HasDefaultValueSql("now()")
@@ -180,7 +175,6 @@ public partial class WarehouseContext : DbContext
 
             entity.ToTable("PCModelStock");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Brand).HasMaxLength(255);
             entity.Property(e => e.Cpu)
                 .HasMaxLength(255)
@@ -204,7 +198,6 @@ public partial class WarehouseContext : DbContext
 
             entity.ToTable("ReasonsAssignment");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
@@ -214,7 +207,6 @@ public partial class WarehouseContext : DbContext
 
             entity.ToTable("ReasonsReturn");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
@@ -222,7 +214,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Students_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.BirthCity).HasMaxLength(150);
             entity.Property(e => e.BirthNation).HasMaxLength(150);
             entity.Property(e => e.BirthProvince).HasMaxLength(150);
@@ -267,7 +258,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Tickets_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DateClose).HasColumnType("timestamp without time zone");
             entity.Property(e => e.DateOpen)
                 .HasDefaultValueSql("now()")
@@ -292,7 +282,6 @@ public partial class WarehouseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Users_pkey");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Enabled).HasDefaultValue(true);
             entity.Property(e => e.PasswordHash).HasMaxLength(1024);
@@ -302,10 +291,6 @@ public partial class WarehouseContext : DbContext
                 .HasColumnType("timestamp without time zone");
             entity.Property(e => e.Roles).HasColumnType("character varying[]");
             entity.Property(e => e.Username).HasMaxLength(255);
-
-            entity.HasOne(d => d.Student).WithMany(p => p.Users)
-                .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK_Users_Students");
         });
 
         OnModelCreatingPartial(modelBuilder);
