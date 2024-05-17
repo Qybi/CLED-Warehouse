@@ -5,7 +5,6 @@ using CLED.WareHouse.Models.Views;
 using CLED.WareHouse.Services.DBServices;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace CLED.Warehouse.Web.EndPoints;
 
@@ -99,10 +98,8 @@ public static class StudentEndPoint
         return TypedResults.NoContent();
     }
     
-    private static async Task<Created> JsonUploadStudentsAsync([FromBody]string jsonStudents, StudentService data)
+    private static async Task<Created> JsonUploadStudentsAsync([FromBody]List<JsonStudentModel> students, StudentService data)
     {
-        List<JsonStudentModel>? students = JsonConvert.DeserializeObject<List<JsonStudentModel>>(jsonStudents);
-
         await data.UploadStudentsData(students);
 
         return TypedResults.Created();
