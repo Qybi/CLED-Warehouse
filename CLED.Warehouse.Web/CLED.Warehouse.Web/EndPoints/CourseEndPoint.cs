@@ -2,6 +2,7 @@ using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CLED.Warehouse.Web.EndPoints;
 
@@ -23,12 +24,12 @@ public static class CourseEndPoint
             .WithSummary("Get all Summary")
             .WithDescription("Return a single course selected by ID");
 
-        group.MapPost("/", InsertcourseAsync)
+        group.MapPost("/create", InsertcourseAsync)
             .WithName("InsertCourse")
             .WithSummary("Create a new summary")
             .WithDescription("Insert the new courses values inside json file");
 
-        group.MapPut("/{id:int}", UpdateCourseAsync)
+        group.MapPut("/update", UpdateCourseAsync)
             .WithName("UpdateCourse")
             .WithSummary("Update the Course")
             .WithDescription("Change course values inside json file");
@@ -55,19 +56,18 @@ public static class CourseEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Created> InsertcourseAsync(Course course, CourseService data)
+    private static async Task<Created> InsertcourseAsync([FromBody]Course course, CourseService data)
     {
         await data.Insert(course);
         return TypedResults.Created();
     }
 
-    private static async Task<Results<NoContent, NotFound>> UpdateCourseAsync(int id, Course course, CourseService data)
+    private static async Task<Results<NoContent, NotFound>> UpdateCourseAsync([FromBody]Course course, CourseService data)
     {
-        var temp = await data.GetById(id);
+        var temp = await data.GetById(course.Id);
         if (temp == null)
             return TypedResults.NotFound();
 
-        course.Id = id;
         await data.Update(course);
         return TypedResults.NoContent();
     }

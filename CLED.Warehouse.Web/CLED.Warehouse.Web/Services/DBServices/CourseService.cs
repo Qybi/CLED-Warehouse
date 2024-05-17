@@ -45,38 +45,25 @@ public class CourseService : IService<Course>
 
     public async Task Insert(Course course)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-        
-        string query = """
-                       INSERT INTO "Courses" ("Id", "Code", "FullName", "DateStart", "DateEnd", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
-                       VALUES (@Id, @Code, @FullName, @DateStart, @DateEnd, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
-                       """;
-        
-        await connection.ExecuteAsync(query, course);
-    }
+        _context.Courses.Add(course);
+		await _context.SaveChangesAsync();
+	}
 
     public async Task Update(Course course)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+        var cToUpdate = await _context.Courses.FindAsync(course.Id);
 
-        string query = """
-                       UPDATE "Courses" SET
-                           "Id" = @Id,
-                           "Code" = @Code,
-                           "FullName" = @FullName,
-                           "DateStart" = @DateStart,
-                           "DateEnd" = @DateEnd,
-                           "RegistrationDate" = @RegistrationDate,
-                           "RegistrationUser" = @RegistrationUser,
-                           "DeletedDate" = @DeletedDate,
-                           "DeletedUser" = @DeletedUser
-                       WHERE "Id" = @Id;
-                       """;
-        
-        await connection.ExecuteAsync(query, course);
-    }
+        cToUpdate.Location = course.Location;
+		cToUpdate.DateStart = course.DateStart;
+		cToUpdate.DateEnd = course.DateEnd;
+        cToUpdate.Code = course.Code;
+		cToUpdate.FullName = course.FullName;
+        cToUpdate.Status = course.Status;
+        cToUpdate.ShortName = course.ShortName;
+
+        _context.Courses.Update(cToUpdate);
+		await _context.SaveChangesAsync();
+	}
 
     public async Task Delete(int courseId)
     {
