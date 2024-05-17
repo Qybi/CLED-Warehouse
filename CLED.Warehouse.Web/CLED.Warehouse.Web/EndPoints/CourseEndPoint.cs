@@ -34,7 +34,7 @@ public static class CourseEndPoint
             .WithSummary("Update the Course")
             .WithDescription("Change course values inside json file");
 
-        group.MapDelete("/{id:int}", DeleteCourseAsync)
+        group.MapDelete("/delete", DeleteCourseAsync)
             .WithName("DeleteCourse")
             .WithSummary("Delete the Course");
 
@@ -72,7 +72,7 @@ public static class CourseEndPoint
         return TypedResults.NoContent();
     }
 
-    private static async Task<Results<NoContent, NotFound>> DeleteCourseAsync(int id, CourseService data)
+    private static async Task<Results<NoContent, NotFound>> DeleteCourseAsync([FromQuery]int id, CourseService data)
     {
         var temp = await data.GetById(id);
         if (temp == null)
