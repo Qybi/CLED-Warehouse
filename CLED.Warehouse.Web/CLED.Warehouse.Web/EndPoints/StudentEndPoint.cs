@@ -1,7 +1,11 @@
+using System.Text.Json.Nodes;
 using CLED.Warehouse.Models.DB;
+using CLED.WareHouse.Models.FileUpload;
 using CLED.WareHouse.Models.Views;
 using CLED.WareHouse.Services.DBServices;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CLED.Warehouse.Web.EndPoints;
 
@@ -38,6 +42,8 @@ public static class StudentEndPoint
         group.MapDelete("/{id:int}", DeleteStudentAsync)
             .WithName("DeleteStudent")
             .WithSummary("Delete the Student");
+        
+        group.MapPost("/jsonImport", JsonUploadStudentsAsync);
 
         return builder;
     }
@@ -91,5 +97,14 @@ public static class StudentEndPoint
         
         await data.Delete(id);
         return TypedResults.NoContent();
+    }
+    
+    private static async Task<Created> JsonUploadStudentsAsync([FromBody]string jsonStudents, StudentService data)
+    {
+        List<JsonStudentModel>? students = JsonConvert.DeserializeObject<List<JsonStudentModel>>(jsonStudents);
+
+        await data.UploadStudentsData(students);
+
+        return TypedResults.Created();
     }
 }
