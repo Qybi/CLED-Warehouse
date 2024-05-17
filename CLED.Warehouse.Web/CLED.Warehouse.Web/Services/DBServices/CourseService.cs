@@ -2,6 +2,7 @@
 using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -24,45 +25,49 @@ public class CourseService : IService<Course>
 
     public async Task<IEnumerable<Course>> GetAll()
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        string query = """
-                       SELECT "Id", 
-                              "Code", 
-                              "FullName", 
-                              "DateStart", 
-                              "DateEnd", 
-                              "RegistrationDate", 
-                              "RegistrationUser", 
-                              "DeletedDate", 
-                              "DeletedUser"
-                       FROM "Courses";
-                       """;
-        
-        return await connection.QueryAsync<Course>(query);
-    }
+        return await _context.Courses.ToListAsync();
+	}
 
     public async Task Insert(Course course)
     {
-        _context.Courses.Add(course);
-		await _context.SaveChangesAsync();
+        try
+        {
+            course.RegistrationUser = -1;
+		    course.RegistrationDate = DateTime.Now;
+		    _context.Courses.Add(course);
+		    await _context.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
 	}
 
     public async Task Update(Course course)
     {
-        var cToUpdate = await _context.Courses.FindAsync(course.Id);
+        try
+        {
+            var cToUpdate = await _context.Courses.FindAsync(course.Id);
 
-        cToUpdate.Location = course.Location;
-		cToUpdate.DateStart = course.DateStart;
-		cToUpdate.DateEnd = course.DateEnd;
-        cToUpdate.Code = course.Code;
-		cToUpdate.FullName = course.FullName;
-        cToUpdate.Status = course.Status;
-        cToUpdate.ShortName = course.ShortName;
+            cToUpdate.Location = course.Location;
+		    cToUpdate.DateStart = course.DateStart;
+		    cToUpdate.DateEnd = course.DateEnd;
+            cToUpdate.Code = course.Code;
+		    cToUpdate.FullName = course.FullName;
+            cToUpdate.Status = course.Status;
+            cToUpdate.ShortName = course.ShortName;
 
-        _context.Courses.Update(cToUpdate);
-		await _context.SaveChangesAsync();
+            _context.Courses.Update(cToUpdate);
+		    await _context.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
 	}
 
     public async Task Delete(int courseId)
