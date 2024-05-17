@@ -1,6 +1,8 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.Interfaces;
+using CLED.Warehouse.Web;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -9,9 +11,11 @@ namespace CLED.WareHouse.Services.DBServices.PcServices;
 public class PcService : IService<Pc>
 {
     private readonly string _connectionString;
+    private readonly WarehouseContext _context;
 
-    public PcService(IConfiguration? configuration)
+    public PcService(IConfiguration? configuration, WarehouseContext context)
     {
+        _context = context;
         _connectionString = configuration.GetConnectionString("db");
     }
     
@@ -114,5 +118,19 @@ public class PcService : IService<Pc>
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcId});
+    }
+    
+    public async Task<bool> CheckSerial(string serial)
+    {
+        try
+        {
+            
+            return await _context.Pcs.AnyAsync(x => x.Serial == serial); //anyasync come ifExists, fa select ifexists where condition
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 }

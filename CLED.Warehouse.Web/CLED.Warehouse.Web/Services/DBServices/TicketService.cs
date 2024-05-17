@@ -152,18 +152,18 @@ public class TicketService : IService<Ticket>
         await _context.SaveChangesAsync();
     }
     
-    public async Task<bool> CheckSerial(string serial)
-    {
-        try
-        {
-            return await _context.Pcs.AnyAsync(x => x.Serial == serial); //anyasync come ifExists, fa select ifexists where condition
-        }
-        catch (Exception ex)
-        {
-
-            throw;
-        }
-    }
+    // public async Task<bool> CheckSerial(string serial)
+    // {
+    //     try
+    //     {
+    //         return await _context.Pcs.AnyAsync(x => x.Serial == serial); //anyasync come ifExists, fa select ifexists where condition
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //
+    //         throw;
+    //     }
+    // }
 
     public async Task<bool> CheckCespite(int cespite)
     {

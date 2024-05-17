@@ -45,7 +45,7 @@ public static class TicketEndPoint
 
         group.MapPut("/closeTicket", CloseTicketAsync);
 
-        group.MapGet("/checkSerialPC", CheckSerialPcAsync);
+        
 
         return builder;
     }
@@ -109,11 +109,5 @@ public static class TicketEndPoint
         return TypedResults.NoContent();
     }
 
-    private static async Task<Results<Ok<bool>, NotFound>> CheckSerialPcAsync([FromQuery] string serial, TicketService data)
-    {
-        var temp = await data.CheckSerial(serial);
-        if (temp == null)
-            return TypedResults.NotFound();
-        return TypedResults.Ok(temp);
-    }
+    
 }
