@@ -137,4 +137,23 @@ public class PcService : IService<Pc>
         _context.Pcs.Add(newPc);
         await _context.SaveChangesAsync();
     }
+
+    public async Task ImportBulk(IEnumerable<Pc> bulk)
+    {
+        try
+        {
+            foreach (var item in bulk)
+            {
+                item.Stock = null;
+            }
+
+            _context.Pcs.AddRange(bulk);
+			await _context.SaveChangesAsync();
+		}
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+    }
 }
