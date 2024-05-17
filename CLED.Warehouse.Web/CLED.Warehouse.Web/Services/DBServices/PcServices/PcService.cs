@@ -1,6 +1,8 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.Interfaces;
+using CLED.Warehouse.Web;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -9,13 +11,15 @@ namespace CLED.WareHouse.Services.DBServices.PcServices;
 public class PcService : IService<Pc>
 {
     private readonly string _connectionString;
+	private readonly WarehouseContext _context;
 
-    public PcService(IConfiguration? configuration)
-    {
-        _connectionString = configuration.GetConnectionString("db");
-    }
-    
-    public async Task<Pc> GetById(int pcId)
+	public PcService(IConfiguration? configuration, WarehouseContext context)
+	{
+		_connectionString = configuration.GetConnectionString("db");
+		_context = context;
+	}
+
+	public async Task<Pc> GetById(int pcId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -43,66 +47,50 @@ public class PcService : IService<Pc>
 
     public async Task<IEnumerable<Pc>> GetAll()
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        string query = """
-                       SELECT
-                           "Id",
-                           "StockId",
-                           "Serial",
-                           "PropertySticker",
-                           "IsMuletto",
-                           "Status",
-                           "UseCycle",
-                           "Notes",
-                           "RegistrationDate",
-                           "RegistrationUser",
-                           "DeletedDate",
-                           "DeletedUser"
-                       FROM "Pcs"
-                       """;
-        
-        return await connection.QueryAsync<Pc>(query);
-    }
+        return await _context.Pcs.ToListAsync();
+	}
 
     public async Task Insert(Pc pc)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-        
-        string query = """
-                       INSERT INTO "Pcs" ("Id", "StockId", "Serial", "PropertySticker", "IsMuletto", "Status", "UseCycle", "Notes", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
-                       VALUES (@Id, @StockId, @Serial, @PropertySticker, @IsMuletto, @Status, @UseCycle, @Notes, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
-                       """;
-        
-        await connection.ExecuteAsync(query, pc);
-    }
+		try
+		{
+			pc.RegistrationUser = -1;
+			pc.RegistrationDate = DateTime.Now;
+			_context.Pcs.Add(pc);
+			await _context.SaveChangesAsync();
+
+		}
+		catch (Exception ex)
+		{
+
+			throw;
+		}
+	}
 
     public async Task Update(Pc pc)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+		try
+		{
+			var pcToUpdate = await _context.Pcs.FindAsync(pc.Id);
 
-        string query = """
-                       UPDATE "Pcs" SET
-                           "Id" = @Id,
-                           "StockId" = @StockId,
-                           "Serial" = @Serial,
-                           "PropertySticker" = @PropertySticker,
-                           "IsMuletto" = @IsMuletto,
-                           "Status" = @Status,
-                           "UseCycle" = @UseCycle,
-                           "Notes" = @Notes,
-                           "RegistrationDate" = @RegistrationDate,
-                          "RegistrationUser" = @RegistrationUser,
-                          "DeletedDate" = @DeletedDate,
-                           "DeletedUser" = @DeletedUser
-                       WHERE "Id" = @Id;
-                       """;
-        
-        await connection.ExecuteAsync(query, pc);
-    }
+			pcToUpdate.StockId = pc.StockId;
+			pcToUpdate.Serial = pc.Serial;
+			pcToUpdate.PropertySticker = pc.PropertySticker;
+			pcToUpdate.IsMuletto = pc.IsMuletto;
+			pcToUpdate.Status = pc.Status;
+			pcToUpdate.UseCycle = pc.UseCycle;
+			pcToUpdate.Notes = pc.Notes;
+
+			_context.Pcs.Update(pcToUpdate);
+			await _context.SaveChangesAsync();
+
+		}
+		catch (Exception ex)
+		{
+
+			throw;
+		}
+	}
 
     public async Task Delete(int pcId)
     {
@@ -114,5 +102,47 @@ public class PcService : IService<Pc>
                        """;
         
         await connection.ExecuteAsync(query, new {id = pcId});
+    }
+    
+    public async Task<bool> CheckSerial(string serial)
+    {
+        try
+        {
+            return await _context.Pcs.AnyAsync(x => x.Serial == serial); //anyasync come ifExists, fa select ifexists where condition
+        }
+        catch (Exception ex)
+        {
+    
+            throw;
+        }
+    }
+
+    public async Task InsertFromNewSerial(Pc pc)
+    {
+        /* prendo il pc da front end, gli mancano un po' di dati:
+            - data di registrazione (DateTime.Now)
+            - registrationUser
+        */
+        try
+        {
+	        var newPc = new Pc()
+	        {
+		        StockId = pc.StockId,
+		        Serial = pc.Serial,
+		        IsMuletto = pc.IsMuletto,
+		        UseCycle = pc.UseCycle,
+		        RegistrationDate = DateTime.Now,
+		        RegistrationUser = -1
+	        };
+
+	        _context.Pcs.Add(newPc);
+	        await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+	        Console.WriteLine(ex);
+	        throw;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 
 namespace CLED.Warehouse.Web.EndPoints;
@@ -36,6 +37,8 @@ public static class PcEndPoint
 			.WithName("DeletePc")
 			.WithSummary("Delete the Pc");
 
+		group.MapGet("/checkSerialPC", CheckSerialPcAsync);
+		
 		group.MapPost("/insertSerial", InsertNewSerialAsync);
 
 		return builder;
@@ -82,10 +85,20 @@ public static class PcEndPoint
 		await data.Delete(id);
 		return TypedResults.NoContent();
 	}
+	
+	
 
 	private static async Task<Created> InsertNewSerialAsync(Pc pc, PcService data)
 	{
 		await data.InsertFromNewSerial(pc);
 		return TypedResults.Created();
+	}
+	
+	private static async Task<Results<Ok<bool>, NotFound>> CheckSerialPcAsync([FromQuery] string serial, PcService data)
+	{
+		var temp = await data.CheckSerial(serial);
+		if (temp == null)
+			return TypedResults.NotFound();
+		return TypedResults.Ok(temp);
 	}
 }
