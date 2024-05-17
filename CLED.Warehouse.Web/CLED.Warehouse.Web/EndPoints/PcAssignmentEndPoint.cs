@@ -9,7 +9,7 @@ public static class PcAssignmentEndPoint
     public static IEndpointRouteBuilder MapPcAssignmentPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/pcAssignment")
-            .RequireAuthorization()
+            // .RequireAuthorization()
             .WithTags("PcAssignments");
 
         group.MapGet("/", GetAllPcAssignmentAsync)
@@ -22,7 +22,7 @@ public static class PcAssignmentEndPoint
             .WithSummary("Get all Summary")
             .WithDescription("Return a single pc selected by ID");
 
-        group.MapPost("/", InsertPcAssignmentAsync)
+        group.MapPost("/create", InsertPcAssignmentAsync)
             .WithName("InsertPcAssignment")
             .WithSummary("Create a new summary")
             .WithDescription("Insert the new pc's values inside json file");

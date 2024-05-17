@@ -164,4 +164,18 @@ public class PcService : IService<Pc>
 		    throw;
 	    }
     }
+
+    public async Task<Pc> GetPcFromSerial(string serial)
+    {
+	    try
+	    {
+		    return (await _context.Pcs.FirstOrDefaultAsync(x => x.Serial == serial))!;
+	    }
+	    catch (Exception ex)
+	    {
+		    Console.WriteLine(ex);
+		    throw;
+	    }
+	    
+    }
 }

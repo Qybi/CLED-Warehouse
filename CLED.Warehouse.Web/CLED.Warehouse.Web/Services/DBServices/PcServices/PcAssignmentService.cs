@@ -1,7 +1,9 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.Interfaces;
+using CLED.Warehouse.Web;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualBasic;
 using Npgsql;
 
 namespace CLED.WareHouse.Services.DBServices.PcServices;
@@ -9,10 +11,12 @@ namespace CLED.WareHouse.Services.DBServices.PcServices;
 public class PcAssignmentService : IService<PcAssignment>
 {
     private readonly string _connectionString;
+    private readonly WarehouseContext _context;
 
-    public PcAssignmentService(IConfiguration? configuration)
+    public PcAssignmentService(IConfiguration? configuration, WarehouseContext context)
     {
         _connectionString = configuration.GetConnectionString("db");
+        _context = context;
     }
     public async Task<PcAssignment> GetById(int pcAssignmentId)
     {
@@ -67,15 +71,39 @@ public class PcAssignmentService : IService<PcAssignment>
 
     public async Task Insert(PcAssignment pcAssignment)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
+        // await using var connection = new NpgsqlConnection(_connectionString);
+        // await connection.OpenAsync();
+        //
+        // string query = """
+        //                INSERT INTO "PCAssignments" ("Id", "PCId", "StudentId", "AssignmentDate", "AssignmentReasonId", "IsReturned", "ForecastedReturnDate", "ActualReturnDate", "ReturnReasonId", "RegistrationDate", "RegistrationUser", "DeletedDate", 2)
+        //                VALUES (@Id, @PCId, @StudentId, @AssignmentDate, @AssignmentReasonId, @IsReturned, @ForecastedReturnDate, @ActualReturnDate, @ReturnReasonId, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
+        //                """;
+        //
+        // await connection.ExecuteAsync(query, pcAssignment);
+
+        try
+        {
+            var newAssignment = new PcAssignment()
+            {
+                Pcid = pcAssignment.Pcid,
+                AssignmentDate = DateAndTime.Now,
+                IsReturned = false,
+                ForecastedReturnDate = pcAssignment.ForecastedReturnDate,
+                StudentId = pcAssignment.StudentId,
+                RegistrationUser = -1,
+                RegistrationDate = DateTime.Now
+            };
+
         
-        string query = """
-                       INSERT INTO "PCAssignments" ("Id", "PCId", "StudentId", "AssignmentDate", "AssignmentReasonId", "IsReturned", "ForecastedReturnDate", "ActualReturnDate", "ReturnReasonId", "RegistrationDate", "RegistrationUser", "DeletedDate", 2)
-                       VALUES (@Id, @PCId, @StudentId, @AssignmentDate, @AssignmentReasonId, @IsReturned, @ForecastedReturnDate, @ActualReturnDate, @ReturnReasonId, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
-                       """;
+            _context.Pcassignments.Add(newAssignment);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         
-        await connection.ExecuteAsync(query, pcAssignment);
     }
 
     public async Task Update(PcAssignment pcAssignment)

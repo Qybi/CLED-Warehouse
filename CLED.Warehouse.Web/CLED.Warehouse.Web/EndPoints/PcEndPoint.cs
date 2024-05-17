@@ -41,6 +41,8 @@ public static class PcEndPoint
 		
 		group.MapPost("/insertSerial", InsertNewSerialAsync);
 
+		group.MapGet("/getPcIdFromSerial", GetPcFromSerialAsync);
+
 		return builder;
 	}
 
@@ -99,6 +101,12 @@ public static class PcEndPoint
 		var temp = await data.CheckSerial(serial);
 		if (temp == null)
 			return TypedResults.NotFound();
+		return TypedResults.Ok(temp);
+	}
+
+	private static async Task<Results<Ok<Pc>, NotFound>> GetPcFromSerialAsync(PcService data, [FromQuery] string serial)
+	{
+		var temp = await data.GetPcFromSerial(serial);
 		return TypedResults.Ok(temp);
 	}
 }
