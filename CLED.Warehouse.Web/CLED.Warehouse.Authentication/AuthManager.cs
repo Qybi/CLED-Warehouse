@@ -28,24 +28,31 @@ public class AuthManager : IAuthManager
 		await connection.OpenAsync();
 		string query =
 			"""
-				SELECT Username, PasswordHash as Password, PasswordSalt as Salt, Enabled, Roles
-				FROM users
-				WHERE id = @id;
+				SELECT "Id", "Username", "PasswordHash" as Password, "PasswordSalt" as Salt, "Enabled", "Roles"
+				FROM "Users"
+				WHERE "Id" = @id;
 			""";
 		return await connection.QueryFirstOrDefaultAsync<UserInfo>(query, new { id });
 	}
 
 	public async Task<UserInfo> GetUserAsync(string username)
 	{
-		using NpgsqlConnection connection = new(_connectionString);
-		await connection.OpenAsync();
-		string query =
-			"""
-				SELECT Username, PasswordHash as Password, PasswordSalt as Salt, Enabled, Roles
-				FROM users
-				WHERE username = @username;
-			""";
-		return await connection.QueryFirstOrDefaultAsync<UserInfo>(query, new { username });
+		try
+		{
+			using NpgsqlConnection connection = new(_connectionString);
+			await connection.OpenAsync();
+			string query =
+				"""
+					SELECT "Id", "Username", "PasswordHash" as Password, "PasswordSalt" as Salt, "Enabled", "Roles"
+					FROM "Users"
+					WHERE "Username" = @username;
+				""";
+			return await connection.QueryFirstOrDefaultAsync<UserInfo>(query, new { username });
+		}
+		catch (Exception ex)
+		{
+			throw;
+		}
 	}
 
 	public async Task<LoginResponse> LoginAsync(LoginAttempt login)
@@ -56,7 +63,6 @@ public class AuthManager : IAuthManager
 			return new LoginResponse
 			{
 				IsSuccessful = false,
-				LoginStatus = LoginStatus.Invalid,
 				Message = "Invalid login attempt. All the fields should be specified."
 			};
 		}
@@ -68,7 +74,6 @@ public class AuthManager : IAuthManager
 			return new LoginResponse
 			{
 				IsSuccessful = false,
-				LoginStatus = LoginStatus.Unauthorized,
 				Message = "Username or password incorrect."
 			};
 		}
@@ -78,7 +83,6 @@ public class AuthManager : IAuthManager
 			return new LoginResponse
 			{
 				IsSuccessful = false,
-				LoginStatus = LoginStatus.Locked,
 				Message = $"Your account is locked. Contact administration"
 			};
 		}
@@ -90,7 +94,6 @@ public class AuthManager : IAuthManager
 			return new LoginResponse
 			{
 				IsSuccessful = true,
-				LoginStatus = LoginStatus.Successful,
 				Message = "Login success.",
 				User = userInfo
 			};
@@ -100,7 +103,6 @@ public class AuthManager : IAuthManager
 			return new LoginResponse
 			{
 				IsSuccessful = false,
-				LoginStatus = LoginStatus.Unauthorized,
 				Message = "Username or password incorrect."
 			};
 		}
@@ -127,7 +129,7 @@ public class AuthManager : IAuthManager
 		await connection.OpenAsync();
 		string query =
 			"""
-				INSERT INTO users (Username, PasswordHash, PasswordSalt, Enabled, Roles)
+				INSERT INTO "Users" ("Username", "PasswordHash", "PasswordSalt", "Enabled", "Roles")
 				VALUES (@Username, @Password, @Salt, @Enabled, @Roles);
 			""";
 		await connection.ExecuteAsync(query, new

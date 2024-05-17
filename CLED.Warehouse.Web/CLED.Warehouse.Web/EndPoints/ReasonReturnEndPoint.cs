@@ -9,7 +9,7 @@ public static class ReasonReturnEndPoint
     public static IEndpointRouteBuilder MapReasonReturnEndPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/reasonReturn")
-            // .RequireAuthorization()
+            .RequireAuthorization()
             .WithTags("ReasonReturn");
 
         group.MapGet("/", GetAllReasonReturnAsync)

@@ -1,5 +1,7 @@
 ﻿using CLED.Warehouse.Authentication;
+using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Models.Login;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,12 +15,14 @@ public class LoginService
     private readonly ILogger<LoginService> _logger;
     private readonly IAuthManager _authManager;
     private readonly IConfiguration _config;
+    private readonly WarehouseContext _context;
 
-	public LoginService(ILogger<LoginService> logger, IAuthManager authManager, IConfiguration config)
+	public LoginService(ILogger<LoginService> logger, IAuthManager authManager, IConfiguration config, WarehouseContext context)
 	{
 		_authManager = authManager;
 		_logger = logger;
 		_config = config;
+		_context = context;
 	}
 	public async Task<LoginResponse> Login(LoginAttempt login)
     {
@@ -32,8 +36,7 @@ public class LoginService
             return new LoginResponse()
             {
                 IsSuccessful = false,
-                Message = "The username or the password are not correct, please try again",
-                LoginStatus = LoginStatus.Unauthorized
+                Message = "The username or the password are not correct, please try again"
             };
         }
 
@@ -41,18 +44,18 @@ public class LoginService
         {
             LoginResponse loginResponse = await _authManager.LoginAsync(login);
 
-            if (loginResponse is null || !loginResponse.IsSuccessful || loginResponse.User is null || !loginResponse.User.Enabled)
+			if (loginResponse is null || !loginResponse.IsSuccessful || loginResponse.User is null || !loginResponse.User.Enabled)
             {
                 return new LoginResponse()
                 {
                     IsSuccessful = false,
-                    Message = "The username or the password are not correct, please try again",
-                    LoginStatus = LoginStatus.Unauthorized
+                    Message = "The username or the password are not correct, please try again"
                 };
             }
+			int? studentId = (await _context.Students.FirstOrDefaultAsync(s => s.UserId == loginResponse.User.Id))?.Id;
 
             var tokenExpDate = DateTime.UtcNow.AddHours(2);
-            tokenExpDate = new DateTime(tokenExpDate.Year, tokenExpDate.Month, tokenExpDate.Day, 2, 0, 0);
+            //tokenExpDate = new DateTime(tokenExpDate.Year, tokenExpDate.Month, tokenExpDate.Day, 2, 0, 0);
 
             _logger.LogInformation("User {username} logged.", loginResponse.User.Username);
 
@@ -61,13 +64,14 @@ public class LoginService
             {
                 IsSuccessful = true,
                 Message = "Login successful",
-                LoginStatus = LoginStatus.Successful,
                 Credentials = new Credentials()
                 {
-                    Token = GetToken(loginResponse.User, tokenExpDate),
+                    Token = await GetToken(loginResponse.User, tokenExpDate, studentId),
                     TokenExpDate = tokenExpDate,
                     Username = loginResponse.User.Username,
-                }
+                    Roles = loginResponse.User.Roles.ToArray(),
+					StudentId = studentId
+				}
             };
         }
         catch (Exception ex)
@@ -80,7 +84,23 @@ public class LoginService
         }
     }
 
-    private string GetToken(UserInfo user, DateTime expiration, SecurityTokenHandler handler = null)
+    public async Task RegisterAsync(RegisterAttempt registerAttempt)
+    {
+        if (string.IsNullOrEmpty(registerAttempt.Username) || string.IsNullOrEmpty(registerAttempt.Password))
+            return;
+
+        try
+        {
+            await _authManager.RegisterAsync(registerAttempt);
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+    }
+
+    private async Task<string> GetToken(UserInfo user, DateTime expiration, int? studentId = null, SecurityTokenHandler handler = null)
     {
         if (handler is null)
         {
@@ -88,22 +108,32 @@ public class LoginService
         }
         var key = Encoding.UTF8.GetBytes(_config.GetValue<string>("Jwt:Key") ?? string.Empty);
 
+        Claim claim;
+
+		if (user.Roles.Select(x => x.ToLower()).Contains("admin"))
+            claim = new Claim(ClaimTypes.Role, "admin");
+        else
+            claim = new Claim(ClaimTypes.Role, "user");
+
         var tokenDescription = new SecurityTokenDescriptor
         {
 			Subject = new ClaimsIdentity(
                 new Claim[]
                 {
 					new Claim(ClaimTypes.NameIdentifier, user.Username.ToString(CultureInfo.InvariantCulture)),
-					user.Roles.Contains("admin") ? new Claim(ClaimTypes.Role, "admin") : new Claim(ClaimTypes.Role, "user"),
-                    //new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(CultureInfo.InvariantCulture)),
-                    //GetRoleClaim(structClaims, RoleNameConsts.AdminRole)
-                }
+					claim
+				}
             ),
             Expires = expiration,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
         };
 
-        var token = handler.CreateToken(tokenDescription);
+		if (studentId.HasValue)
+		{
+			tokenDescription.Subject.AddClaim(new Claim("studentId", studentId.Value.ToString()));
+		}
+
+		var token = handler.CreateToken(tokenDescription);
 
         return handler.WriteToken(token);
     }

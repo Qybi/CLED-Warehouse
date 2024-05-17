@@ -11,6 +11,7 @@ using CLED.Warehouse.Authentication.Utils.Abstractions;
 using CLED.Warehouse.Authentication.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using CLED.Warehouse.Web.Services;
 
 namespace CLED.Warehouse.Web
 {
@@ -45,10 +46,6 @@ namespace CLED.Warehouse.Web
 				options.UseNpgsql(builder.Configuration.GetConnectionString("db"));
 			});
 
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			//builder.Services.AddEndpointsApiExplorer();
-			//builder.Services.AddSwaggerGen();
-
 			builder.Services.AddScoped<IHashingUtils, HashingUtils>();
 			builder.Services.AddScoped<IAuthManager, AuthManager>(opt => new AuthManager(
 					opt.GetRequiredService<ILogger<AuthManager>>(),
@@ -68,20 +65,22 @@ namespace CLED.Warehouse.Web
 			builder.Services.AddScoped<StudentService>();
 			builder.Services.AddScoped<TicketService>();
 
+			builder.Services.AddScoped<LoginService>();
+
 			builder.Services.AddCors();
 			// this is to avoid the circular reference error
 			builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 			var app = builder.Build();
 
-			// Configure the HTTP request pipeline.
-			//if (app.Environment.IsDevelopment())
-			//{
-			//	app.UseSwagger();
-			//	app.UseSwaggerUI();
-			//}
-
-			if (app.Environment.IsDevelopment()) app.UseCors(app => app.AllowAnyOrigin());
+			app.UseHttpsRedirection();
+			if (app.Environment.IsDevelopment())
+				app.UseCors(app =>
+				{
+					app.AllowAnyOrigin();
+					app.AllowAnyMethod();
+					app.AllowAnyHeader();
+				});
 
 			app.UseStaticFiles();
 			app.UseHttpsRedirection();
@@ -100,6 +99,9 @@ namespace CLED.Warehouse.Web
 			app.MapCourseEndPoints();
 			app.MapStudentEndPoints();
 			app.MapTicketEndPoints();
+
+			app.MapLoginEndPoints();
+
 			app.Run();
 
 		}

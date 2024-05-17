@@ -19,6 +19,7 @@ public static class LoginEndpoint
 			.AllowAnonymous();
 
 		group.MapPost("/", LoginAsync);
+		group.MapPost("/register", RegisterAsync);
 
 		return builder;
 	}
@@ -34,6 +35,20 @@ public static class LoginEndpoint
 		}
 		catch (Exception ex)
 		{
+			throw;
+		}
+	}
+
+	private static async Task<Results<Ok, StatusCodeHttpResult>> RegisterAsync(LoginService service, [FromBody] RegisterAttempt registerAttempt)
+	{
+		try
+		{
+			await service.RegisterAsync(registerAttempt);
+			return TypedResults.Ok();
+		}
+		catch (Exception ex)
+		{
+			return TypedResults.StatusCode(500);
 			throw;
 		}
 	}

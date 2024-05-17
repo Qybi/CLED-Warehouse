@@ -9,7 +9,7 @@ public static class PcModelStockEndPoint
     public static IEndpointRouteBuilder MapPcModelStockEndPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/pcModelStock")
-            // .RequireAuthorization()
+            .RequireAuthorization()
             .WithTags("PcmodelStock");
 
         group.MapGet("/", GetAllPcModelStockAsync)

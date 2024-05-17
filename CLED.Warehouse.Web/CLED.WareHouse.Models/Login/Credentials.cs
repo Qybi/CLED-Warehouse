@@ -11,4 +11,6 @@ public class Credentials
     public string Token { get; set; }
     public DateTime TokenExpDate { get; set; }
     public string Username { get; set; }
+    public string[] Roles { get; set; }
+    public int? StudentId { get; set; }
 }

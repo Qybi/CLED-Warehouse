@@ -10,7 +10,7 @@ public static class CourseEndPoint
     public static IEndpointRouteBuilder MapCourseEndPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/course")
-            // .RequireAuthorization()
+            .RequireAuthorization()
             .WithTags("course");
 
         group.MapGet("/", GetAllCourseAsync)

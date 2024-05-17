@@ -12,4 +12,5 @@ public interface IAuthManager
 	Task<LoginResponse> LoginAsync(LoginAttempt loginAttempt);
 	Task<UserInfo> GetUserAsync(int id);
 	Task<UserInfo> GetUserAsync(string username);
+	Task RegisterAsync(RegisterAttempt registerAttempt);
 }
