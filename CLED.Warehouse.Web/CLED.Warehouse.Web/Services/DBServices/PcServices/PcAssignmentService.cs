@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
+using CLED.WareHouse.Models.Constants;
 
 namespace CLED.WareHouse.Services.DBServices.PcServices;
 
@@ -72,26 +73,27 @@ public class PcAssignmentService : IService<PcAssignment>
 
 	public async Task<IEnumerable<PcAssignment>> GetStudentAssignments(int studentId)
 	{
-		return await _context.Pcassignments.Include(x => x.Pc).Where(x => x.StudentId == studentId).ToListAsync();
+		return await _context.Pcassignments
+			.Include(x => x.Pc)
+				.ThenInclude(x => x.Stock)
+			.Where(x => x.StudentId == studentId && !x.IsReturned)
+			.ToListAsync();
 
 	}
 	public async Task Insert(PcAssignment pcAssignment)
 	{
 		try
 		{
-			var newAssignment = new PcAssignment()
-			{
-				Pcid = pcAssignment.Pcid,
-				AssignmentDate = DateAndTime.Now,
-				IsReturned = false,
-				ForecastedReturnDate = pcAssignment.ForecastedReturnDate,
-				StudentId = pcAssignment.StudentId,
-				RegistrationUser = -1,
-				RegistrationDate = DateTime.Now
-			};
+			pcAssignment.RegistrationUser = -1;
+			pcAssignment.RegistrationDate = DateTime.Now;
+			if (pcAssignment.ForecastedReturnDate < DateTime.Now.Date.AddYears(-10))
+				pcAssignment.ForecastedReturnDate = pcAssignment.AssignmentDate.AddYears(2);
 
+			_context.Pcassignments.Add(pcAssignment);
 
-			_context.Pcassignments.Add(newAssignment);
+			var pc = await _context.Pcs.FindAsync(pcAssignment.PcId);
+			pc.Status = PCStatus.Assigned;
+
 			await _context.SaveChangesAsync();
 		}
 		catch (Exception e)
@@ -138,5 +140,46 @@ public class PcAssignmentService : IService<PcAssignment>
                        """;
 
 		await connection.ExecuteAsync(query, new { id = pcAssignmentId });
+	}
+
+	public async Task<bool> ReturnPc(int pcId, DateTime returnDate, int returnReasonId)
+	{
+		try
+		{
+			var pcAssignment = await _context.Pcassignments.FindAsync(pcId);
+			var pc = await _context.Pcs.FindAsync(pcAssignment.PcId);
+
+			pcAssignment.IsReturned = true;
+			pcAssignment.ActualReturnDate = returnDate;
+			pcAssignment.ReturnReasonId = returnReasonId;
+
+			switch ((ReturnReasons)returnReasonId)
+			{
+				case ReturnReasons.Dimissioni:
+					pc.Status = PCStatus.Warehouse;
+					break;
+				case ReturnReasons.FineCorso:
+					pc.UseCycle++;
+					pc.Status = PCStatus.Warehouse;
+					if (pc.UseCycle > 2) pc.IsMuletto = true;
+					break;
+				case ReturnReasons.Riparazione:
+					pc.Status = PCStatus.OutOfOrder;
+					break;
+				case ReturnReasons.Sostituzione:
+					pc.Status = PCStatus.Warehouse;
+					break;
+				default:
+					break;
+			}
+
+			await _context.SaveChangesAsync();
+
+			return true;
+		}
+		catch (Exception ex)
+		{
+			throw;
+		}
 	}
 }

@@ -5,6 +5,7 @@ using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using CLED.WareHouse.Models.Constants;
 
 namespace CLED.WareHouse.Services.DBServices.PcServices;
 
@@ -50,7 +51,7 @@ public class PcService : IService<Pc>
         return await _context.Pcs.ToListAsync();
 	}
 
-    public async Task Insert(Pc pc)
+    public async Task<Pc> Insert(Pc pc)
     {
 		try
 		{
@@ -58,6 +59,8 @@ public class PcService : IService<Pc>
 			pc.RegistrationDate = DateTime.Now;
 			_context.Pcs.Add(pc);
 			await _context.SaveChangesAsync();
+
+			return pc;
 		}
 		catch (Exception ex)
 		{
@@ -175,7 +178,13 @@ public class PcService : IService<Pc>
 	    {
 		    Console.WriteLine(ex);
 		    throw;
-	    }
-	    
+	    }   
     }
+
+	// this is ass to have the double method, but I have no time to put generics in all services atm.
+	// this will be the same for accessories
+	Task IService<Pc>.Insert(Pc obj)
+	{
+		throw new NotImplementedException();
+	}
 }

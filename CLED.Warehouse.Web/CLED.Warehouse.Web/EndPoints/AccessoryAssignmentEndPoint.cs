@@ -1,5 +1,6 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.AccessoryServices;
+using CLED.WareHouse.Services.DBServices.Interfaces;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -8,47 +9,30 @@ namespace CLED.Warehouse.Web;
 
 public static class AccessoryAssignmentEndPoint
 {
-    public static IEndpointRouteBuilder MapAccessoryAssignmentEndPoint(this IEndpointRouteBuilder builder)
-    {
-        var group = builder.MapGroup("api/v1/accessoryAssignment")
-            .RequireAuthorization()
-            .WithTags("accessoryAssignment");
+	public static IEndpointRouteBuilder MapAccessoryAssignmentEndPoint(this IEndpointRouteBuilder builder)
+	{
+		var group = builder.MapGroup("api/v1/accessoryAssignment")
+			.RequireAuthorization();
 
-        group.MapGet("/", GetAllAccessoryAssignmentAsync)
-            .WithName("GetAccessoryAssignment")
-            .WithSummary("Get all Summary")
-            .WithDescription("Return a list of all accessory assignment");
-
+		group.MapGet("/", GetAllAccessoryAssignmentAsync);
+		group.MapGet("/{id:int}", GetAccessoryAssignmentByIdAsync);
 		group.MapGet("/student", GetStudentAssignments);
+		group.MapGet("/return", ReturnAccessoryAsync);
 
-		group.MapGet("/{id:int}", GetAccessoryAssignmentByIdAsync)
-            .WithName("GetAccessoryAssignmentById")
-            .WithSummary("Get all Summary")
-            .WithDescription("Return a single accessory assignment selected by ID");
+		group.MapPost("/", InsertAccessoryAssignmentAsync);
 
-        group.MapPost("/", InsertAccessoryAssignmentAsync)
-            .WithName("InsertAccessoryAssignment")
-            .WithSummary("Create a new summary")
-            .WithDescription("Insert the new accessory assignment's values inside json file");
+		group.MapPut("/{id:int}", UpdateAccessoryAssignmentAsync);
 
-        group.MapPut("/{id:int}", UpdateAccessoryAssignmentAsync)
-            .WithName("UpdateAccessoryAssignment")
-            .WithSummary("Update the Accessory Assignment")
-            .WithDescription("Change Accessory Assignment values inside json file");
+		group.MapDelete("/{id:int}", DeleteAccessoryAssignmentAsync);
 
-        group.MapDelete("/{id:int}", DeleteAccessoryAssignmentAsync)
-            .WithName("DeleteAccessoryAssignment")
-            .WithSummary("Delete the Accessory Assignment");
+		return builder;
+	}
 
-        return builder;
-    }
-
-    private static async Task<Ok<IEnumerable<AccessoriesAssignment>>> GetAllAccessoryAssignmentAsync(
-        AccessoryAssignmentService data)
-    {
-        var list = await data.GetAll();
-        return TypedResults.Ok((list));
-    }
+	private static async Task<Ok<IEnumerable<AccessoriesAssignment>>> GetAllAccessoryAssignmentAsync(AccessoryAssignmentService data)
+	{
+		var list = await data.GetAll();
+		return TypedResults.Ok((list));
+	}
 
 	private static async Task<Ok<IEnumerable<AccessoriesAssignment>>> GetStudentAssignments([FromQuery] int studentId, AccessoryAssignmentService data)
 	{
@@ -57,38 +41,43 @@ public static class AccessoryAssignmentEndPoint
 	}
 
 	private static async Task<Results<Ok<AccessoriesAssignment>, NotFound>> GetAccessoryAssignmentByIdAsync(int id, AccessoryAssignmentService data)
-    {
-        var product =  await data.GetById(id);
-        if (product == null)
-            return TypedResults.NotFound();
-    
-        return TypedResults.Ok(product);
-    }
+	{
+		var product = await data.GetById(id);
+		if (product == null)
+			return TypedResults.NotFound();
 
-    private static async Task<Created> InsertAccessoryAssignmentAsync(AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
-    {
-        await data.Insert(accessoryAssignment);
-        return TypedResults.Created();
-    }
+		return TypedResults.Ok(product);
+	}
 
-    private static async Task<Results<NoContent, NotFound>> UpdateAccessoryAssignmentAsync(int id, AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
-    {
-        var temp = await data.GetById(id);
-        if (temp == null)
-            return TypedResults.NotFound();
+	private static async Task<Created> InsertAccessoryAssignmentAsync(AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
+	{
+		await data.Insert(accessoryAssignment);
+		return TypedResults.Created();
+	}
 
-        accessoryAssignment.Id = id;
-        await data.Update(accessoryAssignment);
-        return TypedResults.NoContent();
-    }
+	private static async Task<Results<NoContent, NotFound>> UpdateAccessoryAssignmentAsync(int id, AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
+	{
+		var temp = await data.GetById(id);
+		if (temp == null)
+			return TypedResults.NotFound();
 
-    private static async Task<Results<NoContent, NotFound>> DeleteAccessoryAssignmentAsync(int id, AccessoryAssignmentService data)
-    {
-        var temp = await data.GetById(id);
-        if (temp == null)
-            return TypedResults.NotFound();
-        
-        await data.Delete(id);
-        return TypedResults.NoContent();
-    }
+		accessoryAssignment.Id = id;
+		await data.Update(accessoryAssignment);
+		return TypedResults.NoContent();
+	}
+
+	private static async Task<Results<NoContent, NotFound>> DeleteAccessoryAssignmentAsync(int id, AccessoryAssignmentService data)
+	{
+		var temp = await data.GetById(id);
+		if (temp == null)
+			return TypedResults.NotFound();
+
+		await data.Delete(id);
+		return TypedResults.NoContent();
+	}
+
+	private static async Task<Ok<bool>> ReturnAccessoryAsync([FromQuery]int assignmentId, [FromQuery]DateTime returnDate, [FromQuery]int returnReasonId, AccessoryAssignmentService service)
+	{
+		return TypedResults.Ok(await service.ReturnAccessory(assignmentId, returnDate, returnReasonId));
+	}
 }

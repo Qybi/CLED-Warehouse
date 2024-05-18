@@ -71,7 +71,7 @@ public partial class Student
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual ICollection<PcAssignment> Pcassignments { get; set; } = new List<PcAssignment>();
+    public virtual ICollection<PcAssignment> PcAssignments { get; set; } = new List<PcAssignment>();
 
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 

@@ -16,9 +16,10 @@ public class StudentDetails
     public string BirthCountry { get; set; }
     public string BirthCity { get; set; }
 	public string ResidenceCountry { get; set; }
-    public string ResidencyCity { get; set; }
+    public string ResidenceCity { get; set; }
     public string SchoolIdentifier { get; set; }
     public string EmailUser { get; set; }
+    public string Status { get; set; }
     public Course Course { get; set; }
     public IEnumerable<PcAssignment> PcAssignments { get; set; }
     public IEnumerable<AccessoriesAssignment> AccessoriesAssignments { get; set; }

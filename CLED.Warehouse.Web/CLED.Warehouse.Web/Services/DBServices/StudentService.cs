@@ -61,8 +61,9 @@ public class StudentService : IService<Student>
             .Include(x => x.Course)
             .Include(x => x.AccessoriesAssignments)
                 .ThenInclude(x => x.Accessory)
-			.Include(x => x.Pcassignments)
+			.Include(x => x.PcAssignments)
                 .ThenInclude(x => x.Pc)
+                    .ThenInclude(x => x.Stock)
 			.FirstOrDefaultAsync(x => x.Id == id);
 
         return new StudentDetails
@@ -74,12 +75,13 @@ public class StudentService : IService<Student>
 			BirthCountry = student.BirthNation,
 			BirthCity = student.BirthCity,
 			ResidenceCountry = student.ResidenceNation,
-			ResidencyCity = student.ResidenceCity,
+			ResidenceCity = student.ResidenceCity,
 			SchoolIdentifier = student.SchoolIdentifierId,
 			EmailUser = student.EmailUser,
 			Course = student.Course,
-			PcAssignments = student.Pcassignments,
-			AccessoriesAssignments = student.AccessoriesAssignments
+			PcAssignments = student.PcAssignments.Where(x => !x.IsReturned),
+			AccessoriesAssignments = student.AccessoriesAssignments.Where(x => !x.IsReturned),
+            Status = student.Status
 		};
 	}
 

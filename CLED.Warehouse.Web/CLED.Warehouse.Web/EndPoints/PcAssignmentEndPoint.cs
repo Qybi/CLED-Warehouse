@@ -10,36 +10,22 @@ public static class PcAssignmentEndPoint
     public static IEndpointRouteBuilder MapPcAssignmentPoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("api/v1/pcAssignment")
-            // .RequireAuthorization()
-            .WithTags("PcAssignments");
+            .RequireAuthorization();
 
-        group.MapGet("/", GetAllPcAssignmentAsync)
-            .WithName("GetPAssignments")
-            .WithSummary("Get all Summary")
-            .WithDescription("Return a list of all pcs");
-
+        group.MapGet("/", GetAllPcAssignmentAsync);
+        group.MapGet("/{id:int}", GetPcAssignmentByIdAsync);
         group.MapGet("/student", GetStudentAssignments);
-        
-        group.MapGet("/{id:int}", GetPcAssignmentByIdAsync)
-            .WithName("GetPcAssignmentsById")
-            .WithSummary("Get all Summary")
-            .WithDescription("Return a single pc selected by ID");
+        group.MapGet("/return", ReturnPc);
 
-        group.MapPost("/create", InsertPcAssignmentAsync)
-            .WithName("InsertPcAssignment")
-            .WithSummary("Create a new summary")
-            .WithDescription("Insert the new pc's values inside json file");
+        group.MapPost("/create", InsertPcAssignmentAsync);
 
-        group.MapPut("/{id:int}", UpdatePcAssignmentAsync)
-            .WithName("UpdatePcAssignment")
-            .WithSummary("Update the Pc")
-            .WithDescription("Change pc's values inside json file");
+        group.MapPut("/{id:int}", UpdatePcAssignmentAsync);
 
-        group.MapDelete("/{id:int}", DeletePcAssignmentAsync)
-            .WithName("DeletePcAssignment")
-            .WithSummary("Delete the Pc");
+        group.MapDelete("/{id:int}", DeletePcAssignmentAsync);
+            
 
-        return builder;
+
+		return builder;
     }
 
     private static async Task<Ok<IEnumerable<PcAssignment>>> GetAllPcAssignmentAsync(PcAssignmentService data)
@@ -69,13 +55,19 @@ public static class PcAssignmentEndPoint
             await data.Insert(pcAssignment);
         else
         {
-            await pcService.Insert(pcAssignment.Pc);
-            pcAssignment.Pc = null;
+            var pc = await pcService.Insert(pcAssignment.Pc);
+            pcAssignment.PcId = pc.Id;
+			pcAssignment.Pc = null;
             await data.Insert(pcAssignment);
 		}
 
 		return TypedResults.Created();
     }
+
+    private static async Task<Ok<bool>> ReturnPc([FromQuery]int assignmentId, [FromQuery]DateTime returnDate, [FromQuery]int returnReasonId, PcAssignmentService service)
+    {
+		return TypedResults.Ok(await service.ReturnPc(assignmentId, returnDate, returnReasonId));
+	}
 
     private static async Task<Results<NoContent, NotFound>> UpdatePcAssignmentAsync(int id, PcAssignment pcAssignment, PcAssignmentService data)
     {

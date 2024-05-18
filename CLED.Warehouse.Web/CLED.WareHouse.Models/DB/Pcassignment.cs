@@ -7,7 +7,7 @@ public partial class PcAssignment
 {
     public int Id { get; set; }
 
-    public int Pcid { get; set; }
+    public int PcId { get; set; }
 
     public int StudentId { get; set; }
 

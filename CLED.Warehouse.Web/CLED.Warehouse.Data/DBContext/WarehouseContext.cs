@@ -144,7 +144,7 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.ForecastedReturnDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IsReturned).HasDefaultValue(false);
-            entity.Property(e => e.Pcid).HasColumnName("PCId");
+            entity.Property(e => e.PcId).HasColumnName("PCId");
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
@@ -155,7 +155,7 @@ public partial class WarehouseContext : DbContext
                 .HasConstraintName("FK_PCASsignments_AssignmentReasonId");
 
             entity.HasOne(d => d.Pc).WithMany(p => p.Pcassignments)
-                .HasForeignKey(d => d.Pcid)
+                .HasForeignKey(d => d.PcId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PCASsignments_PCId");
 
@@ -163,7 +163,7 @@ public partial class WarehouseContext : DbContext
                 .HasForeignKey(d => d.ReturnReasonId)
                 .HasConstraintName("FK_PCASsignments_ReturnReasonId");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.Pcassignments)
+            entity.HasOne(d => d.Student).WithMany(p => p.PcAssignments)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PCASsignments_StudentId");

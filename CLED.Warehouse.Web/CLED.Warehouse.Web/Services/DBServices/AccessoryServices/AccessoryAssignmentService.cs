@@ -79,15 +79,16 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
 
     public async Task Insert(AccessoriesAssignment accessoryAssignment)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-        
-        string query = """
-                       INSERT INTO "AccessoriesAssignments" ("Id", "AccessoryId", "StudentId", "AssignmentDate", "AssignmentReasonId", "IsReturned", "ForecastedReturnDate", "ActualReturnDate", "ReturnReasonId", "RegistrationDate", "RegistrationUser", "DeletedDate", "DeletedUser")
-                       VALUES (@Id, @AccessoryId, @StudentId, @AssignmentDate, @AssignmentReasonId, @IsReturned, @ForecastedReturnDate, @ActualReturnDate, @ReturnReasonId, @RegistrationDate, @RegistrationUser, @DeletedDate, @DeletedUser);
-                       """;
-        await connection.ExecuteAsync(query, accessoryAssignment);
-    }
+        try
+        {
+            _context.AccessoriesAssignments.Add(accessoryAssignment);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+	}
 
     public async Task Update(AccessoriesAssignment accessoryAssignment)
     {
@@ -125,5 +126,24 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
                        """;
         
         await connection.ExecuteAsync(query, new {id = accessoryAssignmentId});
+    }
+
+    public async Task<bool> ReturnAccessory(int assignmentId, DateTime returnDate, int returnReasonId)
+    {
+        try
+        {
+            var assignment = await _context.AccessoriesAssignments.FindAsync(assignmentId);
+			assignment.IsReturned = true;
+			assignment.ActualReturnDate = returnDate;
+			assignment.ReturnReasonId = returnReasonId;
+
+			await _context.SaveChangesAsync();
+
+            return true;
+		}
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 }
