@@ -111,9 +111,9 @@ public class LoginService
         Claim claim;
 
 		if (user.Roles.Select(x => x.ToLower()).Contains("admin"))
-            claim = new Claim(ClaimTypes.Role, "admin");
+            claim = new Claim(ClaimTypes.Role, "Admin");
         else
-            claim = new Claim(ClaimTypes.Role, "user");
+            claim = new Claim(ClaimTypes.Role, "Student");
 
         var tokenDescription = new SecurityTokenDescriptor
         {
