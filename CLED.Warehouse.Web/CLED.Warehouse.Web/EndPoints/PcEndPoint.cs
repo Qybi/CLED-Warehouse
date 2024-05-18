@@ -28,10 +28,11 @@ public static class PcEndPoint
 			.WithSummary("Create a new summary")
 			.WithDescription("Insert the new pc's values inside json file");
 
-		group.MapPut("/{id:int}", UpdatePcAsync)
+		group.MapPut("/update", UpdatePcAsync)
 			.WithName("UpdatePc")
 			.WithSummary("Update the Pc")
-			.WithDescription("Change pc's values inside json file");
+			.WithDescription("Change pc's values inside json file")
+			.WithTags("PC");
 
 		group.MapDelete("/{id:int}", DeletePcAsync)
 			.WithName("DeletePc")
@@ -67,7 +68,7 @@ public static class PcEndPoint
 		return TypedResults.Created();
 	}
 
-	private static async Task<Results<NoContent, NotFound>> UpdatePcAsync(int id, Pc pc, PcService data)
+	private static async Task<Results<NoContent, NotFound>> UpdatePcAsync([FromQuery] int id, [FromBody] Pc pc, PcService data)
 	{
 		var temp = await data.GetById(id);
 		if (temp == null)

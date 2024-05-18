@@ -132,6 +132,7 @@ public class PcService : IService<Pc>
 		        IsMuletto = pc.IsMuletto,
 		        UseCycle = pc.UseCycle,
 		        RegistrationDate = DateTime.Now,
+		        PropertySticker = pc.PropertySticker,
 		        RegistrationUser = -1
 	        };
 
