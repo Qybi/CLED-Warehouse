@@ -1,6 +1,7 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CLED.Warehouse.Web.EndPoints;
 
@@ -16,6 +17,8 @@ public static class PcAssignmentEndPoint
             .WithName("GetPAssignments")
             .WithSummary("Get all Summary")
             .WithDescription("Return a list of all pcs");
+
+        group.MapGet("/student", GetStudentAssignments);
         
         group.MapGet("/{id:int}", GetPcAssignmentByIdAsync)
             .WithName("GetPcAssignmentsById")
@@ -45,7 +48,13 @@ public static class PcAssignmentEndPoint
         return TypedResults.Ok((list));
     }
 
-    private static async Task<Results<Ok<PcAssignment>, NotFound>> GetPcAssignmentByIdAsync(int id, PcAssignmentService data)
+    private static async Task<Ok<IEnumerable<PcAssignment>>> GetStudentAssignments([FromQuery]int studentId, PcAssignmentService data)
+	{
+		var list = await data.GetStudentAssignments(studentId);
+		return TypedResults.Ok(list);
+	}
+
+	private static async Task<Results<Ok<PcAssignment>, NotFound>> GetPcAssignmentByIdAsync(int id, PcAssignmentService data)
     {
         var product =  await data.GetById(id);
         if (product == null)
@@ -54,10 +63,18 @@ public static class PcAssignmentEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Created> InsertPcAssignmentAsync(PcAssignment pcAssignment, PcAssignmentService data)
+    private static async Task<Created> InsertPcAssignmentAsync([FromQuery]bool isNewPc, [FromBody]PcAssignment pcAssignment, PcAssignmentService data, PcService pcService)
     {
-        await data.Insert(pcAssignment);
-        return TypedResults.Created();
+        if (!isNewPc)
+            await data.Insert(pcAssignment);
+        else
+        {
+            await pcService.Insert(pcAssignment.Pc);
+            pcAssignment.Pc = null;
+            await data.Insert(pcAssignment);
+		}
+
+		return TypedResults.Created();
     }
 
     private static async Task<Results<NoContent, NotFound>> UpdatePcAssignmentAsync(int id, PcAssignment pcAssignment, PcAssignmentService data)

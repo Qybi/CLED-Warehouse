@@ -58,7 +58,6 @@ public class PcService : IService<Pc>
 			pc.RegistrationDate = DateTime.Now;
 			_context.Pcs.Add(pc);
 			await _context.SaveChangesAsync();
-
 		}
 		catch (Exception ex)
 		{

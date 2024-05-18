@@ -1,6 +1,8 @@
 using CLED.Warehouse.Models.DB;
 using CLED.WareHouse.Services.DBServices.AccessoryServices;
+using CLED.WareHouse.Services.DBServices.PcServices;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CLED.Warehouse.Web;
 
@@ -16,8 +18,10 @@ public static class AccessoryAssignmentEndPoint
             .WithName("GetAccessoryAssignment")
             .WithSummary("Get all Summary")
             .WithDescription("Return a list of all accessory assignment");
-        
-        group.MapGet("/{id:int}", GetAccessoryAssignmentByIdAsync)
+
+		group.MapGet("/student", GetStudentAssignments);
+
+		group.MapGet("/{id:int}", GetAccessoryAssignmentByIdAsync)
             .WithName("GetAccessoryAssignmentById")
             .WithSummary("Get all Summary")
             .WithDescription("Return a single accessory assignment selected by ID");
@@ -46,7 +50,13 @@ public static class AccessoryAssignmentEndPoint
         return TypedResults.Ok((list));
     }
 
-    private static async Task<Results<Ok<AccessoriesAssignment>, NotFound>> GetAccessoryAssignmentByIdAsync(int id, AccessoryAssignmentService data)
+	private static async Task<Ok<IEnumerable<AccessoriesAssignment>>> GetStudentAssignments([FromQuery] int studentId, AccessoryAssignmentService data)
+	{
+		var list = await data.GetStudentAssignments(studentId);
+		return TypedResults.Ok(list);
+	}
+
+	private static async Task<Results<Ok<AccessoriesAssignment>, NotFound>> GetAccessoryAssignmentByIdAsync(int id, AccessoryAssignmentService data)
     {
         var product =  await data.GetById(id);
         if (product == null)

@@ -1,6 +1,8 @@
 using CLED.Warehouse.Models.DB;
+using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -9,12 +11,14 @@ namespace CLED.WareHouse.Services.DBServices.ReasonsServices;
 public class ReasonAssignmentService : IService<ReasonsAssignment>
 {
     private readonly string _connectionString;
+	private readonly WarehouseContext _context;
 
-    public ReasonAssignmentService(IConfiguration? configuration)
-    {
-        _connectionString = configuration.GetConnectionString("db");
-    }
-    public async Task<ReasonsAssignment> GetById(int reasonAssignmentId)
+	public ReasonAssignmentService(IConfiguration? configuration, WarehouseContext context)
+	{
+		_connectionString = configuration.GetConnectionString("db");
+		_context = context;
+	}
+	public async Task<ReasonsAssignment> GetById(int reasonAssignmentId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -31,17 +35,8 @@ public class ReasonAssignmentService : IService<ReasonsAssignment>
 
     public async Task<IEnumerable<ReasonsAssignment>> GetAll()
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        string query = """
-                       SELECT "Id",
-                              "Name"
-                       FROM "ReasonsAssignment";
-                       """;
-        
-        return await connection.QueryAsync<ReasonsAssignment>(query);
-    }
+        return await _context.ReasonsAssignments.ToListAsync();
+	}
 
     public async Task Insert(ReasonsAssignment reasonsAssignment)
     {

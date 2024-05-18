@@ -1,6 +1,8 @@
 ﻿using CLED.Warehouse.Models.DB;
+using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -10,12 +12,14 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
 {
     
     private readonly string _connectionString;
+    private readonly WarehouseContext _context;
 
-    public AccessoryAssignmentService(IConfiguration? configuration)
-    {
-        _connectionString = configuration.GetConnectionString("db");
-    }
-    public async Task<AccessoriesAssignment> GetById(int accessoryAssignmentId)
+	public AccessoryAssignmentService(IConfiguration? configuration, WarehouseContext context)
+	{
+		_connectionString = configuration.GetConnectionString("db");
+		_context = context;
+	}
+	public async Task<AccessoriesAssignment> GetById(int accessoryAssignmentId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();   
@@ -42,7 +46,12 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
         return await connection.QueryFirstOrDefaultAsync<AccessoriesAssignment>(query, new { id = accessoryAssignmentId });
     }
 
-    public async Task<IEnumerable<AccessoriesAssignment>> GetAll()
+	public async Task<IEnumerable<AccessoriesAssignment>> GetStudentAssignments(int studentId)
+	{
+		return await _context.AccessoriesAssignments.Include(x => x.Accessory).Where(x => x.StudentId == studentId).ToListAsync();
+	}
+
+	public async Task<IEnumerable<AccessoriesAssignment>> GetAll()
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();   

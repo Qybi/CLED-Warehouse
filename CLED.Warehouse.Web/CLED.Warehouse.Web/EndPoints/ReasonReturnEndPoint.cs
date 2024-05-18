@@ -8,7 +8,7 @@ public static class ReasonReturnEndPoint
 {
     public static IEndpointRouteBuilder MapReasonReturnEndPoints(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("api/v1/reasonReturn")
+        var group = builder.MapGroup("api/v1/reasonsReturn")
             .RequireAuthorization()
             .WithTags("ReasonReturn");
 

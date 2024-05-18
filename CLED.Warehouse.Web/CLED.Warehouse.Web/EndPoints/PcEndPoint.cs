@@ -42,7 +42,7 @@ public static class PcEndPoint
 		
 		group.MapPost("/insertSerial", InsertNewSerialAsync);
 
-		group.MapGet("/getPcIdFromSerial", GetPcFromSerialAsync);
+		group.MapGet("/getPcFromSerial", GetPcFromSerialAsync);
 
 		return builder;
 	}

@@ -8,7 +8,7 @@ public static class ReasonAssignmentEndPoint
 {
     public static IEndpointRouteBuilder MapReasonAssignmentEndPoints(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("api/v1/reasonAssignment")
+        var group = builder.MapGroup("api/v1/reasonsAssignment")
             .RequireAuthorization()
             .WithTags("ReasonAssignment");
 
