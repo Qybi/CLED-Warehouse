@@ -13,29 +13,14 @@ public static class AccessoryEndPoint
             .RequireAuthorization()
             .WithTags("accessory");
 
-        group.MapGet("/", GetAllAccessoryAsync)
-            .WithName("GetAccessories")
-            .WithSummary("Get all Summary")
-            .WithDescription("Return a list of all accessories");
-        
-        group.MapGet("/{id:int}", GetAccessoryByIdAsync)
-            .WithName("GetAccessoryById")
-            .WithSummary("Get all Summary")
-            .WithDescription("Return a single accessory selected by ID");
+        group.MapGet("/", GetAllAccessoryAsync);
+        group.MapGet("/{id:int}", GetAccessoryByIdAsync);
 
-        group.MapPost("/", InsertAccessoryAsync)
-            .WithName("InsertAccessory")
-            .WithSummary("Create a new summary")
-            .WithDescription("Insert the new accessories values inside json file");
+		group.MapPost("/", InsertAccessoryAsync);
 
-        group.MapPut("/{id:int}", UpdateAccessoryAsync)
-            .WithName("UpdateAccessory")
-            .WithSummary("Update the Accessory")
-            .WithDescription("Change accessory values inside json file");
+        group.MapPut("/{id:int}", UpdateAccessoryAsync);
 
-        group.MapDelete("/{id:int}", DeleteAccessoryAsync)
-            .WithName("DeleteAccessory")
-            .WithSummary("Delete the Accessory");
+        group.MapDelete("/{id:int}", DeleteAccessoryAsync);
 
         return builder;
     }

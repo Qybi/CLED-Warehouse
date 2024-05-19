@@ -1,6 +1,8 @@
 using CLED.Warehouse.Models.DB;
+using CLED.Warehouse.Web;
 using CLED.WareHouse.Services.DBServices.Interfaces;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -10,13 +12,15 @@ public class AccessoryService : IService<Accessory>
 {
     
     private readonly string _connectionString;
+    private readonly WarehouseContext _context;
 
-    public AccessoryService(IConfiguration? configuration)
-    {
-        _connectionString = configuration.GetConnectionString("db");
-    }
-    
-    public async Task<Accessory> GetById(int accessoryId)
+	public AccessoryService(IConfiguration? configuration, WarehouseContext context)
+	{
+		_connectionString = configuration.GetConnectionString("db");
+		_context = context;
+	}
+
+	public async Task<Accessory> GetById(int accessoryId)
     {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -40,24 +44,8 @@ public class AccessoryService : IService<Accessory>
 
     public async Task<IEnumerable<Accessory>> GetAll()
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        string query = """
-                       SELECT
-                           "Id",
-                           "StockId",
-                           "Name",
-                           "Description",
-                           "RegistrationDate",
-                           "RegistrationUser",
-                           "DeletedDate",
-                           "DeletedUser"
-                       FROM "Accessories";
-                       """;
-        
-        return await connection.QueryAsync<Accessory>(query);
-    }
+        return await _context.Accessories.Include(x => x.Stock).ToListAsync();
+	}
 
     public async Task Insert(Accessory accessory)
     {
