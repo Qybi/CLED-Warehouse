@@ -19,7 +19,7 @@ public static class AccessoryAssignmentEndPoint
 		group.MapGet("/student", GetStudentAssignments);
 		group.MapGet("/return", ReturnAccessoryAsync);
 
-		group.MapPost("/", InsertAccessoryAssignmentAsync);
+		group.MapPost("/create", InsertAccessoryAssignmentAsync);
 
 		group.MapPut("/{id:int}", UpdateAccessoryAssignmentAsync);
 
@@ -49,7 +49,7 @@ public static class AccessoryAssignmentEndPoint
 		return TypedResults.Ok(product);
 	}
 
-	private static async Task<Created> InsertAccessoryAssignmentAsync(AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
+	private static async Task<Created> InsertAccessoryAssignmentAsync([FromBody] AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
 	{
 		await data.Insert(accessoryAssignment);
 		return TypedResults.Created();
