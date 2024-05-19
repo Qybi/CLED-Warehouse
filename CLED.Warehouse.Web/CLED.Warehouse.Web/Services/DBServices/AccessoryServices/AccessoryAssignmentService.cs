@@ -48,7 +48,7 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
 
 	public async Task<IEnumerable<AccessoriesAssignment>> GetStudentAssignments(int studentId)
 	{
-		return await _context.AccessoriesAssignments.Include(x => x.Accessory).Where(x => x.StudentId == studentId).ToListAsync();
+		return await _context.AccessoriesAssignments.Include(x => x.Accessory).Where(x => x.StudentId == studentId && !x.IsReturned).ToListAsync();
 	}
 
 	public async Task<IEnumerable<AccessoriesAssignment>> GetAll()
@@ -81,7 +81,11 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
     {
         try
         {
-            _context.AccessoriesAssignments.Add(accessoryAssignment);
+            accessoryAssignment.RegistrationDate = DateTime.Now;
+            accessoryAssignment.RegistrationUser = -1;
+            if (accessoryAssignment.ForecastedReturnDate < DateTime.Now.Date.AddYears(-10))
+                accessoryAssignment.ForecastedReturnDate = DateTime.Now.Date.AddYears(2);
+			_context.AccessoriesAssignments.Add(accessoryAssignment);
             await _context.SaveChangesAsync();
         }
         catch (Exception ex)
