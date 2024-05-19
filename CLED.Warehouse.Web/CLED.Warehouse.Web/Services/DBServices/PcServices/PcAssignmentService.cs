@@ -182,4 +182,12 @@ public class PcAssignmentService : IService<PcAssignment>
 			throw;
 		}
 	}
+	public async Task<IEnumerable<PcAssignment>> GetAssingnmentsByPcId(int pcId)
+	{
+		return await _context.Pcassignments
+			.Include(x => x.Student)
+			.Include(x => x.ReturnReason)
+			.Where(x => x.PcId == pcId)
+			.ToListAsync();
+	}
 }

@@ -21,6 +21,8 @@ public partial class Accessory
 
     public int? DeletedUser { get; set; }
 
+    public int? Qty { get; set; }
+
     public virtual ICollection<AccessoriesAssignment> AccessoriesAssignments { get; set; } = new List<AccessoriesAssignment>();
 
     public virtual PcModelStock Stock { get; set; } = null!;

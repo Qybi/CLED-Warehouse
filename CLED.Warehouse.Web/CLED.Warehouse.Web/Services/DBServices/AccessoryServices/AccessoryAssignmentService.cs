@@ -147,4 +147,13 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
             throw;
         }
     }
+
+	public async Task<IEnumerable<AccessoriesAssignment>> GetAssignmentsByAccessoryId(int accessoryId)
+	{
+		return await _context.AccessoriesAssignments
+			.Include(x => x.Student)
+			.Include(x => x.ReturnReason)
+			.Where(x => x.AccessoryId == accessoryId)
+			.ToListAsync();
+	}
 }

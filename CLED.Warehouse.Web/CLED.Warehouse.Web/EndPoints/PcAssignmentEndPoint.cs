@@ -16,8 +16,9 @@ public static class PcAssignmentEndPoint
         group.MapGet("/{id:int}", GetPcAssignmentByIdAsync);
         group.MapGet("/student", GetStudentAssignments);
         group.MapGet("/return", ReturnPc);
+        group.MapGet("/pcData", GetAssingnmentsByPcId);
 
-        group.MapPost("/create", InsertPcAssignmentAsync);
+		group.MapPost("/create", InsertPcAssignmentAsync);
 
         group.MapPut("/{id:int}", UpdatePcAssignmentAsync);
 
@@ -89,4 +90,8 @@ public static class PcAssignmentEndPoint
         await data.Delete(id);
         return TypedResults.NoContent();
     }
+	private static async Task<Ok<IEnumerable<PcAssignment>>> GetAssingnmentsByPcId(int pcId, PcAssignmentService data)
+	{
+        return TypedResults.Ok(await data.GetAssingnmentsByPcId(pcId));
+	}
 }

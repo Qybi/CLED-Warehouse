@@ -85,6 +85,7 @@ public partial class WarehouseContext : DbContext
 
             entity.Property(e => e.DeletedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.Qty).HasColumnName("qty");
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");
@@ -145,6 +146,9 @@ public partial class WarehouseContext : DbContext
             entity.Property(e => e.ForecastedReturnDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IsReturned).HasDefaultValue(false);
             entity.Property(e => e.PcId).HasColumnName("PCId");
+            entity.Property(e => e.PropertySticker)
+                .HasMaxLength(255)
+                .HasColumnName("propertysticker");
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone");

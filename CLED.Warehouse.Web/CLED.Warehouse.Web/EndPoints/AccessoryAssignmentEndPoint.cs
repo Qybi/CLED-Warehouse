@@ -18,6 +18,7 @@ public static class AccessoryAssignmentEndPoint
 		group.MapGet("/{id:int}", GetAccessoryAssignmentByIdAsync);
 		group.MapGet("/student", GetStudentAssignments);
 		group.MapGet("/return", ReturnAccessoryAsync);
+		group.MapGet("/accessoryData", GetAssingnmentsByAccessoryId);
 
 		group.MapPost("/create", InsertAccessoryAssignmentAsync);
 
@@ -79,5 +80,10 @@ public static class AccessoryAssignmentEndPoint
 	private static async Task<Ok<bool>> ReturnAccessoryAsync([FromQuery]int assignmentId, [FromQuery]DateTime returnDate, [FromQuery]int returnReasonId, AccessoryAssignmentService service)
 	{
 		return TypedResults.Ok(await service.ReturnAccessory(assignmentId, returnDate, returnReasonId));
+	}
+
+	private static async Task<Ok<IEnumerable<AccessoriesAssignment>>> GetAssingnmentsByAccessoryId(int accessoryId, AccessoryAssignmentService data)
+	{
+		return TypedResults.Ok(await data.GetAssignmentsByAccessoryId(accessoryId));
 	}
 }
