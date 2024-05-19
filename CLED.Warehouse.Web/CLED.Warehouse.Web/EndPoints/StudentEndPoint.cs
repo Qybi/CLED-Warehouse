@@ -26,7 +26,7 @@ public static class StudentEndPoint
             .WithSummary("Get all Summary")
             .WithDescription("Return a single student selected by ID");
 
-        group.MapGet("/details/{id:int}", GetStudentDetailsAsync);
+        group.MapGet("/details", GetStudentDetailsAsync);
 
         group.MapPost("/", InsertStudentAsync)
             .WithName("InsertStudent")
@@ -62,7 +62,7 @@ public static class StudentEndPoint
         return TypedResults.Ok(product);
     }
 
-    private static async Task<Results<Ok<StudentDetails>, NotFound>> GetStudentDetailsAsync(int id, StudentService data)
+    private static async Task<Results<Ok<StudentDetails>, NotFound>> GetStudentDetailsAsync([FromQuery]int id, StudentService data)
 	{
         var student = await data.GetStudentDetails(id);
 		if (student == null)
