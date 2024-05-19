@@ -48,7 +48,9 @@ public class PcService : IService<Pc>
 
     public async Task<IEnumerable<Pc>> GetAll()
     {
-        return await _context.Pcs.ToListAsync();
+        return await _context.Pcs
+			.Include(x => x.Stock)
+			.ToListAsync();
 	}
 
     public async Task<Pc> Insert(Pc pc)

@@ -31,6 +31,8 @@ public partial class PcAssignment
 
     public int? DeletedUser { get; set; }
 
+    public string? PropertySticker { get; set; }
+
     public virtual ReasonsAssignment AssignmentReason { get; set; } = null!;
 
     public virtual Pc Pc { get; set; } = null!;
