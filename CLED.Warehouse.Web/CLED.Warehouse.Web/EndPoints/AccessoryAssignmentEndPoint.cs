@@ -49,7 +49,7 @@ public static class AccessoryAssignmentEndPoint
 		return TypedResults.Ok(product);
 	}
 
-	private static async Task<Created> InsertAccessoryAssignmentAsync([FromBody] AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
+	private static async Task<Created> InsertAccessoryAssignmentAsync([FromBody]AccessoriesAssignment accessoryAssignment, AccessoryAssignmentService data)
 	{
 		await data.Insert(accessoryAssignment);
 		return TypedResults.Created();
