@@ -86,6 +86,7 @@ public class AccessoryAssignmentService : IService<AccessoriesAssignment>
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex);
             throw;
         }
 	}
